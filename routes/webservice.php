@@ -8,26 +8,29 @@ $this->group(['prefix' => 'api/{apikey?}', 'namespace' => 'Api\Response'], funct
 		//cria uma conta
 		$this->get('create/{name}/{email?}/{password?}/{pin?}', 'AccountAPI@create');
 
-		//altera o name
-		$this->get('change/name/{name}', 'AccountAPI@changeName');
+		$this->group(['prefix' => 'change'], function() {
+			//altera o name
+			$this->get('name/{name}', 'AccountAPI@changeName');
 
-		//altera o email
-		$this->get('change/email/{email}', 'AccountAPI@changeEmail');
+			//altera o email
+			$this->get('email/{email}', 'AccountAPI@changeEmail');
 
-		//altera o password
-		$this->get('change/password/{password}', 'AccountAPI@changePassword');
+			//altera o password
+			$this->get('password/{password}', 'AccountAPI@changePassword');
 
-		//altera o pin
-		$this->get('change/pin/{pin}', 'AccountAPI@changePin');
+			//altera o pin
+			$this->get('pin/{pin}', 'AccountAPI@changePin');
 
-		//altera o code
-		$this->get('change/code/{code}', 'AccountAPI@changeCode');
+			//altera o code
+			$this->get('code/{code}', 'AccountAPI@changeCode');
 
-		//altera todos os dados da conta
-		$this->get('change/{name}/{email?}/{password?}/{pin?}', 'AccountAPI@change');
-		
+			//altera todos os dados da conta
+			$this->get('{name}/{email?}/{password?}/{pin?}', 'AccountAPI@change');
+		});
+	
 	});
 	
+
 
 	$this->group(['prefix' => 'altcoins'], function() {
 		//retorna todas as moedas
@@ -37,6 +40,7 @@ $this->group(['prefix' => 'api/{apikey?}', 'namespace' => 'Api\Response'], funct
 		$this->get('/{coin}', 'AltcoinsAPI@from');
 	});
 	
+
 
 	//retorna o saldo de uma determinada moeda
 	$this->get('balance/{coin?}', 'BalanceAPI@from');
@@ -53,22 +57,35 @@ $this->group(['prefix' => 'api/{apikey?}', 'namespace' => 'Api\Response'], funct
 	//retorna todos os endereços de uma determinada moeda
 	$this->get('addresses/{coin?}', 'AddressAPI@all');
 
-	$this->group(['prefix' => 'transactions'], function() {
-		//retorna todos os depositos em todas as moedas
-		$this->get('deposits', 'TransactionsAPI@depositsAll');
 
-		//retorna os depositos de uma determinada carteira ou moeda com ou sem limite de registros
-		$this->get('deposits/{wallet_or_coin}/{limit?}', 'TransactionsAPI@deposits');
+
+	$this->group(['prefix' => 'transactions'], function() {
+
+		$this->group(['prefix' => 'deposits'], function() {
+			//retorna todos os depositos em todas as moedas
+			$this->get('deposits', 'TransactionsAPI@depositsAll');
+
+			//retorna os depositos de uma determinada carteira ou moeda com ou sem limite de registros
+			$this->get('deposits/{wallet_or_coin}/{limit?}', 'TransactionsAPI@deposits');
+
+		});
+		
+
 
 		//retorna os detalhes de alguma transação pela txid ou hash da transação
 		$this->get('{tx}', 'TransactionsAPI@tx');
 
-		//retorna todos os saques em todas as moedas
-		$this->get('withdrawals', 'TransactionsAPI@withdrawalsAll');
 
-		//retorna os saque para uma carteira com ou sem limite de registros
-		$this->get('withdrawals/{wallet_or_coin}/{limit?}', 'TransactionsAPI@withdrawals');
+		$this->group(['prefix' => 'withdrawals'], function() {
+			//retorna todos os saques em todas as moedas
+			$this->get('', 'TransactionsAPI@withdrawalsAll');
+
+			//retorna os saque para uma carteira com ou sem limite de registros
+			$this->get('{wallet_or_coin}/{limit?}', 'TransactionsAPI@withdrawals');
+		});
+			
 	});
+
 
 
 	$this->group(['prefix' => 'withdrawal'], function() {
@@ -78,6 +95,5 @@ $this->group(['prefix' => 'api/{apikey?}', 'namespace' => 'Api\Response'], funct
 		//realiza o saque de uma moeda com o id de pagamento
 		$this->get('{coin?}/{amount?}/{address?}/{paymentID?}', 'WithdrawalAPI@withPaymentID');
 	});
-
 		
 });
