@@ -63,10 +63,10 @@ $this->group(['prefix' => 'api/{apikey?}', 'namespace' => 'Api\Response'], funct
 
 		$this->group(['prefix' => 'deposits'], function() {
 			//retorna todos os depositos em todas as moedas
-			$this->get('deposits', 'TransactionsAPI@depositsAll');
+			$this->get('', 'TransactionsAPI@depositsAll');
 
 			//retorna os depositos de uma determinada carteira ou moeda com ou sem limite de registros
-			$this->get('deposits/{wallet_or_coin}/{limit?}', 'TransactionsAPI@deposits');
+			$this->get('{wallet_or_coin}/{limit?}', 'TransactionsAPI@deposits');
 
 		});
 		
