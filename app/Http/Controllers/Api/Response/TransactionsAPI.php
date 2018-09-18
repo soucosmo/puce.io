@@ -2,14 +2,15 @@
 namespace App\Http\Controllers\Api\Response;
 
 
-use ApiKey;
+use Api;
 
 
 class TransactionsAPI extends \Controller {
-	public function default($api = null, $coin = null) {
+
+	public function depositsAll($api = null) {
 		$user = BaseAPI::checkTransaction($api, $coin);
 
-		if (!empty($user) and empty(json_decode($user)->status)) {
+		if (!empty($user->id)) {
 				$res = $user->MyAddress( strtolower($coin) );
 
 				return json_encode([
@@ -20,12 +21,6 @@ class TransactionsAPI extends \Controller {
 				]);
 		} else
 			return $user;
-
-	}
-
-
-	public function depositsAll($api = null) {
-
 	}
 
 	public function deposits($api = null, $coin_wallet = null) {
@@ -33,7 +28,7 @@ class TransactionsAPI extends \Controller {
 	}
 
 	public function tx($api = null, $tx_id) {
-		
+
 	}
 
 	public function withdrawalsAll($api = null) {

@@ -5,7 +5,6 @@ function Code($var) {
 }
 
 
-
 function Altcoin($var) {
 
 	foreach (config('altcoins') as $coin => $data) {
@@ -15,6 +14,7 @@ function Altcoin($var) {
 	}
 
 }
+
 
 function Altcoins() {
 	$array = config('altcoins');

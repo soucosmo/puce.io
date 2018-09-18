@@ -2,9 +2,6 @@
 namespace App\Http\Controllers\Api\Response;
 
 
-use ApiKey;
-
-
 class BalanceAPI extends \Controller {
 	public function from($api = null, $coin = null) {
 		$user = BaseAPI::checkTransaction($api, $coin);

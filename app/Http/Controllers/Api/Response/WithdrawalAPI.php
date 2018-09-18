@@ -9,10 +9,10 @@ class WithdrawalAPI extends \Controller {
 		$user = BaseAPI::checkTransaction($api, $coin);
 
 		if (!empty($user) and empty(json_decode($user)->status)) {
-			echo json_encode(['saque sem o payment id']);
+			return json_encode(['saque sem o payment id']);
 
 		} else
-			echo $user;
+			return $user;
 			
 	}
 
@@ -21,10 +21,10 @@ class WithdrawalAPI extends \Controller {
 		$user = BaseAPI::checkTransaction($api, $coin);
 
 		if (!empty($user) and empty(json_decode($user)->status)) {
-			echo json_encode(['saque com o payment id']);
+			return json_encode(['saque com o payment id']);
 
 		} else
-			echo $user;
+			return $user;
 
 	}
 

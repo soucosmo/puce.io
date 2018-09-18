@@ -53,7 +53,7 @@ $this->group(['prefix' => 'api/{apikey?}', 'namespace' => 'Api\Response'], funct
 	//retorna todos os endereços de uma determinada moeda
 	$this->get('addresses/{coin?}', 'AddressAPI@all');
 
-	$this->get(['prefix' => 'transactions'], function() {
+	$this->group(['prefix' => 'transactions'], function() {
 		//retorna todos os depositos em todas as moedas
 		$this->get('deposits', 'TransactionsAPI@depositsAll');
 
@@ -73,10 +73,10 @@ $this->group(['prefix' => 'api/{apikey?}', 'namespace' => 'Api\Response'], funct
 
 	$this->group(['prefix' => 'withdrawal'], function() {
 		//realiza o saque de uma moeda de forma comum sem o id de pagamento
-		$this->get('withdrawal/{coin?}/{amount?}/{address?}', 'WithdrawalAPI@withoutPaymentID');
+		$this->get('{coin?}/{amount?}/{address?}', 'WithdrawalAPI@withoutPaymentID');
 
 		//realiza o saque de uma moeda com o id de pagamento
-		$this->get('withdrawal/{coin?}/{amount?}/{address?}/{paymentID?}', 'WithdrawalAPI@withPaymentID');
+		$this->get('{coin?}/{amount?}/{address?}/{paymentID?}', 'WithdrawalAPI@withPaymentID');
 	});
 
 		

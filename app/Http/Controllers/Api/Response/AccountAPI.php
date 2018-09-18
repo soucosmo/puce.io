@@ -2,12 +2,9 @@
 namespace App\Http\Controllers\Api\Response;
 
 
-use ApiKey;
-
 use User;
 use Hash;
 use Crypt;
-
 
 
 class AccountAPI extends \Controller {
