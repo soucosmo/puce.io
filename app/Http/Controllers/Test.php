@@ -9,6 +9,7 @@ use Crypt;
 use Hash;
 
 
+
 class Test extends \Controller {
 	private $apikey, $url;
 	public function __construct($apikey = '') {
@@ -34,7 +35,8 @@ class Test extends \Controller {
 
 		echo '<br>'.number_format($time,25) . '<br>';
 		echo memory_get_usage();*/
-		echo Crypt::encryptString('D12EDDDD7DF0192EEC538DD8140C38468A6F8D52');
+	//	echo Crypt::encryptString('D12EDDDD7DF0192EEC538DD8140C38468A6F8D52');
+		dd( $this->test() );
 
 	}
 

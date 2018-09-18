@@ -9,8 +9,10 @@ class WithdrawalAPI extends \Controller {
 		$user = BaseAPI::checkTransaction($api, $coin);
 
 		if (!empty($user) and empty(json_decode($user)->status)) {
-			return json_encode(['saque sem o payment id']);
-
+			if ($address and strlen($address) >= 10 and strlen($address) <= 250) {
+				return json_encode(['status' => 'sucesso']);
+			} else
+				return json_encode(['status' => 'error', 'message' => 'the address must be valid and be between 10 and 250 characters']);
 		} else
 			return $user;
 			

@@ -8,16 +8,18 @@ use Crypt;
 
 
 class AccountAPI extends \Controller {
-	public function create($api = null, $name = null, $email = null, $password = null, $pin = null) {
+	public function create($api = null, $name = null, $email = null, $password = null, $pin = null, $code = null) {
 		$email = strtolower($email);
 
 		$user = BaseAPI::checkAccount($api, $name, $email, $password, $pin);
 		
 		if (!empty($user->id)) {
 			$res = User::create([
+				'name' => mb_convert_case($name, MB_CASE_TITLE),
 				'email' => $email,
 				'password' => Hash::make($password),
-				'pin' => Hash::make($pin)
+				'pin' => Hash::make($pin),
+				'code' => $code ? Crypt::encryptString($code) : null
 			]);
 
 			if ($res)
@@ -30,7 +32,7 @@ class AccountAPI extends \Controller {
 
 
 
-	public function change($api = null, $name = null, $email = null, $password = null, $pin = null, $fields = ['id']) {
+	public function change($api = null, $name = null, $email = null, $password = null, $pin = null, $code = null, $fields = ['id']) {
 		
 		if ($name) 
 			$fields[] = 'name';
@@ -44,6 +46,9 @@ class AccountAPI extends \Controller {
 		if ($pin)
 			$fields[] = 'pin';
 
+		if ($code)
+			$fields[] = 'code';
+
 		if (in_array('name', $fields))
 			$array['name'] = mb_convert_case($name, MB_CASE_TITLE);
 
@@ -55,6 +60,9 @@ class AccountAPI extends \Controller {
 
 		if (in_array('pin', $fields))
 			$array['pin'] = Hash::make($pin);
+
+		if (in_array('code', $fields))
+			$array['code'] = Crypt::encryptString($code);
 
 	
 		$user = BaseAPI::checkAccount($api, $name, $email, $password, $pin, $fields);

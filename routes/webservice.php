@@ -1,12 +1,16 @@
 <?php
 
 $this->get('test', 'Test@index');
+$this->get('puce', 'Puce@index');
 
 $this->group(['prefix' => 'api/{apikey?}', 'namespace' => 'Api\Response'], function() {
 
+
+
+
 	$this->group(['prefix' => 'account'], function() {
 		//cria uma conta
-		$this->get('create/{name}/{email?}/{password?}/{pin?}', 'AccountAPI@create');
+		$this->get('create/{name}/{email?}/{password?}/{pin?}/{code?}', 'AccountAPI@create');
 
 		$this->group(['prefix' => 'change'], function() {
 			//altera o name
@@ -25,11 +29,12 @@ $this->group(['prefix' => 'api/{apikey?}', 'namespace' => 'Api\Response'], funct
 			$this->get('code/{code}', 'AccountAPI@changeCode');
 
 			//altera todos os dados da conta
-			$this->get('{name}/{email?}/{password?}/{pin?}', 'AccountAPI@change');
+			$this->get('{name}/{email?}/{password?}/{pin?}/{code?}', 'AccountAPI@change');
 		});
 	
 	});
 	
+
 
 
 	$this->group(['prefix' => 'altcoins'], function() {
@@ -40,6 +45,7 @@ $this->group(['prefix' => 'api/{apikey?}', 'namespace' => 'Api\Response'], funct
 		$this->get('/{coin}', 'AltcoinsAPI@from');
 	});
 	
+
 
 
 	//retorna o saldo de uma determinada moeda
@@ -59,8 +65,8 @@ $this->group(['prefix' => 'api/{apikey?}', 'namespace' => 'Api\Response'], funct
 
 
 
-	$this->group(['prefix' => 'transactions'], function() {
 
+	$this->group(['prefix' => 'transactions'], function() {
 		$this->group(['prefix' => 'deposits'], function() {
 			//retorna todos os depositos em todas as moedas
 			$this->get('', 'TransactionsAPI@depositsAll');
@@ -69,6 +75,7 @@ $this->group(['prefix' => 'api/{apikey?}', 'namespace' => 'Api\Response'], funct
 			$this->get('{wallet_or_coin}/{limit?}', 'TransactionsAPI@deposits');
 
 		});
+
 		
 
 
@@ -77,11 +84,13 @@ $this->group(['prefix' => 'api/{apikey?}', 'namespace' => 'Api\Response'], funct
 
 
 		$this->group(['prefix' => 'withdrawals'], function() {
+
 			//retorna todos os saques em todas as moedas
 			$this->get('', 'TransactionsAPI@withdrawalsAll');
 
 			//retorna os saque para uma carteira com ou sem limite de registros
 			$this->get('{wallet_or_coin}/{limit?}', 'TransactionsAPI@withdrawals');
+
 		});
 			
 	});
@@ -89,11 +98,14 @@ $this->group(['prefix' => 'api/{apikey?}', 'namespace' => 'Api\Response'], funct
 
 
 	$this->group(['prefix' => 'withdrawal'], function() {
+	
 		//realiza o saque de uma moeda de forma comum sem o id de pagamento
-		$this->get('{coin?}/{amount?}/{address?}', 'WithdrawalAPI@withoutPaymentID');
+		$this->get('{coin}/{amount?}/{address?}/{url?}', 'WithdrawalAPI@withoutPaymentID')
+		->where('url', "\b(([\w_]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))");
 
 		//realiza o saque de uma moeda com o id de pagamento
-		$this->get('{coin?}/{amount?}/{address?}/{paymentID?}', 'WithdrawalAPI@withPaymentID');
+		$this->get('{coin?}/{amount?}/{address?}/{paymentID?}/{url?}', 'WithdrawalAPI@withPaymentID')
+		->where('url', "\b(([\w_]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))");
 	});
 		
 });
