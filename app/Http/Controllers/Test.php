@@ -36,7 +36,7 @@ class Test extends \Controller {
 		echo '<br>'.number_format($time,25) . '<br>';
 		echo memory_get_usage();*/
 	//	echo Crypt::encryptString('D12EDDDD7DF0192EEC538DD8140C38468A6F8D52');
-		dd( $this->test() );
+		echo Crypt::encryptString('D12EDDDD7DF0192EEC538DD8140C38468A6F8D52');
 
 	}
 
