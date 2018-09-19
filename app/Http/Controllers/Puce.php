@@ -5,10 +5,7 @@ namespace App\Http\Controllers;
 class Base extends \Controller {
 	private $url;
 	public function __construct($key = '') {
-		if (config('app.env') == 'local')
-			$this->url = 'http://127.0.0.1:8000/api/'.$key;
-		else
-			$this->url = 'https://puce.io/api/'.$key;
+		$this->url = 'https://cosmox.ga/api/'.$key;
 		
 	}
 
