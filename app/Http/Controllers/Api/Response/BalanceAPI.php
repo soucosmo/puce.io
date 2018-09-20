@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Api\Response;
 
+use Api;
 
 class BalanceAPI extends \Controller {
 	public function from($api = null, $coin = null) {
@@ -22,7 +23,7 @@ class BalanceAPI extends \Controller {
 
 	public function all($api = null) {
 		if ($api) {
-			$user = ApiKey::User($api);
+			$user = Api::User($api);
 
 			if ($user)
 				return json_encode($user->MyBalances());
