@@ -24,9 +24,9 @@ class CreateExtractsTable extends Migration
             $table->enum('action', ['transfer', 'deposit', 'withdrawal', 'debit', 'credit', 'commission', 'others']);
             $table->string('description', 90);
             $table->integer('coin');
-            $table->string('before', 60);
-            $table->string('amount', 60);
-            $table->string('after', 60);
+            $table->string('before', 22);
+            $table->string('amount', 22);
+            $table->string('after', 22);
             
             $table->timestamps();
         });

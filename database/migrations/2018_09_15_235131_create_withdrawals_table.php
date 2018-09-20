@@ -20,14 +20,14 @@ class CreateWithdrawalsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->string('id_api', 40)->nullable()->default(null);
-            $table->integer('coin');
+            $table->tinyInteger('coin', 3);
             $table->string('address', 250);
             $table->string('payment_id', 250)->nullable()->default(null);
             $table->string('tx_id', 250)->nullable()->default(null);
             $table->string('amount', 60);
             $table->string('fee', 12)->default('0.00000000');
             $table->string('fee_api', 12)->default('0.00000000');
-            $table->string('url', 100)->nullable()->default(null);
+            $table->string('url', 80)->nullable()->default(null);
             $table->enum('status', ['pending', 'canceled', 'complete'])->default('pending');
 
             $table->string('module', 25);
