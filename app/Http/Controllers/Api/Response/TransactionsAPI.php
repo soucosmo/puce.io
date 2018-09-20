@@ -25,7 +25,7 @@ class TransactionsAPI extends \Controller {
 
 
 	public function deposits($api = null, $coin_wallet = null) {
-
+		
 	}
 
 

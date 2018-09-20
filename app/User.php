@@ -85,16 +85,16 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function MyAddress($coin) {
-        $res = $this->addresses()->Select('address', 'updated_at as created')->Where('coin', $coin)->WhereNull('api')->first();
+        $res = $this->addresses()->Select('address', 'payment_id', 'updated_at as created')->Where('coin', $coin)->WhereNull('api')->first();
         if (!$res) {
             $res = Addresses::Select('id', 'user_id')->Where('coin', $coin)->WhereNull('user_id')->first();
             if ($res) {
                 $res->user_id = $this->id;
                 $res->save();
 
-                $res = $this->addresses()->Select('address', 'updated_at as created')->find($res->id);
+                $res = $this->addresses()->Select('address', 'payment_id', 'updated_at as created')->find($res->id);
             } else {
-                $res = (object) ['address' => 'Temporarily unavailable', 'created' => date('Y-m-d h:i:s')];
+                $res = (object) ['address' => 'temporarily unavailable', 'payment_id' => null, 'created' => date('Y-m-d h:i:s')];
             }
         }
 
@@ -112,7 +112,7 @@ class User extends Authenticatable implements MustVerifyEmail
             $res->url = $url;
             $res->save();
 
-            $res = $this->addresses()->Select('address', 'updated_at as created')->find($res->id);
+            $res = $this->addresses()->Select('address', 'payment_id', 'updated_at as created')->find($res->id);
         }
 
         return $res;
@@ -120,8 +120,17 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function AddressAll($coin) {
         $array = ['status' => 'success'];
-        foreach ($this->addresses()->Select('address', 'url','updated_at as created')->Where('coin', $coin)->WhereNotNull('api')->get() as $data) {
-            $array[] = ['address' => $data->address, 'url' => $data->url, 'created' => $data->created];
+        foreach ($this->addresses()->Select('address', 'payment_id', 'url','updated_at as created')->Where('coin', $coin)->WhereNotNull('api')->get() as $data) {
+            $arrayLoop['address'] = $data->address;
+
+            if (!empty($data['payment_id']))
+                $arrayLoop['payment_id'] = $data['payment_id'];
+            
+            $arrayLoop['url'] = $data->url;
+            $arrayLoop['created'] = $data->created;
+
+            $array[] = $arrayLoop;
+            unset($arrayLoop);
 
         }
 
