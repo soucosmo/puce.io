@@ -211,22 +211,46 @@ class Base extends \Controller {
 	}
 	
 
+	public function addressTest(string $coin = '') {
+		$this->test['address'] = true;
+
+		return $this->address($coin);
+
+	}
+
+
 	public function address(string $coin = '') {
 		$this->url .= ';address;'.$coin;
 
-		return $this->curl();
+		if ( isset($this->test['address']) )
+			return $this->test();
+		else
+			return $this->apply();
+	}
+
+
+	public function addressesTest(string $coin = '') {
+		$this->test['addresses'] = true;
+
+		if ( isset($this->test['addresses']) )
+			return $this->test();
+		else
+			return $this->apply();
 	}
 
 
 	public function addresses(string $coin = '') {
 		$this->url .= ';addresses;'.$coin;
 
-		return $this->curl();
+		if ( isset($this->test['addresses']) )
+			return $this->test();
+		else
+			return $this->apply();
 	}
 
 
 	public function balanceTest(string $coin = '') {
-		$this->test = true;
+		$this->test['balance'] = true;
 
 		return $this->balance($coin);
 
@@ -235,21 +259,29 @@ class Base extends \Controller {
 
 	public function balance(string $coin = '') {
 		$this->url .= ';balance;'.$coin;
-/*
-		if ($this->test)
+
+		if ( isset($this->test['balance']) )
 			return $this->test();
 		else
 			return $this->apply();
-			*/
 
-		return $this->curl();
+	}
+
+	public function balancesTest() {
+		$this->test['balances'] = true;
+		
+		return $this->balances();
+
 	}
 
 
 	public function balances() {
 		$this->url .= '/balances';
 
-		return $this->curl();
+		if ( isset($this->test['balances']) )
+			return $this->test();
+		else
+			return $this->apply();
 	}
 
 
@@ -263,7 +295,7 @@ class Base extends \Controller {
 		$ch = curl_init();
 
 		curl_setopt($ch,CURLOPT_URL, str_replace(' ', '%20', $this->url) );
-		//curl_setopt($ch, CURLOPT_FAILONERROR, TRUE);
+		curl_setopt($ch, CURLOPT_FAILONERROR, TRUE);
 		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 25);
 		curl_setopt($ch, CURLOPT_TIMEOUT, 15); //timeout in seconds
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
@@ -280,10 +312,26 @@ class Base extends \Controller {
 	}
 
 
+	public function myAddressTest(string $coin) {
+		$this->test['myaddresstest'] = true;
+		return $this->myAddress($coin);
+	}
+
+
 	public function myAddress(string $coin) {
 		$this->url .= ';myaddress;'.$coin;
 
-		return $this->curl();
+		if ( isset($this->test['myaddresstest']) )
+			return $this->test();
+		else
+			return $this->apply();
+	}
+
+	public function withdrawalTest(string $coin = '', string $address = '', $pay_or_amount = '', float $amount = 0) {
+		$this->test['withdrawal'] = true;
+
+		return $this->withdrawal($coin, $addresses, $pay_or_amount, $amount);
+
 	}
 
 
@@ -297,8 +345,11 @@ class Base extends \Controller {
 
 			$this->url .= ';withdrawal;'.$coin.';'.$address.';'.$pay_or_amount.';'.$amount;
 
-		return $this->curl();	
 
+		if ( isset($this->test['withdrawal']) )
+			return $this->test();
+		else
+			return $this->apply();
 	}
 
 	public function test() {

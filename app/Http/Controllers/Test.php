@@ -35,7 +35,7 @@ class Test extends \Controller {
 		
 
 		dd(
-			$Puce->balance('btc')
+			$Puce->balancesTest('btc')
 		);
 		
 	}
