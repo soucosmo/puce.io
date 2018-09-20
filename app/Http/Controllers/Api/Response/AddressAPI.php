@@ -2,8 +2,6 @@
 namespace App\Http\Controllers\Api\Response;
 
 
-use ApiKey;
-
 
 class AddressAPI extends \Controller {
 	public function default($api = null, $coin = null) {
