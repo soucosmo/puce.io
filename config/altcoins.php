@@ -9,9 +9,10 @@ return [
 			'site' => 'https://bitcoin.com',
 			'module' => 'bs',// CoinPayments
 			'fees' => $fees = [
-				'api_withdrawal' => '0.0001',
+				'withdrawal_api' => '0.0001',
 				'withdrawal' => '0.0002',
-				'deposit' => '0.5'
+				'deposit' => '0.5',
+				'deposit_api' => '0.5'
 			]
 		],
 
@@ -23,9 +24,10 @@ return [
 			'site' => 'https://litecoin.com',
 			'module' => 'bs',// CoinPayments
 			'fees' => [
-				'api_withdrawal' => '0.004',
+				'withdrawal_api' => '0.004',
 				'withdrawal' => '0.001',
-				'deposit' => '0.5'
+				'deposit' => '0.5',
+				'deposit_api' => '0.5'
 			]
 		],
 
@@ -36,9 +38,10 @@ return [
 			'name' => 'Dash',
 			'module' => 'bs',// CoinPayments
 			'fees' => [
-				'api_withdrawal' => '0.004',
+				'withdrawal_api' => '0.004',
 				'withdrawal' => '0.001',
-				'deposit' => '0.5'
+				'deposit' => '0.5',
+				'deposit_api' => '0.5'
 			]
 		],
 
@@ -49,9 +52,10 @@ return [
 			'name' => 'Dogecoin',
 			'module' => 'bs',// CoinPayments
 			'fees' => [
-				'api_withdrawal' => '0.004',
+				'withdrawal_api' => '0.004',
 				'withdrawal' => '0.001',
-				'deposit' => '0.5'
+				'deposit' => '0.5',
+				'deposit_api' => '0.5'
 			]
 		],
 
@@ -62,9 +66,10 @@ return [
 			'site' => 'https://bitnewcoin.com',
 			'module' => 'bs',// CoinPayments
 			'fees' => [
-				'api_withdrawal' => '0.004',
+				'withdrawal_api' => '0.004',
 				'withdrawal' => '0.001',
-				'deposit' => '0.5'
+				'deposit' => '0.5',
+				'deposit_api' => '0.5'
 			]
 		],
 
@@ -75,9 +80,10 @@ return [
 			'site' => 'https://vulcano.io',
 			'module' => 'bs',// CoinPayments
 			'fees' => [
-				'api_withdrawal' => '0.004',
+				'withdrawal_api' => '0.004',
 				'withdrawal' => '0.001',
-				'deposit' => '0.5'
+				'deposit' => '0.5',
+				'deposit_api' => '0.5'
 			]
 		],
 
@@ -88,9 +94,10 @@ return [
 			'site' => 'https://rippedcoin.com',
 			'module' => 'bs',// CoinPayments
 			'fees' => [
-				'api_withdrawal' => '0.004',
+				'withdrawal_api' => '0.004',
 				'withdrawal' => '0.001',
-				'deposit' => '0.5'
+				'deposit' => '0.5',
+				'deposit_api' => '0.5'
 			]
 		],
 

@@ -38,7 +38,9 @@ class Test extends \Controller {
 	//	echo Crypt::encryptString('D12EDDDD7DF0192EEC538DD8140C38468A6F8D52');
 
 		//User::Find(1)->login()->create([]);
-
+		dd(
+			Altcoin(1)
+		);
 		
 	}
 

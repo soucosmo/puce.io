@@ -90,7 +90,7 @@ class Balance extends Model
 
 
 			//aqui vamos pegar o destinatario
-			$UserTo = User::Select('id')->Where('email', $data->email)->first();
+			$UserTo = User::Select('id')->Where('email', $data->address)->first();
 
 			//aqui vamos inserir o recebimento para o destinatario
 			$InsertDepositsTo = $UserTo->deposit()->create([
@@ -117,7 +117,7 @@ class Balance extends Model
 			
 			//aqui vamos inserir o saque no usuário da instancia
 			$InsertWithdrawalsFrom = $UserFrom->withdrawal()->create([
-				'address' => $data->email,
+				'address' => $data->address,
 				'coin' => $this->coin,
 				'amount' => Sum(floatval($data->amount), '0'),
 				'fee' => '0.00000000',
@@ -133,8 +133,8 @@ class Balance extends Model
 
 				return [
 					'status' => 'success',
-					'message' => 'Good news! The money was sent to '.$data->email.' successfully.',
-					'address' => $data->email,
+					'message' => 'good news! the money was sent to '.$data->address.' successfully.',
+					'address' => $data->address,
 					'coin' => Code($this->coin),
 					'amount' => Sum(strval($data->amount), '0'),
 					'fee' => '0.00000000'
@@ -145,7 +145,70 @@ class Balance extends Model
 		
 
 		DB::rollback();
-		return ['status' => 'error', 'message' => 'What a pity! you do not have enough balance to complete this transaction.'];
+		return ['status' => 'error', 'message' => 'what a pity! you do not have enough balance to complete this transaction.'];
+	
+	}
+
+	public function Withdrawal($data) {   
+
+		if (floatval($this->amount) >= floatval($data->amount)) {
+			
+			$Altcoin = Altcoin(intval($this->coin));
+
+			if (floatval($data->amount) > floatval($Altcoin['fees']['withdrawal'])) {
+				DB::beginTransaction();
+				
+				//aqui vamos pegar o usuario a ser feito o saque
+				$User = User::Select('id')->Find($this->user_id);
+
+				//aqui vamos pegar o valor final
+				$amount = Sub(
+					floatval($data->amount), 
+					floatval($Altcoin['fees']['withdrawal'])
+				);
+				
+
+				$withdrawal = $User->withdrawal()->create([
+					'address' => $data->address,
+					'coin' => $this->coin,
+					'amount' => $amount,
+					'fee' => Sum(floatval($Altcoin['fees']['withdrawal']), '0'),
+					'fee_api' => Sum(floatval($Altcoin['fees']['withdrawal_api']), '0'),
+					'url' => $data->url ?? null,
+					'module' => $Altcoin['module']
+				]);
+
+
+				//aqui vamos remover o saldo do usuário
+				$remove = $this->sub($withdrawal->id, floatval($data->amount), 'withdrawal', 'withdrawal of funds requested');
+
+				
+
+
+				if ($remove AND !empty($withdrawal)) {
+					DB::commit();
+
+					return [
+						'status' => 'success',
+						'message' => 'good news! you successfully withdraw the funds..',
+						'address' => $data->address,
+						'coin' => Code(intval($this->coin)),
+						'amount' => $amount,
+						'fee' => Sum(floatval($Altcoin['fees']['withdrawal']), '0')
+					];
+
+				} else {
+					DB::rollback();
+					return ['status' => 'error', 'message' => 'an internal unknown error occurred on our part, please try again later.'];
+				}
+				DB::rollback();
+			}
+
+			return ['status' => 'error', 'message' => 'you need to withdraw an amount greater than the rate that is '. Sum($Altcoin['fees']['withdrawal'], '0') . ' ' .strtoupper($Altcoin['coin'])];
+		}
+
+		
+		return ['status' => 'error', 'message' => 'what a pity! you do not have enough balance to complete this transaction.'];
 	
 	}
 }
