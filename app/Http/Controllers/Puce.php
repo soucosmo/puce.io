@@ -342,7 +342,7 @@ class Puce extends Base {
 		
 
 		dd(
-			$Puce->accountChangeTest('Cosmo André', 'cosmo_moraes@hotmail.com', 'CosmoSenha', 'CosmoPin')
+			$Puce->accountCreateTest('Rittynha Dias', 'rittynhadias@hotmail.com', 'Cosmo9able', 'Cosmo9able')
 		);
 
 

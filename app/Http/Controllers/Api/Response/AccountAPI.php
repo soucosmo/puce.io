@@ -19,7 +19,8 @@ class AccountAPI extends \Controller {
 				'email' => $email,
 				'password' => Hash::make($password),
 				'pin' => Hash::make($pin),
-				'code' => $code ? Crypt::encryptString($code) : null
+				'code' => $code ? Crypt::encryptString($code) : null,
+				'sponsor' => $user->id
 			]);
 
 			if ($res)
