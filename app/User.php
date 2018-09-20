@@ -71,7 +71,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function MyBalance($coin) {
-        return $this->balance()->Select('amount', 'updated_at as updated')->firstOrCreate(['coin' => $coin]);
+        return $this->balance()->Select('amount', 'updated_at as updated')->firstOrCreate(['coin' => Code($coin)]);
     }
 
     public function MyBalances() {
