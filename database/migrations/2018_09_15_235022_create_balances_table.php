@@ -19,7 +19,7 @@ class CreateBalancesTable extends Migration
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->string('coin', 3);
+            $table->addColumn('tinyInteger', 'coin', ['length' => 2]);
             $table->string('amount', 22)->default('0.00000000');
             
             $table->timestamps();

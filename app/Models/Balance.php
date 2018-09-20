@@ -153,7 +153,7 @@ class Balance extends Model
 
 		if (floatval($this->amount) >= floatval($data->amount)) {
 			
-			$Altcoin = Altcoin(intval($this->coin));
+			$Altcoin = Altcoin($this->coin);
 
 			if (floatval($data->amount) > floatval($Altcoin['fees']['withdrawal'])) {
 				DB::beginTransaction();
@@ -192,7 +192,7 @@ class Balance extends Model
 						'status' => 'success',
 						'message' => 'good news! you successfully withdraw the funds..',
 						'address' => $data->address,
-						'coin' => Code(intval($this->coin)),
+						'coin' => Code($this->coin),
 						'amount' => $amount,
 						'fee' => Sum(floatval($Altcoin['fees']['withdrawal']), '0')
 					];

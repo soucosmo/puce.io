@@ -20,7 +20,7 @@ class CreateWithdrawalsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->string('id_api', 40)->nullable()->default(null);
-            $table->string('coin', 3);
+            $table->addColumn('tinyInteger', 'coin', ['length' => 2]);
             $table->string('address', 95);
             $table->string('payment_id', 95)->nullable()->default(null);
             $table->string('tx_id', 64)->nullable()->default(null);
