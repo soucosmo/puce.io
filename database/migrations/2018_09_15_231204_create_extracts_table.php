@@ -23,7 +23,7 @@ class CreateExtractsTable extends Migration
             $table->char('type', 1)->nullable()->default();
             $table->enum('action', ['transfer', 'deposit', 'withdrawal', 'debit', 'credit', 'commission', 'others']);
             $table->string('description', 90);
-            $table->integer('coin');
+            $table->string('coin', 3);
             $table->string('before', 22);
             $table->string('amount', 22);
             $table->string('after', 22);

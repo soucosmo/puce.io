@@ -15,15 +15,16 @@ class CreateAddressesTable extends Migration
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->increments('id');
-            $table->char('api', 1)->nullable()->default(null);
-            $table->tinyInteger('coin', 3);
+
+            $table->unsignedInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->string('coin', 3);
             $table->string('address', 95);
             $table->string('payment_id', 95)->nullable()->default(null);
             $table->string('url', 80)->nullable();
             $table->string('module', 15);
-
-            $table->unsignedInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->char('api', 1)->nullable()->default(null);
 
             $table->timestamps();
         });

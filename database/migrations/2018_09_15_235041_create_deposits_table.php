@@ -19,7 +19,7 @@ class CreateDepositsTable extends Migration
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->tinyInteger('coin', 3);
+            $table->string('coin', 3);
             $table->string('address', 95);
             $table->string('payment_id', 95)->nullable()->default(null);
             $table->char('tx_id', 64)->nullable()->default(null);
@@ -28,7 +28,7 @@ class CreateDepositsTable extends Migration
             $table->string('fee_api', 12)->default('0.00000000');
             $table->enum('status', ['pending', 'canceled', 'complete'])->default('pending');
 
-            $table->string('module', 25);
+            $table->string('module', 15);
 
             $table->timestamps();
         });
