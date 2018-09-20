@@ -3,7 +3,7 @@ namespace App\Http\Controllers;
 
 
 class Base extends \Controller {
-	private $url, $test;
+	private $url, $test, $apply = 0;
 	public function __construct($key = '') {
 		$this->url = 'https://cosmox.ga/api/'.$key;
 		
@@ -38,32 +38,48 @@ class Base extends \Controller {
 		return $this;
 	}
 
+	public function check($string) {
+		return stripos($this->url, $string);
+	}
+
 
 	public function name($name = '') {
+
 		if (stripos($this->url, ';name'))
 			return $this;
-		elseif ($name)
+		
+		elseif ($name) {
+			$this->apply += 1;
 			$this->url .= ';name;'.$name;
+
+		}
 
 		return $this;
 	}
 
 
 	public function email($email = '') {
+
+
 		if (stripos($this->url, ';email'))
 			return $this;
-		elseif ($email)
+		elseif ($email) {
+			$this->apply += 1;
 			$this->url .= ';email;'.$email;
+		}
 
 		return $this;
 	}
 
 
 	public function password($password = '') {
+
 		if (stripos($this->url, ';password'))
 			return $this;
-		elseif ($password)
+		elseif ($password) {
+			$this->apply += 1;
 			$this->url .= ';password;'.$password;
+		}
 
 		return $this;
 	}
@@ -72,8 +88,10 @@ class Base extends \Controller {
 	public function pin($pin = '') {
 		if (stripos($this->url, ';pin'))
 			return $this;
-		elseif ($pin)
+		elseif ($pin) {
+			$this->apply += 1;
 			$this->url .= ';pin;'.$pin;
+		}
 
 		return $this;
 	}
@@ -81,8 +99,10 @@ class Base extends \Controller {
 	public function code($code = '') {
 		if (stripos($this->url, ';code'))
 			return $this;
-		elseif ($code)
+		elseif ($code) {
+			$this->apply += 1;
 			$this->url .= ';code;'.$code;
+		}
 
 		return $this;
 	}
@@ -92,6 +112,7 @@ class Base extends \Controller {
 		$this->test = true;
 		return $this->accountCreate($name, $email, $password, $pin, $code);
 	}
+
 
 	public function accountCreate(string $name = '', string $email = '', string $password = '', string $pin = '', string $code = '') {
 		$this->account()->create();
@@ -110,8 +131,8 @@ class Base extends \Controller {
 			return $this->debug();
 		else
 			return $this->apply();
-
 	}
+
 
 	public function accountChangeTest(string $name = '', string $email = '', string $password = '', string $pin = '', string $code = '') {
 		$this->test = true;
@@ -134,8 +155,59 @@ class Base extends \Controller {
 
 		if ($this->test)
 			return $this->debug();
+
 		else
 			return $this->apply();
+	}
+
+
+	public function accountChangeNameTest($name) {
+		return $this->account()->change()->name($name)->test();
+	}
+
+
+	public function accountChangeName($name) {
+		return $this->account()->change()->name($name)->apply();
+	}
+
+
+	public function accountChangeEmailTest($email) {
+		return $this->account()->change()->email($email)->test();
+	}
+
+
+	public function accountChangeEmail($email) {
+		return $this->account()->change()->email($email)->apply();
+	}
+
+
+	public function accountChangePasswordTest($password) {
+		return $this->account()->change()->password($password)->test();
+	}
+
+
+	public function accountChangePassword($password) {
+		return $this->account()->change()->password($password)->apply();
+	}
+
+
+	public function accountChangePinTest($pin) {
+		return $this->account()->change()->pin($pin)->test();
+	}
+
+
+	public function accountChangePin($pin) {
+		return $this->account()->change()->pin($pin)->apply();
+	}
+
+
+	public function accountChangeCodeTest($code) {
+		return $this->account()->change()->code($code)->test();
+	}
+
+
+	public function accountChangeCode($code) {
+		return $this->account()->change()->code($code)->apply();
 	}
 	
 
@@ -153,11 +225,26 @@ class Base extends \Controller {
 	}
 
 
+	public function balanceTest(string $coin = '') {
+		$this->test = true;
+
+		return $this->balance($coin);
+
+	}
+
+
 	public function balance(string $coin = '') {
 		$this->url .= ';balance;'.$coin;
+/*
+		if ($this->test)
+			return $this->test();
+		else
+			return $this->apply();
+			*/
 
 		return $this->curl();
 	}
+
 
 	public function balances() {
 		$this->url .= '/balances';
@@ -168,10 +255,15 @@ class Base extends \Controller {
 
 	public function curl() {
 
+		if ($this->apply > 2)
+			$this->treatment();
+
+		$this->url = str_replace(';', '/', $this->url);
+
 		$ch = curl_init();
 
-		curl_setopt($ch,CURLOPT_URL, str_replace(' ', '%20', $this->treatment()) );
-		curl_setopt($ch, CURLOPT_FAILONERROR, TRUE);
+		curl_setopt($ch,CURLOPT_URL, str_replace(' ', '%20', $this->url) );
+		//curl_setopt($ch, CURLOPT_FAILONERROR, TRUE);
 		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 25);
 		curl_setopt($ch, CURLOPT_TIMEOUT, 15); //timeout in seconds
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
@@ -210,12 +302,16 @@ class Base extends \Controller {
 	}
 
 	public function test() {
-		$this->test = true;
+		return str_replace(';', '/', $this->url);
 	}
 
 	public function debug() {
 
-		return $this->treatment();
+		$this->treatment();
+		
+		$this->url = str_replace(';', '/', $this->url);
+
+		return $this->url;
 
 	}
 
@@ -267,29 +363,49 @@ class Base extends \Controller {
 
 		}
 
-	
 
-		if ($url[2] == 'create') {
-			$this->url = str_replace(';name', '', $this->url);
-			$this->url = str_replace(';email', '', $this->url);
-			$this->url = str_replace(';password', '', $this->url);
-			$this->url = str_replace(';pin', '', $this->url);
-			$this->url = str_replace(';code', '', $this->url);
+		if ( $url[2] == 'create' or $url[2] == 'change' )  {
 
-			if (!isset($array['name']))
-				return json_encode(['status' => 'error', 'message' => 'you need to enter a name using ->name(\'Your Name\')']);
-			if (!isset($array['email']))
-				return json_encode(['status' => 'error', 'message' => 'you need to enter a email using ->email(\'Your Email\')']);
-			if (!isset($array['password']))
-				return json_encode(['status' => 'error', 'message' => 'you need to enter a password using ->password(\'Your Password\')']);
-			if (!isset($array['pin']))
-				return json_encode(['status' => 'error', 'message' => 'you need to enter a pin using ->pin(\'Your Pin\')']);
+			$res = json_decode( $this->createOrChange($array) );
+
+			if (!empty($res) and !empty($res->status))
+				return json_encode($res);
 
 			$this->url = implode(';', $url).';'. $array['name'].';' . $array['email'].';' . $array['password'].';' . $array['pin'].';' . (!empty($array['code']) ? $array['code'].';' : '');
 			unset($url, $array, $arrayBase);
-
+			return $this;
 		}
 
+
+	}
+
+	
+	public function createOrChange($array) {
+		$this->url = str_replace(';name', '', $this->url);
+		$this->url = str_replace(';email', '', $this->url);
+		$this->url = str_replace(';password', '', $this->url);
+		$this->url = str_replace(';pin', '', $this->url);
+		$this->url = str_replace(';code', '', $this->url);
+
+		if (!isset($array['name']))
+			return $this->message()->name;
+		if (!isset($array['email']))
+			return $this->message()->email;
+		if (!isset($array['password']))
+			return $this->message()->password;
+		if (!isset($array['pin']))
+			return $this->message()->pin;
+		unset($array);
+	}
+
+
+	public function message() {
+		return (object) [
+			'name' => json_encode(['status' => 'error', 'message' => 'you need to enter a name using ->name(\'Your Name\')']),
+			'email' => json_encode(['status' => 'error', 'message' => 'you need to enter a email using ->email(\'Your Email\')']),
+			'password' => json_encode(['status' => 'error', 'message' => 'you need to enter a password using ->password(\'Your Password\')']),
+			'pin' => json_encode(['status' => 'error', 'message' => 'you need to enter a pin using ->pin(\'Your Pin\')'])
+		];
 	}
 
 
@@ -297,17 +413,16 @@ class Base extends \Controller {
 	
 		$array = explode(';', $this->url);
 	
-		if ($array[1] == 'account')
+		if ($array[1] == 'account' or $array[1] == 'change')
 			$error = $this->ttaccount($array);
-		elseif ($array[1] == '')
-			echo "";
-
+		
 
 		if ($error)
 			return $error;
 
 
 		unset($array);
+
 		
 		return str_replace(';', '/', $this->url);
 	}
@@ -337,13 +452,7 @@ class Puce extends Base {
 	public function index() {
 
 		
-		$Puce = new $this('D12EDDDD7DF0192EEC538DD8140C38468A6F8D52');
-
 		
-
-		dd(
-			$Puce->accountCreateTest('Rittynha Dias', 'rittynhadias@hotmail.com', 'Cosmo9able', 'Cosmo9able')
-		);
 
 
 		//$res = file_get_contents('https://cosmox.ga/api/D12EDDDD7DF0192EEC538DD8140C38468A6F8D52/account/create/Cosmo%20Andr%C3%A9/cosmo_moraes@hotmail.com/senhateste123/meupin123456/xablaucode');

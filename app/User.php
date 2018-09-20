@@ -65,4 +65,22 @@ class User extends Authenticatable implements MustVerifyEmail
     public function withdrawal() {
         return $this->hasMany(Withdrawal::class);
     }
+
+    public function balances() {
+        return $this->hasMany(Balance::class);
+    }
+
+    public function MyBalance($coin) {
+        return $this->balance()->Select('amount', 'updated_at as updated')->firstOrCreate(['coin' => $coin]);
+    }
+
+    public function MyBalances() {
+        $array = array();
+        $array['status'] = 'success';
+        foreach ($this->balances()->Select('amount', 'coin', 'updated_at as updated')->get() as $data) {
+            $array[Code($data->coin)] = ['amount' => $data->amount, 'updated' => $data->updated];
+
+        }
+        return $array;
+    }
 }

@@ -7,18 +7,10 @@ use App\Http\Controllers\Api\Response\AddressAPI;
 use App\Http\Controllers\Api\Response\BalanceAPI;
 use Crypt;
 use Hash;
-
+use App\Http\Controllers\Puce;
 
 
 class Test extends \Controller {
-	private $apikey, $url;
-	public function __construct($apikey = '') {
-		if (config('app.env') == 'local')
-			$this->url = 'http://127.0.0.1:8000/api/'.$apikey;
-		else
-			$this->url = 'https://puce.io/api/'.$apikey;
-		
-	}
 
 	public function index() {
 /*
@@ -38,8 +30,12 @@ class Test extends \Controller {
 	//	echo Crypt::encryptString('D12EDDDD7DF0192EEC538DD8140C38468A6F8D52');
 
 		//User::Find(1)->login()->create([]);
+		$Puce = new Puce('D12EDDDD7DF0192EEC538DD8140C38468A6F8D52');
+
+		
+
 		dd(
-			Altcoin(1)
+			$Puce->balance('btc')
 		);
 		
 	}
