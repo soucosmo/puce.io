@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Addresses;
 use Api;
 use Balance;
-use Deposits;
+use Deposit;
 use Extract;
 use Login;
 use Nonce;
@@ -48,6 +48,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function balance() {
         return $this->hasMany(Balance::class);
+    }
+
+    public function deposit() {
+        return $this->hasMany(Deposit::class);
     }
 
     public function extract() {

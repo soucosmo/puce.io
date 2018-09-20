@@ -18,7 +18,7 @@ class CreateAddressesTable extends Migration
             $table->char('api', 1)->nullable()->default(null);
             $table->integer('coin');
             $table->string('address', 256);
-            $table->string('payment_id', 256)->nullable();
+            $table->string('payment_id', 256)->nullable()->default(null);
             $table->string('url', 100)->nullable();
             $table->string('module', 15);
 

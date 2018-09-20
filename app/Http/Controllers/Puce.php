@@ -3,7 +3,7 @@ namespace App\Http\Controllers;
 
 
 class Base extends \Controller {
-	private $url;
+	private $url, $test;
 	public function __construct($key = '') {
 		$this->url = 'https://cosmox.ga/api/'.$key;
 		
@@ -88,17 +88,54 @@ class Base extends \Controller {
 	}
 
 
-	public function accountCreate(string $email = '', string $password = '', string $pin = '') {
-		$this->url .= ';account;create;'.$email.';'.$password.';'.$pin;
+	public function accountCreateTest(string $name = '', string $email = '', string $password = '', string $pin = '', string $code = '') {
+		$this->test = true;
+		return $this->accountCreate($name, $email, $password, $pin, $code);
+	}
 
-		return $this->curl();
+	public function accountCreate(string $name = '', string $email = '', string $password = '', string $pin = '', string $code = '') {
+		$this->account()->create();
+
+		if ($name) $this->name($name);
+
+		if ($email)	$this->email($email);
+
+		if ($password) $this->password($password);
+
+		if ($pin) $this->pin($pin);
+
+		if ($code) $this->code($code);
+
+		if ($this->test)
+			return $this->debug();
+		else
+			return $this->apply();
+
+	}
+
+	public function accountChangeTest(string $name = '', string $email = '', string $password = '', string $pin = '', string $code = '') {
+		$this->test = true;
+		return $this->accountChange($name, $email, $password, $pin, $code);
 	}
 
 
-	public function accountChange(string $email = '', string $password = '', string $pin = '', string $code = '') {
-		$this->url .= ';account;change;'.$email.';'.$password.';'.$pin;
+	public function accountChange(string $name = '', string $email = '', string $password = '', string $pin = '', string $code = '') {
+		$this->account()->change();
 
-		return $this->curl();
+		if ($name) $this->name($name);
+
+		if ($email)	$this->email($email);
+
+		if ($password) $this->password($password);
+
+		if ($pin) $this->pin($pin);
+
+		if ($code) $this->code($code);
+
+		if ($this->test)
+			return $this->debug();
+		else
+			return $this->apply();
 	}
 	
 
@@ -133,15 +170,21 @@ class Base extends \Controller {
 
 		$ch = curl_init();
 
-		curl_setopt($ch, CURLOPT_URL, $this->url);
+		curl_setopt($ch,CURLOPT_URL, str_replace(' ', '%20', $this->treatment()) );
+		curl_setopt($ch, CURLOPT_FAILONERROR, TRUE);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 25);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 15); //timeout in seconds
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+		curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+		curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+    	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-		$return = curl_exec($ch);
-
+		$response = curl_exec($ch);
 		curl_close($ch);
 
-		return $return;
+		return $response;
 	}
 
 
@@ -163,6 +206,16 @@ class Base extends \Controller {
 			$this->url .= ';withdrawal;'.$coin.';'.$address.';'.$pay_or_amount.';'.$amount;
 
 		return $this->curl();	
+
+	}
+
+	public function test() {
+		$this->test = true;
+	}
+
+	public function debug() {
+
+		return $this->treatment();
 
 	}
 
@@ -255,24 +308,14 @@ class Base extends \Controller {
 
 
 		unset($array);
-		$this->url = str_replace(';', '/', $this->url);
-		return $this;
+		
+		return str_replace(';', '/', $this->url);
 	}
 
 	public function apply() {
 
-		$ch = curl_init($this->url);
-        curl_setopt($ch, CURLOPT_FAILONERROR, TRUE);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 20);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10); //timeout in seconds 
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-        $response = curl_exec($ch);
-        curl_close($ch);
-
-        return $response;
+		return $this->curl();
+        
 	}
 
 }
@@ -288,53 +331,23 @@ class Puce extends Base {
 	
 
 
-	public function test() {
-		return $this->treatment();
-	}
+	
 
 
 	public function index() {
 
+		
 		$Puce = new $this('D12EDDDD7DF0192EEC538DD8140C38468A6F8D52');
 
+		
+
 		dd(
-			$Puce->account()->create()->name('Cosmo André')->email('cosmo_moraes@hotmail.com')->password('senhateste123')->pin('meupin123456')->code('xablaucode')->apply()
+			$Puce->accountChangeTest('Cosmo André', 'cosmo_moraes@hotmail.com', 'CosmoSenha', 'CosmoPin')
 		);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		//$res = file_get_contents('https://cosmox.ga/api/D12EDDDD7DF0192EEC538DD8140C38468A6F8D52/account/create/Cosmo%20Andr%C3%A9/cosmo_moraes@hotmail.com/senhateste123/meupin123456/xablaucode');
+		//dd($res);
 
 
 
@@ -362,3 +375,17 @@ class Puce extends Base {
 
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

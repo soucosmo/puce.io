@@ -16,3 +16,11 @@ function InvalidCoin() {
 function WaitingApiKey() {
 	return json_encode(['status' => 'error', 'message' => 'you need to inform an ApiKey, if you do not have it, you can generate one by entering your account in the settings tab']);
 }
+
+function InvalidAmount() {
+	return json_encode(['status' => 'error', 'message' => 'the amount must be greater than 0 (zero)']);
+}
+
+function InvalidAddress() {
+	return json_encode(['status' => 'error', 'message' => 'the address or email address must be invalid and must be between 10 and 256 characters']);
+}

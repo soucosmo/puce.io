@@ -46,6 +46,36 @@ class BaseAPI extends \Controller {
 
 
 
+	public static function checkWithdrawal($api = null, $coin = null, $amount = null, $address) {
+		if ($api) {
+			$user = Api::User($api);
+
+			if ($user) {
+				if ($coin){
+					if (Code($coin)) {
+						if (is_numeric($amount) and floatval($amount) > 0)
+
+							if ($address and strlen($address) >= 10 and strlen($address) <= 256)
+								return $user;
+							else
+								return InvalidAddress();
+						else
+							return InvalidAmount();
+					} else
+						return InvalidCoin();					
+				} else
+					return CoinPending();
+
+			}
+
+			return InvalidAPI();
+		}
+
+		return WaitingApiKey();
+	}
+
+
+
 	public static function checkAccount($api, $name, $email, $password, $pin, $fields = ['id']) {
 		if ($api) {
 			$user = Api::User($api, $fields);

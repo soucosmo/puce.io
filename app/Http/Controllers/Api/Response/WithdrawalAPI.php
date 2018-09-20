@@ -1,25 +1,34 @@
 <?php
 namespace App\Http\Controllers\Api\Response;
 
+
 use App\Http\Controllers\Api\Response\BaseAPI;
+use User;
 
 class WithdrawalAPI extends \Controller {
 
-	public function withoutPaymentID($api = null, $coin = null, $amount = null, $address = null) {
-		$user = BaseAPI::checkTransaction($api, $coin);
+	public function withoutPaymentID($api = null, $coin = null, $amount = null, $address = null, $url = null) {
+		$user = BaseAPI::checkWithdrawal($api, $coin, $amount, $address);
 
 		if (!empty($user) and empty(json_decode($user)->status)) {
-			if ($address and strlen($address) >= 10 and strlen($address) <= 250) {
-				return json_encode(['status' => 'sucesso']);
-			} else
-				return json_encode(['status' => 'error', 'message' => 'the address must be valid and be between 10 and 250 characters']);
+
+				if ( filter_var($address, FILTER_VALIDATE_EMAIL) ) {
+					if (User::Select('id')->Where('email', $address)->count() > 0) {
+						$data = (object) ['amount' => $amount, 'email' => strtolower($address)];
+						return json_encode($user->balance()->firstOrCreate(['coin' => Code($coin)])->transferMail($data));
+					} else
+						return json_encode(['status' => 'error', 'message' => 'the email you entered does not exist, please provide a valid email address']);
+					
+				}
+
+
 		} else
 			return $user;
 			
 	}
 
 
-	public function withPaymentID($api = null, $coin = null, $amount = null, $address = null, $paymentID = null) {
+	public function withPaymentID($api = null, $coin = null, $amount = null, $address = null, $paymentID = null, $url = null) {
 		$user = BaseAPI::checkTransaction($api, $coin);
 
 		if (!empty($user) and empty(json_decode($user)->status)) {
