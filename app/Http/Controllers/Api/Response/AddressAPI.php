@@ -8,7 +8,7 @@ class AddressAPI extends \Controller {
 		$user = BaseAPI::checkTransaction($api, $coin);
 
 		if (!empty($user) and empty(json_decode($user)->status)) {
-				$res = $user->MyAddress( strtolower($coin) );
+				$res = $user->MyAddress( Code($coin) );
 
 				return json_encode([
 					'status' => 'success',
@@ -26,7 +26,7 @@ class AddressAPI extends \Controller {
 		$user = BaseAPI::checkTransaction($api, $coin);
 
 		if (!empty($user) and empty(json_decode($user)->status)) {
-			$res = $user->Address($coin, $url);
+			$res = $user->Address(Code($coin), $url);
 
 			return json_encode([
 				'status' => 'success',
@@ -44,7 +44,7 @@ class AddressAPI extends \Controller {
 		$user = BaseAPI::checkTransaction($api, $coin);
 
 		if (!empty($user) and empty(json_decode($user)->status))
-			return json_encode($user->AddressAll($coin));
+			return json_encode($user->AddressAll( Code($coin) );
 		else
 			return $user;
 
