@@ -1,6 +1,6 @@
 <?php
 namespace App\Http\Controllers\Api\Response;
-
+ob_start('ob_gzhandler');
 
 
 class AddressAPI extends \Controller {

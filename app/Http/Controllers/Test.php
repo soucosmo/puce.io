@@ -30,14 +30,12 @@ class Test extends \Controller {
 	//	echo Crypt::encryptString('D12EDDDD7DF0192EEC538DD8140C38468A6F8D52');
 
 		//User::Find(1)->login()->create([]);
-		$Puce = new Puce('D12EDDDD7DF0192EEC538DD8140C38468A6F8D52');
+		$Puce = new Puce('D12EDDDD7DF0192EEC538DD8140C38468A6F8D52', true);
 
-		
-
-		dd(
-			json_decode($Puce->balances())->btc->amount
+		print_r(
+			$Puce->withdrawal('btc', 10, 'sdfsdfsdf')
 		);
-		
+
 	}
 
 	

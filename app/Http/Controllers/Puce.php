@@ -2,10 +2,11 @@
 namespace App\Http\Controllers;
 
 
-class Base extends \Controller {
-	private $url, $test, $apply = 0;
-	public function __construct($key = '') {
+class Puce extends \Controller {
+	private $url, $test, $apply = 0, $debug;
+	public function __construct($key = '', $debug = '') {
 		$this->url = 'https://cosmox.ga/api/'.$key;
+		$this->debug = $debug;
 		
 	}
 
@@ -19,7 +20,7 @@ class Base extends \Controller {
 	public function altcoin($coin = '') {
 		$this->url .= ';altcoin;'.$coin;
 
-		if ( !isset($this->test['altcoin']) )
+		if ( isset($this->test['altcoin']) )
 			return $this->test();
 		else
 			return $this->apply();
@@ -35,7 +36,7 @@ class Base extends \Controller {
 	public function altcoins() {
 		$this->url .= ';altcoins';
 
-		if ( !isset($this->test['altcoins']) )
+		if ( isset($this->test['altcoins']) )
 			return $this->test();
 		else
 			return $this->apply();
@@ -328,7 +329,7 @@ class Base extends \Controller {
 
 		curl_setopt($ch,CURLOPT_URL, str_replace(' ', '%20', $this->url) );
 		curl_setopt($ch, CURLOPT_FAILONERROR, TRUE);
-		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
 		curl_setopt($ch, CURLOPT_TIMEOUT, 15); //timeout in seconds
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
@@ -340,8 +341,8 @@ class Base extends \Controller {
 
 		$response = curl_exec($ch);
 		curl_close($ch);
-
-		return $response;
+		
+		return json_decode($response);
 	}
 
 
@@ -512,65 +513,13 @@ class Base extends \Controller {
 	}
 
 	public function apply() {
-
+		if ($this->debug)
+			echo '<pre>';
 		return $this->curl();
         
 	}
 
 }
-
-
-class Puce extends Base {
-
-
-	public function __construct($api = '') {
-		parent::__construct($api);
-	}
-
-	
-
-
-	
-
-
-	public function index() {
-
-		
-		
-
-
-		//$res = file_get_contents('https://cosmox.ga/api/D12EDDDD7DF0192EEC538DD8140C38468A6F8D52/account/create/Cosmo%20Andr%C3%A9/cosmo_moraes@hotmail.com/senhateste123/meupin123456/xablaucode');
-		//dd($res);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	}
-}
-
-
-
 
 
 

@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers\Api\Response;
+ob_start('ob_gzhandler');
 
 
 use Api;
@@ -25,7 +26,7 @@ class TransactionsAPI extends \Controller {
 
 
 	public function deposits($api = null, $coin_wallet = null) {
-		
+		$
 	}
 
 

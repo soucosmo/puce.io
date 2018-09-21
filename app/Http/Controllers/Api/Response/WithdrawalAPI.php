@@ -1,9 +1,11 @@
 <?php
 namespace App\Http\Controllers\Api\Response;
+ob_start('ob_gzhandler');
 
 
 use App\Http\Controllers\Api\Response\BaseAPI;
 use User;
+
 
 class WithdrawalAPI extends \Controller {
 

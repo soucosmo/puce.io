@@ -1,7 +1,10 @@
 <?php
 namespace App\Http\Controllers\Api\Response;
+ob_start('ob_gzhandler');
+
 
 use Api;
+
 
 class BalanceAPI extends \Controller {
 	public function from($api = null, $coin = null) {
