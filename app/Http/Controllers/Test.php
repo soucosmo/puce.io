@@ -35,7 +35,7 @@ class Test extends \Controller {
 		
 
 		dd(
-			json_decode($Puce->balances('btc'))->btc->amount
+			json_decode($Puce->balances())->btc->amount
 		);
 		
 	}

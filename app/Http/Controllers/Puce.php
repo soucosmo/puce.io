@@ -9,6 +9,38 @@ class Base extends \Controller {
 		
 	}
 
+	public function altcoinTest($coin = '') {
+		$this->test['altcoin'] = true;
+
+		return $this->altcoin($coin);
+	}
+
+
+	public function altcoin($coin = '') {
+		$this->url .= ';altcoin;'.$coin;
+
+		if ( !isset($this->test['altcoin']) )
+			return $this->test();
+		else
+			return $this->apply();
+	}
+
+	public function altcoinsTest() {
+		$this->test['altcoins'] = true;
+
+		return $this->altcoins();
+	}
+
+
+	public function altcoins() {
+		$this->url .= ';altcoins';
+
+		if ( !isset($this->test['altcoins']) )
+			return $this->test();
+		else
+			return $this->apply();
+	}
+
 
 	public function account() {
 		if (stripos($this->url, ';account'))
@@ -296,13 +328,14 @@ class Base extends \Controller {
 
 		curl_setopt($ch,CURLOPT_URL, str_replace(' ', '%20', $this->url) );
 		curl_setopt($ch, CURLOPT_FAILONERROR, TRUE);
-		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 25);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
 		curl_setopt($ch, CURLOPT_TIMEOUT, 15); //timeout in seconds
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
 		curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
 		curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+		curl_setopt($ch, CURLOPT_ENCODING , 'gzip');
     	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 
 		$response = curl_exec($ch);
