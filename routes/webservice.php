@@ -37,11 +37,11 @@ $this->group(['prefix' => 'api/{apikey?}', 'namespace' => 'Api\Response'], funct
 
 
 
-	//retorna todas as moedas
-	$this->get('altcoins', 'AltcoinsAPI@all');
+		//retorna todas as moedas
+		$this->get('altcoins', 'AltcoinsAPI@all');
 
-	//retorna os dados de uma determinada moeda
-	$this->get('altcoin/{coin}', 'AltcoinsAPI@from');
+		//retorna os dados de uma determinada moeda
+		$this->get('altcoin/{coin}', 'AltcoinsAPI@from');
 
 	
 

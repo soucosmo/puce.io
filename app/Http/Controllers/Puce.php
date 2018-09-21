@@ -3,9 +3,10 @@ namespace App\Http\Controllers;
 
 
 class Puce extends \Controller {
-	private $url, $test, $apply = 0, $debug;
+	private $base_url, $url, $test, $apply = 0, $debug;
 	public function __construct($key = '', $debug = '') {
-		$this->url = 'https://cosmox.ga/api/'.$key;
+		$this->base_url = 'https://cosmox.ga/api/'.$key;
+		$this->url = $this->base_url;
 		$this->debug = $debug;
 		
 	}
@@ -129,6 +130,7 @@ class Puce extends \Controller {
 		return $this;
 	}
 
+
 	public function code($code = '') {
 		if (stripos($this->url, ';code'))
 			return $this;
@@ -138,6 +140,106 @@ class Puce extends \Controller {
 		}
 
 		return $this;
+	}
+
+
+	public function transactions() {
+		if (stripos($this->url, 'account'))
+			$this->url = $this->base_url .';transactions';
+		elseif (stripos($this->url, 'transactions'))
+			return $this;
+		else
+			$this->url .= ';transactions';
+
+		return $this;
+	}
+
+
+	public function txTest($tx = '') {
+		$this->test['tx'] = true;
+
+		return $this->tx($tx);
+	}
+
+
+	public function tx($tx = '') {
+		if (!stripos($this->url, 'account') and !stripos($this->url, 'transactions')) {
+			$this->url = $this->base_url.';transactions;tx;'.$tx;
+
+			if ( isset($this->test['tx']) )
+				return $this->test();
+			else
+				return $this->apply();
+
+		} else {
+			if (stripos($this->url, 'account'))
+				$this->url = $this->base_url.';transactions;tx;'.$tx;
+			elseif (stripos($this->url, ';transactions;tx'))
+				return $this;
+			else
+				$this->url .= ';transactions;tx;'.$tx;
+
+			return $this;
+		}
+	}
+
+	public function depositsTest($deposits = '') {
+		$this->test['deposits'] = true;
+		
+		return $this->deposits($deposits);
+	}
+
+
+	public function deposits($deposits = '') {
+		if (!stripos($this->url, 'account') and !stripos($this->url, 'transactions')) {
+			$this->url = $this->base_url.';transactions;deposits;'.$deposits;
+
+			if ( isset($this->test['deposits']) )
+				return $this->test();
+			else
+				return $this->apply();
+
+		} else {	
+			if (stripos($this->url, 'account') or stripos($this->url, 'transactions') and !stripos($this->url, 'deposits'))
+				$this->url = $this->base_url.';transactions;deposits;'.$deposits;
+			elseif (stripos($this->url, ';transactions;deposits'))
+				return $this;
+			else
+				$this->url = $this->base_url.';transactions;deposits;'.$deposits;
+
+			return $this;
+		}
+
+	}
+
+
+	public function withdrawalsTest($withdrawals = '') {
+		$this->test['withdrawals'] = true;
+
+		return $this->withdrawals($withdrawals);
+	}
+
+
+	public function withdrawals($withdrawals = '') {
+		if (!stripos($this->url, 'account') and !stripos($this->url, 'transactions')) {
+			$this->url = $this->base_url.';transactions;deposits;'.$deposits;
+
+			if ( isset($this->test['withdrawals']) )
+				return $this->test();
+			else
+				return $this->apply();
+
+		} else {
+			if (stripos($this->url, 'account') or stripos($this->url, 'transactions') and !stripos($this->url, 'withdrawals'))
+				$this->url = $this->base_url.';transactions;withdrawals;'.$withdrawals;
+			elseif (stripos($this->url, ';transactions;withdrawals'))
+				return $this;
+			else
+				$this->url = $this->base_url.';transactions;withdrawals;'.$withdrawals;
+
+			return $this;
+		}
+
 	}
 
 
@@ -320,7 +422,7 @@ class Puce extends \Controller {
 
 	public function curl() {
 
-		if ($this->apply > 2)
+		if ($this->apply > 2 or stripos($this->url, 'account'))
 			$this->treatment();
 
 		$this->url = str_replace(';', '/', $this->url);
@@ -387,6 +489,8 @@ class Puce extends \Controller {
 	}
 
 	public function test() {
+		if (($this->apply > 2 or stripos($this->url, 'create')) or ($this->apply > 1 and stripos($this->url, 'change')) )
+			$this->treatment();
 		return str_replace(';', '/', $this->url);
 	}
 
