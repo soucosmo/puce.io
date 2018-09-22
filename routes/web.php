@@ -12,9 +12,7 @@
 */
 include_once 'webservice.php';
 
-Route::get('/', function () {
-    return view('welcome');
-});
+$this->get('/', 'HomeController@index')->name('home');
 
 
 Auth::routes(['verify' => true]);

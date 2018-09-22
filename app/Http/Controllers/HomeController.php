@@ -11,10 +11,6 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('verified');
-    }
 
     /**
      * Show the application dashboard.

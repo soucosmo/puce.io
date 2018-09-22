@@ -78,7 +78,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $array = array();
         $array['status'] = 'success';
         foreach ($this->balances()->Select('amount', 'coin', 'updated_at as updated')->get() as $data) {
-            $array[Code($data->coin)] = ['amount' => $data->amount, 'updated' => $data->updated];
+            $array['data'][Code($data->coin)] = ['amount' => $data->amount, 'updated' => $data->updated];
 
         }
         return $array;

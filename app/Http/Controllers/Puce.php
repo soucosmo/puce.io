@@ -177,7 +177,7 @@ class Puce extends \Controller {
 			elseif (stripos($this->url, ';transactions;tx'))
 				return $this;
 			else
-				$this->url .= ';transactions;tx;'.$tx;
+				$this->url = $this->base_url.';transactions;tx;'.$tx;
 
 			return $this;
 		}
@@ -222,7 +222,7 @@ class Puce extends \Controller {
 
 	public function withdrawals($withdrawals = '') {
 		if (!stripos($this->url, 'account') and !stripos($this->url, 'transactions')) {
-			$this->url = $this->base_url.';transactions;deposits;'.$deposits;
+			$this->url = $this->base_url.';transactions;withdrawals;'.$withdrawals;
 
 			if ( isset($this->test['withdrawals']) )
 				return $this->test();
@@ -354,13 +354,40 @@ class Puce extends \Controller {
 	}
 
 
-	public function address(string $coin = '') {
-		$this->url .= ';address;'.$coin;
+	public function address(string $coin_or_address = '') {
+		if (stripos($this->url, 'withdrawal')) {
+			$this->url .= ';address;'.$coin_or_address;
 
-		if ( isset($this->test['address']) )
-			return $this->test();
-		else
-			return $this->apply();
+			if ( isset($this->test['address']) )
+				return $this->test();
+			elseif (!stripos($this->url, 'withdrawal'))
+				return $this->apply();
+		} else 
+			$this->url .= ';'.$coin_or_address;
+
+		return $this;
+	}
+
+
+	public function amount($amount = '') {
+		if (stripos($this->url, ';amount'))
+			return $this;
+		elseif ($amount) {
+			$this->url .= ';amount;'.$amount;
+		}
+
+		return $this;
+	}
+
+
+	public function paymentId($paymentid = '') {
+		if (stripos($this->url, ';paymentid'))
+			return $this;
+		elseif ($paymentid) {
+			$this->url .= ';paymentid;'.$paymentid;
+		}
+
+		return $this;
 	}
 
 
@@ -381,6 +408,66 @@ class Puce extends \Controller {
 			return $this->test();
 		else
 			return $this->apply();
+	}
+
+	public function ttwithdrawal() {
+		$array = array();
+		$arrayBase = explode(';', $this->url);
+
+		$url = [$arrayBase[0]];
+
+
+		unset($arrayBase[0]);
+
+		foreach ($arrayBase as $data) { 
+
+			if (isset($array['withdrawal']) and $array['withdrawal'] == '')
+				$array['withdrawal'] = $data;
+			
+
+			if (!isset($array['withdrawal']) and $data == 'withdrawal')
+				$array['withdrawal'] = '';
+
+
+			if (isset($array['amount']) and $array['amount'] == '')
+				$array['amount'] = $data;
+			
+
+			if (!isset($array['amount']) and $data == 'amount')
+				$array['amount'] = '';
+
+			if (isset($array['address']) and $array['address'] == '')
+				$array['address'] = $data;
+			
+
+			if (!isset($array['address']) and $data == 'address')
+				$array['address'] = '';
+
+			if (isset($array['paymentid']) and $array['paymentid'] == '')
+				$array['paymentid'] = $data;
+			
+
+			if (!isset($array['paymentid']) and $data == 'paymentid')
+				$array['paymentid'] = '';
+
+			
+
+		}
+
+
+		if ( isset($array['amount']) and !is_numeric($array['amount']) or empty($array['amount']) )
+			return $this->message()->amount;
+		if ( empty($array['address']) )
+			return $this->message()->address;
+
+		
+		
+		
+		$this->url = implode(';', $url).';withdrawal;'. $array['withdrawal'].';' . $array['amount'].';' . $array['address'] . (!empty($array['paymentid']) ? ';'. $array['paymentid'] : '');
+		$this->url = str_replace(';', '/', $this->url);
+		unset($url, $array, $arrayBase);
+		return $this;
+
 	}
 
 
@@ -473,24 +560,39 @@ class Puce extends \Controller {
 
 	public function withdrawal(string $coin = '', string $address = '', $pay_or_amount = '', float $amount = 0) {
 
-		if (floatval($pay_or_amount) > 0 and !is_string($pay_or_amount))
+		if (floatval($pay_or_amount) > 0 and !is_string($pay_or_amount) and $address and $coin)
 
 			$this->url .= ';withdrawal;'.$coin.';'.$address.';'.$pay_or_amount;
 
-		elseif (is_string($pay_or_amount))
+		elseif (is_string($pay_or_amount) and $address and $coin)
 
 			$this->url .= ';withdrawal;'.$coin.';'.$address.';'.$pay_or_amount.';'.$amount;
 
 
 		if ( isset($this->test['withdrawal']) )
 			return $this->test();
-		else
+
+		elseif ( stripos($this->url, $address) )
 			return $this->apply();
+
+
+		elseif ($coin and !$address and !$pay_or_amount)
+			$this->url = $this->base_url.';withdrawal;'.$coin;
+
+
+		return $this;
 	}
 
+
 	public function test() {
-		if (($this->apply > 2 or stripos($this->url, 'create')) or ($this->apply > 1 and stripos($this->url, 'change')) )
-			$this->treatment();
+		if (($this->apply > 1 or stripos($this->url, 'create')) or ($this->apply > 1 and stripos($this->url, 'change')) )
+			$res = json_decode($this->treatment());
+		elseif (stripos($this->url, 'withdrawal'))
+			$res = json_decode($this->ttwithdrawal());
+
+
+		if (!empty($res) and !empty($res->status))
+			return $res;
 		return str_replace(';', '/', $this->url);
 	}
 
@@ -514,37 +616,32 @@ class Puce extends \Controller {
 
 		foreach ($arrayBase as $data) { 
 
-			if (isset($array['name']) and $array['name'] == '') {
+			if (isset($array['name']) and $array['name'] == '')
 				$array['name'] = $data;
-			}
 
 			if (!isset($array['name']) and $data == 'name')
 				$array['name'] = '';
 
-			if (isset($array['email']) and $array['email'] == '') {
+			if (isset($array['email']) and $array['email'] == '')
 				$array['email'] = $data;
-			}
 
 			if (!isset($array['email']) and $data == 'email')
 				$array['email'] = '';
 
-			if (isset($array['password']) and $array['password'] == '') {
+			if (isset($array['password']) and $array['password'] == '')
 				$array['password'] = $data;
-			}
 
 			if (!isset($array['password']) and $data == 'password')
 				$array['password'] = '';
 
-			if (isset($array['pin']) and $array['pin'] == '') {
+			if (isset($array['pin']) and $array['pin'] == '')
 				$array['pin'] = $data;
-			}
 
 			if (!isset($array['pin']) and $data == 'pin')
 				$array['pin'] = '';
 
-			if (isset($array['code']) and $array['code'] == '') {
+			if (isset($array['code']) and $array['code'] == '')
 				$array['code'] = $data;
-			}
 
 			if (!isset($array['code']) and $data == 'code')
 				$array['code'] = '';
@@ -560,7 +657,7 @@ class Puce extends \Controller {
 			if (!empty($res) and !empty($res->status))
 				return json_encode($res);
 
-			$this->url = implode(';', $url).';'. $array['name'].';' . $array['email'].';' . $array['password'].';' . $array['pin'].';' . (!empty($array['code']) ? $array['code'].';' : '');
+			$this->url = implode(';', $url).';'. $array['name'].';' . $array['email'].';' . $array['password'].';' . $array['pin']. (!empty($array['code']) ? ';'. $array['code'] : '');
 			unset($url, $array, $arrayBase);
 			return $this;
 		}
@@ -593,7 +690,10 @@ class Puce extends \Controller {
 			'name' => json_encode(['status' => 'error', 'message' => 'you need to enter a name using ->name(\'Your Name\')']),
 			'email' => json_encode(['status' => 'error', 'message' => 'you need to enter a email using ->email(\'Your Email\')']),
 			'password' => json_encode(['status' => 'error', 'message' => 'you need to enter a password using ->password(\'Your Password\')']),
-			'pin' => json_encode(['status' => 'error', 'message' => 'you need to enter a pin using ->pin(\'Your Pin\')'])
+			'pin' => json_encode(['status' => 'error', 'message' => 'you need to enter a pin using ->pin(\'Your Pin\')']),
+
+			'amount' => json_encode(['status' => 'error', 'message' => 'you need to enter an amount using ->amount(\'amount here\')']),
+			'address' => json_encode(['status' => 'error', 'message' => 'you need to enter an address or email using ->address(\'address or email here\')'])
 		];
 	}
 

@@ -12,16 +12,17 @@ class AddressAPI extends \Controller {
 
 				$array = [
 					'status' => 'success',
-					'coin' => $coin,
-					'address' => $res->address,
-
+					'data' => [
+						'coin' => $coin,
+						'address' => $res->address,
+					]
 					
 				];
 
 				if ($res->payment_id)
-					$array['payment_id'] = $res->payment_id;
+					$array['data']['payment_id'] = $res->payment_id;
 
-				$array['created'] = $res->created;
+				$array['data']['created'] = $res->created;
 
 				return json_encode($array);
 		} else
@@ -39,17 +40,18 @@ class AddressAPI extends \Controller {
 			if ($res) {
 				$array = [
 					'status' => 'success',
-					'coin' => $coin,
-					'address' => $res->address				
+					'data' => [
+						'coin' => $coin,
+						'address' => $res->address]			
 				];
 				
 				if ($res->payment_id)
-					$array['payment_id'] = $res->payment_id;
+					$array['data']['data']['payment_id'] = $res->payment_id;
 
 				if ($url)
-					$array['url'] = $url;
+					$array['data']['url'] = $url;
 
-				$array['created'] = $res->created;
+				$array['data']['created'] = $res->created;
 				return json_encode($array);
 			} else
 				return AddressNotFound();
