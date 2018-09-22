@@ -134,10 +134,13 @@ class Balance extends Model
 				return [
 					'status' => 'success',
 					'message' => 'good news! the money was sent to '.$data->address.' successfully',
-					'address' => $data->address,
-					'coin' => Code($this->coin),
-					'amount' => Sum(strval($data->amount), '0'),
-					'fee' => '0.00000000'
+					'data' => [
+						'address' => $data->address,
+						'payment_id' => $data->payment_id ?? null, 
+						'coin' => Code($this->coin),
+						'amount' => Sum(strval($data->amount), '0'),
+						'fee' => '0.00000000'
+					]
 				];
 			}
 
@@ -191,15 +194,15 @@ class Balance extends Model
 					$array = [
 						'status' => 'success',
 						'message' => 'good news! you successfully withdraw the funds',
-						'address' => $data->address
+						'data' => ['address' => $data->address]
 					];
 
 					if ($data->payment_id)
 						$array['payment_id'] = $data->payment_id;
 
-					$array['coin'] = Code($this->coin);
-					$array['amount'] = $amount;
-					$array['fee'] = Sum(floatval($Altcoin['fees']['withdrawal']), '0');
+					$array['data']['coin'] = Code($this->coin);
+					$array['data']['amount'] = $amount;
+					$array['data']['fee'] = Sum(floatval($Altcoin['fees']['withdrawal']), '0');
 
 					return $array;
 

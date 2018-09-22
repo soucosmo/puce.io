@@ -15,9 +15,11 @@ class BalanceAPI extends \Controller {
 
 			return json_encode([
 				'status' => 'success',
-				'coin' => $coin,
-				'amount' =>	$res->amount,
-				'updated' => $res->updated
+				'data' = [
+					'coin' => $coin,
+					'amount' =>	$res->amount,
+					'updated' => $res->updated
+				]
 			]);
 		} else
 			return $user;

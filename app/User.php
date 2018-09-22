@@ -121,13 +121,13 @@ class User extends Authenticatable implements MustVerifyEmail
     public function AddressAll($coin) {
         $array = ['status' => 'success'];
         foreach ($this->addresses()->Select('address', 'payment_id', 'url','updated_at as created')->Where('coin', $coin)->WhereNotNull('api')->get() as $data) {
-            $arrayLoop['address'] = $data->address;
+            $arrayLoop['data']['address'] = $data->address;
 
             if (!empty($data['payment_id']))
-                $arrayLoop['payment_id'] = $data['payment_id'];
+                $arrayLoop['data']['payment_id'] = $data['payment_id'];
             
-            $arrayLoop['url'] = $data->url;
-            $arrayLoop['created'] = $data->created;
+            $arrayLoop['data']['url'] = $data->url;
+            $arrayLoop['data']['created'] = $data->created;
 
             $array[] = $arrayLoop;
             unset($arrayLoop);

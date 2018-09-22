@@ -38,7 +38,10 @@ class AltcoinsAPI extends \Controller {
 		if ($coin and !empty($coin['id'])) {
 
 			unset($coin['id'], $coin['module'], $coin['fees']['api_withdrawal']);
-			$coin = array_merge(['status' => 'success'], $coin);
+			$coin = [
+				'status' => 'success',
+				'data' => $coin
+			];
 
 			return $coin;
 		} else
