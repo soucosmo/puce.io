@@ -1,5 +1,4 @@
 <?php
-namespace App\Http\Controllers;
 
 
 class Puce extends \Controller {
@@ -7,7 +6,6 @@ class Puce extends \Controller {
 	public function __construct($key = '') {
 		$this->base = "https://puce.io/api/{$key}";
 
-		
 	}
 
 

@@ -6,7 +6,6 @@ class Puce extends \Controller {
 	private $base, $url, $test;
 	public function __construct($key = '') {
 		$this->base = "https://cosmox.ga/api/{$key}";
-
 		
 	}
 

@@ -30,8 +30,6 @@ $this->get('key', function() {
 })->middleware('auth');
 
 
-$this->view('sdk', 'sdk_js');
-
 $this->group(['prefix' => 'download'], function() {
 	$this->get('js', function() {
 		return Response::download('downloads/puce.js');
