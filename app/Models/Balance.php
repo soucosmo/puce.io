@@ -86,67 +86,79 @@ class Balance extends Model
 
 	public function transferMail($data) {
 		if (floatval($this->amount) >= floatval($data->amount)) {
-			DB::beginTransaction();
+			
 
 
 			//aqui vamos pegar o destinatario
 			$UserTo = User::Select('id')->Where('email', $data->address)->first();
-
-			//aqui vamos inserir o recebimento para o destinatario
-			$InsertDepositsTo = $UserTo->deposit()->create([
-				'coin' => $this->coin,
-				'address' => $data->address,
-				'amount' => Sum(floatval($data->amount), '0'),
-				'fee' => '0.0000000',
-				'fee_api' => '0.00000000',
-				'module' => 'send',
-				'status' => 'complete'
-			]);
-
-			//aqui vamos creditar o saldo para o destinatario
-			$credit = $UserTo->balance()->firstOrCreate(['coin' => $this->coin])
-				->sum($this->user_id, floatval($data->amount), 'transfer',
-					'sending money to another user');
-
-
-			//aqui vamos pegar o usuário dessa instancia
-			$UserFrom = User::Select('id')->Find($this->user_id);
-
-			//qui vamos remover o saldo do usuário dessa instancia
-			$remove = $this->sub($UserTo->id, floatval($data->amount), 'transfer', 'sending money to another user');
 			
-			//aqui vamos inserir o saque no usuário da instancia
-			$InsertWithdrawalsFrom = $UserFrom->withdrawal()->create([
-				'address' => $data->address,
-				'coin' => $this->coin,
-				'amount' => Sum(floatval($data->amount), '0'),
-				'fee' => '0.00000000',
-				'fee_api' => '0.00000000',
-				'module' => 'send',
-				'status' => 'complete'
-			]);
+			if ($UserTo) {
 
-			
+				if ($UserTo->id != $this->user_id) {
+					DB::beginTransaction();
 
-			if ($remove AND $credit AND $InsertWithdrawalsFrom AND $InsertDepositsTo) {
-				DB::commit();
-
-				return [
-					'status' => 'success',
-					'message' => 'good news! the money was sent to '.$data->address.' successfully',
-					'data' => [
+					//aqui vamos inserir o recebimento para o destinatario
+					$InsertDepositsTo = $UserTo->deposit()->create([
+						'coin' => $this->coin,
 						'address' => $data->address,
-						'coin' => Code($this->coin),
-						'amount' => Sum(strval($data->amount), '0'),
-						'fee' => '0.00000000'
-					]
-				];
+						'amount' => Sum(floatval($data->amount), '0'),
+						'fee' => '0.0000000',
+						'fee_api' => '0.00000000',
+						'module' => 'send',
+						'status' => 'complete'
+					]);
+
+					//aqui vamos creditar o saldo para o destinatario
+					$credit = $UserTo->balance()->firstOrCreate(['coin' => $this->coin])
+						->sum($this->user_id, floatval($data->amount), 'transfer',
+							'sending money to another user');
+
+
+					//aqui vamos pegar o usuário dessa instancia
+					$UserFrom = User::Select('id')->Find($this->user_id);
+
+					//qui vamos remover o saldo do usuário dessa instancia
+					$remove = $this->sub($UserTo->id, floatval($data->amount), 'transfer', 'sending money to another user');
+					
+					//aqui vamos inserir o saque no usuário da instancia
+					$InsertWithdrawalsFrom = $UserFrom->withdrawal()->create([
+						'address' => $data->address,
+						'coin' => $this->coin,
+						'amount' => Sum(floatval($data->amount), '0'),
+						'fee' => '0.00000000',
+						'fee_api' => '0.00000000',
+						'module' => 'send',
+						'status' => 'complete'
+					]);
+
+					
+
+					if ($remove AND $credit AND $InsertWithdrawalsFrom AND $InsertDepositsTo) {
+						DB::commit();
+
+						return [
+							'status' => 'success',
+							'message' => 'good news! the money was sent to '.$data->address.' successfully',
+							'data' => [
+								'address' => $data->address,
+								'coin' => Code($this->coin),
+								'amount' => Sum(strval($data->amount), '0'),
+								'fee' => '0.00000000'
+							]
+						];
+					}
+
+					DB::rollback();
+				}
+
+				return ['status' => 'error', 'message' => 'you can not send it to yourself, please inform another email']
 			}
 
+			return ['status' => 'error', 'message' => 'the email you entered does not exist, please provide a valid email address'];
 		}
 		
 
-		DB::rollback();
+		
 		return ['status' => 'error', 'message' => 'what a pity! you do not have enough balance to complete this transaction'];
 	
 	}

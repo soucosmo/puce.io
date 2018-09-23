@@ -23,7 +23,7 @@ class CreateAddressesTable extends Migration
             $table->string('address', 95);
             $table->string('payment_id', 95)->nullable()->default(null);
             $table->string('url', 80)->nullable();
-            $table->string('module', 2);
+            $table->string('module', 4);
             $table->char('api', 1)->nullable()->default(null);
 
             $table->timestamps();

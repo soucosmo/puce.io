@@ -17,11 +17,9 @@ class WithdrawalAPI extends \Controller {
 		if (!empty($user) and empty(json_decode($user)->status)) {
 
 				if ( filter_var($address, FILTER_VALIDATE_EMAIL) ) {
-					if (User::Select('id')->Where('email', $address)->count() > 0) {
 						
-						return json_encode($user->balance()->firstOrCreate(['coin' => Code($coin)])->transferMail($data));
-					} else
-						return json_encode(['status' => 'error', 'message' => 'the email you entered does not exist, please provide a valid email address']);
+					return json_encode($user->balance()->firstOrCreate(['coin' => Code($coin)])->transferMail($data));
+					
 					
 				}
 
