@@ -65,34 +65,33 @@ $this->group(['prefix' => 'api/{apikey?}', 'namespace' => 'Api\Response'], funct
 
 
 
-	$this->group(['prefix' => 'transactions'], function() {
-		$this->group(['prefix' => 'deposits'], function() {
-			//retorna todos os depositos em todas as moedas
-			$this->get('', 'TransactionsAPI@depositsAll');
 
-			//retorna os depositos de uma determinada carteira ou moeda com ou sem limite de registros
-			$this->get('{wallet_or_coin}/{limit?}', 'TransactionsAPI@deposits');
+	$this->group(['prefix' => 'deposits'], function() {
+		//retorna todos os depositos em todas as moedas
+		$this->get('', 'TransactionsAPI@depositsAll');
 
-		});
+		//retorna os depositos de uma determinada carteira ou moeda com ou sem limite de registros
+		$this->get('{wallet_or_coin}/{limit?}', 'TransactionsAPI@deposits');
 
-		
-
-
-		//retorna os detalhes de alguma transação pela txid ou hash da transação
-		$this->get('{tx}', 'TransactionsAPI@tx');
-
-
-		$this->group(['prefix' => 'withdrawals'], function() {
-
-			//retorna todos os saques em todas as moedas
-			$this->get('', 'TransactionsAPI@withdrawalsAll');
-
-			//retorna os saque para uma carteira com ou sem limite de registros
-			$this->get('{wallet_or_coin}/{limit?}', 'TransactionsAPI@withdrawals');
-
-		});
-			
 	});
+
+	
+
+
+	//retorna os detalhes de alguma transação pela txid ou hash da transação
+	$this->get('{tx}', 'TransactionsAPI@tx');
+
+
+	$this->group(['prefix' => 'withdrawals'], function() {
+
+		//retorna todos os saques em todas as moedas
+		$this->get('', 'TransactionsAPI@withdrawalsAll');
+
+		//retorna os saque para uma carteira com ou sem limite de registros
+		$this->get('{wallet_or_coin}/{limit?}', 'TransactionsAPI@withdrawals');
+
+	});
+
 
 
 

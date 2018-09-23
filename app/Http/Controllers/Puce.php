@@ -3,15 +3,16 @@ namespace App\Http\Controllers;
 
 
 class Puce extends \Controller {
-	private $base_url, $url, $test, $apply = 0, $debug;
-	public function __construct($key = '', $debug = '') {
-		$this->base_url = 'https://cosmox.ga/api/'.$key;
-		$this->url = $this->base_url;
+	private $base, $url, $test;
+	public function __construct($key = '') {
+		$this->base = "https://cosmox.ga/api/{$key}";
+
 		$this->debug = $debug;
 		
 	}
 
-	public function altcoinTest($coin = '') {
+
+	public function altcoin_test($coin = '') {
 		$this->test['altcoin'] = true;
 
 		return $this->altcoin($coin);
@@ -19,15 +20,16 @@ class Puce extends \Controller {
 
 
 	public function altcoin($coin = '') {
-		$this->url .= ';altcoin;'.$coin;
+		$this->url = "{$this->base}/altcoin/{$coin}";
 
 		if ( isset($this->test['altcoin']) )
-			return $this->test();
+			return $this->url;
 		else
-			return $this->apply();
+			return $this->curl();
 	}
 
-	public function altcoinsTest() {
+
+	public function altcoins_test() {
 		$this->test['altcoins'] = true;
 
 		return $this->altcoins();
@@ -35,484 +37,237 @@ class Puce extends \Controller {
 
 
 	public function altcoins() {
-		$this->url .= ';altcoins';
+		$this->url = "{$this->base}/altcoins";
 
 		if ( isset($this->test['altcoins']) )
-			return $this->test();
+			return $this->url;
 		else
-			return $this->apply();
+			return $this->curl();
 	}
 
 
-	public function account() {
-		if (stripos($this->url, ';account'))
-			return $this;
+	public function account_create_test($name = '', $email = '', $password = '', $pin = '', $code = '') {
+		$this->test['account_create'] = true;
+
+		return $this->account_create($name, $email, $password, $pin, $code);
+	}
+
+
+	public function account_create($name = '', $email = '', $password = '', $pin = '', $code = '') {
+		$this->url = "{$this->base}/account/create/{$name}/{$email}/{$password}/{$pin}/{$code}";
+
+		if ( isset($this->test['account_create']) )
+			return $this->url;
 		else
-			$this->url .= ';account';
-
-		return $this;
+			return $this->curl();
 	}
 
 
-	public function change() {
-		if (stripos($this->url, ';create') or stripos($this->url, ';change'))
-			return $this;
-		elseif (stripos($this->url, ';account'))
-			$this->url .= ';change';
-		return $this;
-	}
+	public function account_change_test($name = '', $email = '', $password = '', $pin = '', $code = '') {
+		$this->test['account_change'] = true;
 
-
-	public function create() {
-		if (stripos($this->url, ';change') or stripos($this->url, ';create'))
-			return $this;
-		elseif (strpos($this->url, ';account'))
-			$this->url .= ';create';
-
-		return $this;
-	}
-
-	public function check($string) {
-		return stripos($this->url, $string);
-	}
-
-
-	public function name($name = '') {
-
-		if (stripos($this->url, ';name'))
-			return $this;
-		
-		elseif ($name) {
-			$this->apply += 1;
-			$this->url .= ';name;'.$name;
-
-		}
-
-		return $this;
-	}
-
-
-	public function email($email = '') {
-
-
-		if (stripos($this->url, ';email'))
-			return $this;
-		elseif ($email) {
-			$this->apply += 1;
-			$this->url .= ';email;'.$email;
-		}
-
-		return $this;
-	}
-
-
-	public function password($password = '') {
-
-		if (stripos($this->url, ';password'))
-			return $this;
-		elseif ($password) {
-			$this->apply += 1;
-			$this->url .= ';password;'.$password;
-		}
-
-		return $this;
-	}
-
-
-	public function pin($pin = '') {
-		if (stripos($this->url, ';pin'))
-			return $this;
-		elseif ($pin) {
-			$this->apply += 1;
-			$this->url .= ';pin;'.$pin;
-		}
-
-		return $this;
-	}
-
-
-	public function code($code = '') {
-		if (stripos($this->url, ';code'))
-			return $this;
-		elseif ($code) {
-			$this->apply += 1;
-			$this->url .= ';code;'.$code;
-		}
-
-		return $this;
-	}
-
-
-	public function transactions() {
-		if (stripos($this->url, 'account'))
-			$this->url = $this->base_url .';transactions';
-		elseif (stripos($this->url, 'transactions'))
-			return $this;
-		else
-			$this->url .= ';transactions';
-
-		return $this;
-	}
-
-
-	public function txTest($tx = '') {
-		$this->test['tx'] = true;
-
-		return $this->tx($tx);
-	}
-
-
-	public function tx($tx = '') {
-		if (!stripos($this->url, 'account') and !stripos($this->url, 'transactions')) {
-			$this->url = $this->base_url.';transactions;tx;'.$tx;
-
-			if ( isset($this->test['tx']) )
-				return $this->test();
-			else
-				return $this->apply();
-
-		} else {
-			if (stripos($this->url, 'account'))
-				$this->url = $this->base_url.';transactions;tx;'.$tx;
-			elseif (stripos($this->url, ';transactions;tx'))
-				return $this;
-			else
-				$this->url = $this->base_url.';transactions;tx;'.$tx;
-
-			return $this;
-		}
-	}
-
-	public function depositsTest($deposits = '') {
-		$this->test['deposits'] = true;
-		
-		return $this->deposits($deposits);
-	}
-
-
-	public function deposits($deposits = '') {
-		if (!stripos($this->url, 'account') and !stripos($this->url, 'transactions')) {
-			$this->url = $this->base_url.';transactions;deposits;'.$deposits;
-
-			if ( isset($this->test['deposits']) )
-				return $this->test();
-			else
-				return $this->apply();
-
-		} else {	
-			if (stripos($this->url, 'account') or stripos($this->url, 'transactions') and !stripos($this->url, 'deposits'))
-				$this->url = $this->base_url.';transactions;deposits;'.$deposits;
-			elseif (stripos($this->url, ';transactions;deposits'))
-				return $this;
-			else
-				$this->url = $this->base_url.';transactions;deposits;'.$deposits;
-
-			return $this;
-		}
-
-	}
-
-
-	public function withdrawalsTest($withdrawals = '') {
-		$this->test['withdrawals'] = true;
-
-		return $this->withdrawals($withdrawals);
-	}
-
-
-	public function withdrawals($withdrawals = '') {
-		if (!stripos($this->url, 'account') and !stripos($this->url, 'transactions')) {
-			$this->url = $this->base_url.';transactions;withdrawals;'.$withdrawals;
-
-			if ( isset($this->test['withdrawals']) )
-				return $this->test();
-			else
-				return $this->apply();
-
-		} else {
-			if (stripos($this->url, 'account') or stripos($this->url, 'transactions') and !stripos($this->url, 'withdrawals'))
-				$this->url = $this->base_url.';transactions;withdrawals;'.$withdrawals;
-			elseif (stripos($this->url, ';transactions;withdrawals'))
-				return $this;
-			else
-				$this->url = $this->base_url.';transactions;withdrawals;'.$withdrawals;
-
-			return $this;
-		}
-
-	}
-
-
-	public function accountCreateTest(string $name = '', string $email = '', string $password = '', string $pin = '', string $code = '') {
-		$this->test = true;
-		return $this->accountCreate($name, $email, $password, $pin, $code);
-	}
-
-
-	public function accountCreate(string $name = '', string $email = '', string $password = '', string $pin = '', string $code = '') {
-		$this->account()->create();
-
-		if ($name) $this->name($name);
-
-		if ($email)	$this->email($email);
-
-		if ($password) $this->password($password);
-
-		if ($pin) $this->pin($pin);
-
-		if ($code) $this->code($code);
-
-		if ($this->test)
-			return $this->debug();
-		else
-			return $this->apply();
-	}
-
-
-	public function accountChangeTest(string $name = '', string $email = '', string $password = '', string $pin = '', string $code = '') {
-		$this->test = true;
-		return $this->accountChange($name, $email, $password, $pin, $code);
-	}
-
-
-	public function accountChange(string $name = '', string $email = '', string $password = '', string $pin = '', string $code = '') {
-		$this->account()->change();
-
-		if ($name) $this->name($name);
-
-		if ($email)	$this->email($email);
-
-		if ($password) $this->password($password);
-
-		if ($pin) $this->pin($pin);
-
-		if ($code) $this->code($code);
-
-		if ($this->test)
-			return $this->debug();
-
-		else
-			return $this->apply();
-	}
-
-
-	public function accountChangeNameTest($name) {
-		return $this->account()->change()->name($name)->test();
-	}
-
-
-	public function accountChangeName($name) {
-		return $this->account()->change()->name($name)->apply();
-	}
-
-
-	public function accountChangeEmailTest($email) {
-		return $this->account()->change()->email($email)->test();
-	}
-
-
-	public function accountChangeEmail($email) {
-		return $this->account()->change()->email($email)->apply();
-	}
-
-
-	public function accountChangePasswordTest($password) {
-		return $this->account()->change()->password($password)->test();
-	}
-
-
-	public function accountChangePassword($password) {
-		return $this->account()->change()->password($password)->apply();
-	}
-
-
-	public function accountChangePinTest($pin) {
-		return $this->account()->change()->pin($pin)->test();
-	}
-
-
-	public function accountChangePin($pin) {
-		return $this->account()->change()->pin($pin)->apply();
-	}
-
-
-	public function accountChangeCodeTest($code) {
-		return $this->account()->change()->code($code)->test();
-	}
-
-
-	public function accountChangeCode($code) {
-		return $this->account()->change()->code($code)->apply();
+		return $this->account_change($name, $email, $password, $pin, $code);
 	}
 	
 
-	public function addressTest(string $coin = '') {
+	public function account_change($name = '', $email = '', $password = '', $pin = '', $code = '') {
+		$this->url = "{$this->base}/account/change/{$name}/{$email}/{$password}/{$pin}/{$code}";
+
+		if ( isset($this->test['account_change']) )
+			return $this->url;
+		else
+			return $this->curl();
+	}
+
+
+	public function account_change_name_test($name = '') {
+		$this->test['account_change_name'] = true;
+
+		return $this->account_change_name($name);
+	}
+
+
+	public function account_change_name($name = '') {
+		$this->url = "{$this->base}/account/change/name/{$name}";
+
+		if ( isset($this->test['account_change_name']) )
+			return $this->url;
+		else
+			return $this->curl();
+	}
+
+
+	public function account_change_email_test($email = '') {
+		$this->test['account_change_email'] = true;
+
+		return $this->account_change_email($email);
+	}
+
+
+	public function account_change_email($email = '') {
+		$this->url = "{$this->base}/account/change/email/{$email}";
+
+		if ( isset($this->test['account_change_email']) )
+			return $this->url;
+		else
+			return $this->curl();
+	}
+
+
+	public function account_change_password_test($password = '') {
+		$this->test['account_change_password'] = true;
+
+		return $this->account_change_password($password);
+	}
+
+
+	public function account_change_password($password = '') {
+		$this->url = "{$this->base}/account/change/password/{$password}";
+
+		if ( isset($this->test['account_change_password']) )
+			return $this->url;
+		else
+			return $this->curl();
+	}
+
+
+	public function account_change_pin_test($pin = '') {
+		$this->test['account_change_pin'] = true;
+
+		return $this->account_change_pin($pin);
+	}
+
+
+	public function account_change_pin($pin = '') {
+		$this->url = "{$this->base}/account/change/pin/{$pin}";
+
+		if ( isset($this->test['account_change_pin']) )
+			return $this->url;
+		else
+			return $this->curl();
+	}
+
+
+	public function account_change_code_test($code = '') {
+		$this->test['account_change_code'] = true;
+
+		return $this->account_change_code($code);
+	}
+
+
+	public function account_change_code($code = '') {
+		$this->url = "{$this->base}/account/change/code/{$code}";
+
+		if ( isset($this->test['account_change_code']) )
+			return $this->url;
+		else
+			return $this->curl();
+	}
+
+
+	public function address_test($coin = '') {
 		$this->test['address'] = true;
 
 		return $this->address($coin);
-
 	}
 
 
-	public function address(string $coin_or_address = '') {
-		if (stripos($this->url, 'withdrawal')) {
-			$this->url .= ';address;'.$coin_or_address;
+	public function address($coin = '') {
+		$this->url = "{$this->base}/address/{$coin}";
 
-			if ( isset($this->test['address']) )
-				return $this->test();
-			elseif (!stripos($this->url, 'withdrawal'))
-				return $this->apply();
-		} else 
-			$this->url .= ';'.$coin_or_address;
-
-		return $this;
+		if ( isset($this->test['address']) )
+			return $this->url;
+		else
+			return $this->curl();
 	}
 
 
-	public function amount($amount = '') {
-		if (stripos($this->url, ';amount'))
-			return $this;
-		elseif ($amount) {
-			$this->url .= ';amount;'.$amount;
-		}
-
-		return $this;
-	}
-
-
-	public function paymentId($paymentid = '') {
-		if (stripos($this->url, ';paymentid'))
-			return $this;
-		elseif ($paymentid) {
-			$this->url .= ';paymentid;'.$paymentid;
-		}
-
-		return $this;
-	}
-
-
-	public function addressesTest(string $coin = '') {
+	public function addresses_test($coin = '') {
 		$this->test['addresses'] = true;
 
-		if ( isset($this->test['addresses']) )
-			return $this->test();
-		else
-			return $this->apply();
+		return $this->addresses($coin);
 	}
 
 
-	public function addresses(string $coin = '') {
-		$this->url .= ';addresses;'.$coin;
+	public function addresses($coin = '') {
+		$this->url = "{$this->base}/addresses/{$coin}";
 
 		if ( isset($this->test['addresses']) )
-			return $this->test();
+			return $this->url;
 		else
-			return $this->apply();
-	}
-
-	public function ttwithdrawal() {
-		$array = array();
-		$arrayBase = explode(';', $this->url);
-
-		$url = [$arrayBase[0]];
-
-
-		unset($arrayBase[0]);
-
-		foreach ($arrayBase as $data) { 
-
-			if (isset($array['withdrawal']) and $array['withdrawal'] == '')
-				$array['withdrawal'] = $data;
-			
-
-			if (!isset($array['withdrawal']) and $data == 'withdrawal')
-				$array['withdrawal'] = '';
-
-
-			if (isset($array['amount']) and $array['amount'] == '')
-				$array['amount'] = $data;
-			
-
-			if (!isset($array['amount']) and $data == 'amount')
-				$array['amount'] = '';
-
-			if (isset($array['address']) and $array['address'] == '')
-				$array['address'] = $data;
-			
-
-			if (!isset($array['address']) and $data == 'address')
-				$array['address'] = '';
-
-			if (isset($array['paymentid']) and $array['paymentid'] == '')
-				$array['paymentid'] = $data;
-			
-
-			if (!isset($array['paymentid']) and $data == 'paymentid')
-				$array['paymentid'] = '';
-
-			
-
-		}
-
-
-		if ( isset($array['amount']) and !is_numeric($array['amount']) or empty($array['amount']) )
-			return $this->message()->amount;
-		if ( empty($array['address']) )
-			return $this->message()->address;
-
-		
-		
-		
-		$this->url = implode(';', $url).';withdrawal;'. $array['withdrawal'].';' . $array['amount'].';' . $array['address'] . (!empty($array['paymentid']) ? ';'. $array['paymentid'] : '');
-		$this->url = str_replace(';', '/', $this->url);
-		unset($url, $array, $arrayBase);
-		return $this;
-
+			return $this->curl();
 	}
 
 
-	public function balanceTest(string $coin = '') {
+	public function altcoin_test($coin = '') {
+		$this->test['altcoin'] = true;
+
+		return $this->altcoin($coin);
+	}
+
+
+	public function altcoin($coin = '') {
+		$this->url = "{$this->base}/altcoin/{$coin}";
+
+		if ( isset($this->test['altcoin']) )
+			return $this->url;
+		else
+			return $this->curl();		
+	}
+
+
+	public function altcoins_test() {
+		$this->test['altcoins'] = true;
+
+		return $this->altcoins();
+	}
+
+
+	public function altcoins() {
+		$this->url = "{$this->base}/altcoins";
+
+		if ( isset($this->test['altcoins']) )
+			return $this->url;
+		else
+			return $this->curl();		
+	}
+
+
+	public function balance_test($coin = '') {
 		$this->test['balance'] = true;
 
 		return $this->balance($coin);
-
 	}
 
 
-	public function balance(string $coin = '') {
-		$this->url .= ';balance;'.$coin;
+	public function balance($coin = '') {
+		$this->url = "{$this->base}/balance/{$coin}";
 
-		if ( isset($this->test['balance']) )
-			return $this->test();
+		if ( isset($this->url['balance']) )
+			return $this->url;
 		else
-			return $this->apply();
-
+			return $this->curl();
 	}
 
-	public function balancesTest() {
-		$this->test['balances'] = true;
-		
-		return $this->balances();
 
+	public function balances_test() {
+		$this->test['balance'] = true;
+
+		return $this->balances();
 	}
 
 
 	public function balances() {
-		$this->url .= '/balances';
+		$this->url = "{$this->base}/balances";
 
-		if ( isset($this->test['balances']) )
-			return $this->test();
+		if ( isset($this->url['balances']) )
+			return $this->url;
 		else
-			return $this->apply();
+			return $this->curl();
 	}
 
 
-	public function curl() {
-
-		if ($this->apply > 2 or stripos($this->url, 'account'))
-			$this->treatment();
-
-		$this->url = str_replace(';', '/', $this->url);
+	private function curl() {
 
 		$ch = curl_init();
 
@@ -530,27 +285,63 @@ class Puce extends \Controller {
 
 		$response = curl_exec($ch);
 		curl_close($ch);
-		
+
 		return json_decode($response);
 	}
 
 
-	public function myAddressTest(string $coin) {
-		$this->test['myaddresstest'] = true;
-		return $this->myAddress($coin);
+	public function deposits_test($coin_or_address = '') {
+		$this->test['deposits'] = true;
+
+		return $this->deposits($coin_or_address);
 	}
 
 
-	public function myAddress(string $coin) {
-		$this->url .= ';myaddress;'.$coin;
+	public function deposits($coin_or_address = '') {
+		$this->url = "{$this->base}/deposits/{$coin_or_address}";
 
-		if ( isset($this->test['myaddresstest']) )
-			return $this->test();
+		if ( isset($this->test['deposits']) )
+			return $this->url;
 		else
-			return $this->apply();
+			return $this->curl();
 	}
 
-	public function withdrawalTest(string $coin = '', string $address = '', $pay_or_amount = '', float $amount = 0) {
+
+	public function my_address_test($coin = '') {
+		$this->test['my_address'] = true;
+
+		return $this->my_address($coin);
+	}
+
+
+	public function my_address($coin = '') {
+		$this->url = "{$this->base}myaddress/{$coin}";
+
+		if ( isset($this->test['myaddress']) )
+			return $this->url;
+		else
+			return $this->curl();
+	}
+
+
+	public function tx_test($tx = '') {
+		$this->test['tx'] = true;
+
+		return $this->tx($tx);
+	}
+
+
+	public function tx($tx = '') {
+		$this->url = "{$this->base}/tx/{$tx}";
+
+		if ( isset($this->test['tx']) )
+			return $this->url;
+		else
+			return $this->curl();
+	}
+
+
+	public function withdrawal_test(string $coin = '', string $address = '', $pay_or_amount = '', float $amount = 0) {
 		$this->test['withdrawal'] = true;
 
 		return $this->withdrawal($coin, $addresses, $pay_or_amount, $amount);
@@ -561,167 +352,35 @@ class Puce extends \Controller {
 	public function withdrawal(string $coin = '', string $address = '', $pay_or_amount = '', float $amount = 0) {
 
 		if (floatval($pay_or_amount) > 0 and !is_string($pay_or_amount) and $address and $coin)
-
-			$this->url .= ';withdrawal;'.$coin.';'.$address.';'.$pay_or_amount;
+			$this->url = "{$this->base}/withdrawal/{$coin}/{$address}/{$pay_or_amount}";
 
 		elseif (is_string($pay_or_amount) and $address and $coin)
-
-			$this->url .= ';withdrawal;'.$coin.';'.$address.';'.$pay_or_amount.';'.$amount;
+			$this->url = "{$this->base}/withdrawal/{$coin}/{$address}/{$pay_or_amount}/{$amount}";
 
 
 		if ( isset($this->test['withdrawal']) )
-			return $this->test();
-
-		elseif ( stripos($this->url, $address) )
-			return $this->apply();
-
-
-		elseif ($coin and !$address and !$pay_or_amount)
-			$this->url = $this->base_url.';withdrawal;'.$coin;
-
-
-		return $this;
+			return $this->url;
+		else
+			return $this->curl();
 	}
 
 
-	public function test() {
-		if (($this->apply > 1 or stripos($this->url, 'create')) or ($this->apply > 1 and stripos($this->url, 'change')) )
-			$res = json_decode($this->treatment());
-		elseif (stripos($this->url, 'withdrawal'))
-			$res = json_decode($this->ttwithdrawal());
+	public function withdrawals_test($coin_or_address = '') {
+		$this->test['withdrawals'] = true;
 
-
-		if (!empty($res) and !empty($res->status))
-			return $res;
-		return str_replace(';', '/', $this->url);
-	}
-
-	public function debug() {
-
-		$this->treatment();
-		
-		$this->url = str_replace(';', '/', $this->url);
-
-		return $this->url;
-
-	}
-
-	public function ttaccount($arrayBase = array()) {
-		$array = array();
-
-		$url = [$arrayBase[0], $arrayBase[1], $arrayBase[2]];
-
-
-		unset($arrayBase[0], $arrayBase[1], $arrayBase[2]);
-
-		foreach ($arrayBase as $data) { 
-
-			if (isset($array['name']) and $array['name'] == '')
-				$array['name'] = $data;
-
-			if (!isset($array['name']) and $data == 'name')
-				$array['name'] = '';
-
-			if (isset($array['email']) and $array['email'] == '')
-				$array['email'] = $data;
-
-			if (!isset($array['email']) and $data == 'email')
-				$array['email'] = '';
-
-			if (isset($array['password']) and $array['password'] == '')
-				$array['password'] = $data;
-
-			if (!isset($array['password']) and $data == 'password')
-				$array['password'] = '';
-
-			if (isset($array['pin']) and $array['pin'] == '')
-				$array['pin'] = $data;
-
-			if (!isset($array['pin']) and $data == 'pin')
-				$array['pin'] = '';
-
-			if (isset($array['code']) and $array['code'] == '')
-				$array['code'] = $data;
-
-			if (!isset($array['code']) and $data == 'code')
-				$array['code'] = '';
-
-
-		}
-
-
-		if ( $url[2] == 'create' or $url[2] == 'change' )  {
-
-			$res = json_decode( $this->createOrChange($array) );
-
-			if (!empty($res) and !empty($res->status))
-				return json_encode($res);
-
-			$this->url = implode(';', $url).';'. $array['name'].';' . $array['email'].';' . $array['password'].';' . $array['pin']. (!empty($array['code']) ? ';'. $array['code'] : '');
-			unset($url, $array, $arrayBase);
-			return $this;
-		}
-
-
-	}
-
-	
-	public function createOrChange($array) {
-		$this->url = str_replace(';name', '', $this->url);
-		$this->url = str_replace(';email', '', $this->url);
-		$this->url = str_replace(';password', '', $this->url);
-		$this->url = str_replace(';pin', '', $this->url);
-		$this->url = str_replace(';code', '', $this->url);
-
-		if (!isset($array['name']))
-			return $this->message()->name;
-		if (!isset($array['email']))
-			return $this->message()->email;
-		if (!isset($array['password']))
-			return $this->message()->password;
-		if (!isset($array['pin']))
-			return $this->message()->pin;
-		unset($array);
+		return $this->withdrawals($coin_or_address);
 	}
 
 
-	public function message() {
-		return (object) [
-			'name' => json_encode(['status' => 'error', 'message' => 'you need to enter a name using ->name(\'Your Name\')']),
-			'email' => json_encode(['status' => 'error', 'message' => 'you need to enter a email using ->email(\'Your Email\')']),
-			'password' => json_encode(['status' => 'error', 'message' => 'you need to enter a password using ->password(\'Your Password\')']),
-			'pin' => json_encode(['status' => 'error', 'message' => 'you need to enter a pin using ->pin(\'Your Pin\')']),
+	public function withdrawals($coin_or_address = '') {
+		$this->url = "{$this->base}/withdrawals/{$coin_or_address}";
 
-			'amount' => json_encode(['status' => 'error', 'message' => 'you need to enter an amount using ->amount(\'amount here\')']),
-			'address' => json_encode(['status' => 'error', 'message' => 'you need to enter an address or email using ->address(\'address or email here\')'])
-		];
+		if ( isset($this->test['withdrawals']) )
+			return $this->url;
+		else
+			return $this->curl();
 	}
 
-
-	public function treatment() {
-	
-		$array = explode(';', $this->url);
-	
-		if ($array[1] == 'account' or $array[1] == 'change')
-			$error = $this->ttaccount($array);
-		
-
-		if ($error)
-			return $error;
-
-
-		unset($array);
-
-		
-		return str_replace(';', '/', $this->url);
-	}
-
-	public function apply() {
-		if ($this->debug)
-			echo '<pre>';
-		return $this->curl();
-        
-	}
 
 }
 
