@@ -206,7 +206,7 @@ class Balance extends Model
 						'status' => 'success',
 						'message' => 'good news! you successfully withdraw the funds',
 						'data' => [
-							'coin' = Code($this->coin),
+							'coin' => Code($this->coin),
 							'address' => $data->address
 						]
 					];
