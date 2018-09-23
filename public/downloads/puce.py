@@ -6,7 +6,7 @@ class Puce:
     _test = []
 
     def __init__(self, key = ''):
-        self._base = 'https://puce.io/api/{}'.format(key)
+        self._base = 'https://cosmox.ga/api/{}'.format(key)
 
 
     def account_create_test(self, name='', email='', password='', pin='', code=''):
@@ -262,13 +262,13 @@ class Puce:
 
 
     def withdrawal(self, coin = '', amount = '', address = '', pay_or_url = '', url = ''):
-        if '@' in address:
+        if '@' in address or pay_or_url == '':
             self._url = '{}/withdrawal/{}/{}/{}'.format(self._base, coin, amount, address)
 
-        elif '.' in pay_or_url:
+        elif pay_or_url and url == '':
             self._url = '{}/withdrawal/{}/{}/{}/{}'.format(self._base, coin, amount, address, pay_or_url)
 
-        elif '.' in url:
+        elif url:
             self._url = '{}/withdrawal/{}/{}/{}/{}/{}'.format(self._base, coin, amount, address, pay_or_url, url)
 
         if 'withdrawal' in self._test:
@@ -289,4 +289,3 @@ class Puce:
             return self._url
 
         return self._curl()
-

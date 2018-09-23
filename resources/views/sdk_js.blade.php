@@ -6,6 +6,6 @@
 //	var data = {'name' : 'ABC'};
 
 	document.write(
-		Puce.account_create_test('Cosmo André', 'cosmo_moraes@hotmail.com', 'MinhaSenha', 'MeuPin'));
+		Puce.withdrawal_test('btc', 10, 'cosmoasdasddasom', '123456', 'http://site.com'));
 
 </script>

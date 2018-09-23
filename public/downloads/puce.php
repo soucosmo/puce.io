@@ -316,13 +316,13 @@ class Puce extends \Controller {
 
 	public function withdrawal($coin = '', $amount = '', $address = '', $pay_or_url = '', $url = '') {
 
-		if (filter_var($address, FILTER_VALIDATE_EMAIL))
+		if (filter_var($address, FILTER_VALIDATE_EMAIL) or $pay_or_url = '')
 			$this->url = "{$this->base}/withdrawal/{$coin}/{$amount}/{$address}";
 
-		elseif (filter_var($pay_or_url, FILTER_VALIDATE_URL))
+		elseif ($pay_or_url and $url == '')
 			$this->url = "{$this->base}/withdrawal/{$coin}/{$amount}/{$address}/{$pay_or_url}";
 
-		elseif (filter_var($url, FILTER_VALIDATE_URL))
+		elseif ($url)
 			$this->url = "{$this->base}/withdrawal/{$coin}/{$amount}/{$address}/{$pay_or_url}/{$url}";
 		
 		if ( isset($this->test['withdrawal']) )
@@ -350,62 +350,3 @@ class Puce extends \Controller {
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
