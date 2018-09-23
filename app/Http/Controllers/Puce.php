@@ -24,8 +24,8 @@ class Puce extends \Controller {
 
 		if ( isset($this->test['altcoin']) )
 			return $this->url;
-		else
-			return $this->curl();
+		
+		return $this->curl();
 	}
 
 
@@ -41,8 +41,8 @@ class Puce extends \Controller {
 
 		if ( isset($this->test['altcoins']) )
 			return $this->url;
-		else
-			return $this->curl();
+		
+		return $this->curl();
 	}
 
 
@@ -58,8 +58,8 @@ class Puce extends \Controller {
 
 		if ( isset($this->test['account_create']) )
 			return $this->url;
-		else
-			return $this->curl();
+		
+		return $this->curl();
 	}
 
 
@@ -75,8 +75,8 @@ class Puce extends \Controller {
 
 		if ( isset($this->test['account_change']) )
 			return $this->url;
-		else
-			return $this->curl();
+		
+		return $this->curl();
 	}
 
 
@@ -92,8 +92,8 @@ class Puce extends \Controller {
 
 		if ( isset($this->test['account_change_name']) )
 			return $this->url;
-		else
-			return $this->curl();
+		
+		return $this->curl();
 	}
 
 
@@ -109,8 +109,8 @@ class Puce extends \Controller {
 
 		if ( isset($this->test['account_change_email']) )
 			return $this->url;
-		else
-			return $this->curl();
+		
+		return $this->curl();
 	}
 
 
@@ -126,8 +126,8 @@ class Puce extends \Controller {
 
 		if ( isset($this->test['account_change_password']) )
 			return $this->url;
-		else
-			return $this->curl();
+		
+		return $this->curl();
 	}
 
 
@@ -143,8 +143,8 @@ class Puce extends \Controller {
 
 		if ( isset($this->test['account_change_pin']) )
 			return $this->url;
-		else
-			return $this->curl();
+		
+		return $this->curl();
 	}
 
 
@@ -160,8 +160,8 @@ class Puce extends \Controller {
 
 		if ( isset($this->test['account_change_code']) )
 			return $this->url;
-		else
-			return $this->curl();
+		
+		return $this->curl();
 	}
 
 
@@ -177,8 +177,8 @@ class Puce extends \Controller {
 
 		if ( isset($this->test['address']) )
 			return $this->url;
-		else
-			return $this->curl();
+		
+		return $this->curl();
 	}
 
 
@@ -194,8 +194,8 @@ class Puce extends \Controller {
 
 		if ( isset($this->test['addresses']) )
 			return $this->url;
-		else
-			return $this->curl();
+		
+		return $this->curl();
 	}
 
 
@@ -211,8 +211,8 @@ class Puce extends \Controller {
 
 		if ( isset($this->test['altcoin']) )
 			return $this->url;
-		else
-			return $this->curl();		
+		
+		return $this->curl();		
 	}
 
 
@@ -228,8 +228,8 @@ class Puce extends \Controller {
 
 		if ( isset($this->test['altcoins']) )
 			return $this->url;
-		else
-			return $this->curl();		
+		
+		return $this->curl();		
 	}
 
 
@@ -245,8 +245,8 @@ class Puce extends \Controller {
 
 		if ( isset($this->url['balance']) )
 			return $this->url;
-		else
-			return $this->curl();
+		
+		return $this->curl();
 	}
 
 
@@ -262,8 +262,8 @@ class Puce extends \Controller {
 
 		if ( isset($this->url['balances']) )
 			return $this->url;
-		else
-			return $this->curl();
+		
+		return $this->curl();
 	}
 
 
@@ -302,8 +302,8 @@ class Puce extends \Controller {
 
 		if ( isset($this->test['deposits']) )
 			return $this->url;
-		else
-			return $this->curl();
+		
+		return $this->curl();
 	}
 
 
@@ -319,8 +319,8 @@ class Puce extends \Controller {
 
 		if ( isset($this->test['myaddress']) )
 			return $this->url;
-		else
-			return $this->curl();
+		
+		return $this->curl();
 	}
 
 
@@ -336,8 +336,8 @@ class Puce extends \Controller {
 
 		if ( isset($this->test['tx']) )
 			return $this->url;
-		else
-			return $this->curl();
+		
+		return $this->curl();
 	}
 
 
@@ -360,8 +360,8 @@ class Puce extends \Controller {
 
 		if ( isset($this->test['withdrawal']) )
 			return $this->url;
-		else
-			return $this->curl();
+		
+		return $this->curl();
 	}
 
 
@@ -377,8 +377,8 @@ class Puce extends \Controller {
 
 		if ( isset($this->test['withdrawals']) )
 			return $this->url;
-		else
-			return $this->curl();
+		
+		return $this->curl();
 	}
 
 
