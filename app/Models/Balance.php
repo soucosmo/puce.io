@@ -111,7 +111,7 @@ class Balance extends Model
 					//aqui vamos creditar o saldo para o destinatario
 					$credit = $UserTo->balance()->firstOrCreate(['coin' => $this->coin])
 						->sum($this->user_id, floatval($data->amount), 'transfer',
-							'sending money to another user');
+							'receiving money from another user');
 
 
 					//aqui vamos pegar o usuário dessa instancia
