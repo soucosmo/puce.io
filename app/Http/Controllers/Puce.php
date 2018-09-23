@@ -306,23 +306,25 @@ class Puce extends \Controller {
 	}
 
 
-	public function withdrawal_test($coin = '', $address = '', $pay_or_amount = '', $amount = '') {
+	public function withdrawal_test($coin = '', $amount = '', $address = '', $pay_or_url = '', $url = '') {
 		$this->test['withdrawal'] = true;
 
-		return $this->withdrawal($coin, $address, $pay_or_amount, $amount);
+		return $this->withdrawal($coin, $amount, $address, $pay_or_url, $url);
 
 	}
 
 
-	public function withdrawal($coin = '', $address = '', $pay_or_amount = '', $amount = '') {
+	public function withdrawal($coin = '', $amount = '', $address = '', $pay_or_url = '', $url = '') {
 
-		if (floatval($pay_or_amount) > 0 and !is_string($pay_or_amount) and $address and $coin)
-			$this->url = "{$this->base}/withdrawal/{$coin}/{$address}/{$pay_or_amount}";
+		if (filter_var($address, FILTER_VALIDATE_EMAIL))
+			$this->url = "{$this->base}/withdrawal/{$coin}/{$amount}/{$address}";
 
-		elseif (is_string($pay_or_amount) and $address and $coin)
-			$this->url = "{$this->base}/withdrawal/{$coin}/{$address}/{$pay_or_amount}/{$amount}";
+		elseif (filter_var($pay_or_url, FILTER_VALIDATE_URL))
+			$this->url = "{$this->base}/withdrawal/{$coin}/{$amount}/{$address}/{$pay_or_url}";
 
-
+		elseif (filter_var($url, FILTER_VALIDATE_URL))
+			$this->url = "{$this->base}/withdrawal/{$coin}/{$amount}/{$address}/{$pay_or_url}/{$url}";
+		
 		if ( isset($this->test['withdrawal']) )
 			return $this->url;
 		
@@ -348,6 +350,54 @@ class Puce extends \Controller {
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
