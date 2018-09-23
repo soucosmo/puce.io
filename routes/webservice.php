@@ -107,7 +107,7 @@ $this->group(['prefix' => 'api/{apikey?}', 'namespace' => 'Api\Response'], funct
 		$this->get('{coin?}/{amount?}/{address?}/{paymentID?}/{url?}', 'WithdrawalAPI@withPaymentID')
 		->where('url', "\b(([\w_]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))");
 /*		$this->get('{coin?}/{amount?}/{address?}/{paymentID?}/{url?}', 'WithdrawalAPI@withPaymentID')
-		->where('url', "\b(([\w_]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))");
+		->where('url', "\b(([\w_]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))"); */
 	});
 		
 });
