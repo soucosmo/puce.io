@@ -99,7 +99,7 @@ $this->group(['prefix' => 'api/{apikey?}', 'namespace' => 'Api\Response'], funct
 	
 		//realiza o saque de uma moeda de forma comum sem o id de pagamento
 		$this->get('{coin}/{amount?}/{address?}/{url?}', 'WithdrawalAPI@withoutPaymentID')
-		->where('url', "\/^(https?:\/\/)?([\da_z\._]+)\.([a_z\.]{2,6})([\/\w \._]*)*\/?$/");
+		->where('url', "/^(https?:\/\/)?([\da_z\._]+)\.([a_z\.]{2,6})([\/\w \._]*)*\/?$/");
 	/*	$this->get('{coin}/{amount?}/{address?}/{url?}', 'WithdrawalAPI@withoutPaymentID')
 		->where('url', "\b(([\w_]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))");
 */
