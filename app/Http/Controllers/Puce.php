@@ -306,15 +306,15 @@ class Puce extends \Controller {
 	}
 
 
-	public function withdrawal_test(string $coin = '', string $address = '', $pay_or_amount = '', float $amount = 0) {
+	public function withdrawal_test($coin = '', $address = '', $pay_or_amount = '', $amount = '') {
 		$this->test['withdrawal'] = true;
 
-		return $this->withdrawal($coin, $addresses, $pay_or_amount, $amount);
+		return $this->withdrawal($coin, $address, $pay_or_amount, $amount);
 
 	}
 
 
-	public function withdrawal(string $coin = '', string $address = '', $pay_or_amount = '', float $amount = 0) {
+	public function withdrawal($coin = '', $address = '', $pay_or_amount = '', $amount = '') {
 
 		if (floatval($pay_or_amount) > 0 and !is_string($pay_or_amount) and $address and $coin)
 			$this->url = "{$this->base}/withdrawal/{$coin}/{$address}/{$pay_or_amount}";
