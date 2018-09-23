@@ -26,7 +26,7 @@ class AddressAPI extends \Controller {
 
 				return json_encode($array);
 		} else
-			return $user;
+			return json_encode($user);
 
 	}
 
@@ -34,7 +34,7 @@ class AddressAPI extends \Controller {
 	public function from($api = null, $coin = null, $url = null) {
 		$user = BaseAPI::checkTransaction($api, $coin);
 
-		if (!empty($user) and empty(json_decode($user)->status)) {
+		if (!empty($user) and empty($user['status'])) {
 			$res = $user->Address(Code($coin), $url);
 
 			if ($res) {
@@ -54,19 +54,19 @@ class AddressAPI extends \Controller {
 				$array['data']['created'] = $res->created;
 				return json_encode($array);
 			} else
-				return AddressNotFound();
+				return json_encode(AddressNotFound());
 		} else
-			return $user;
+			return json_encode($user);
 
 	}
 
 	public function all($api = null, $coin = null) {
 		$user = BaseAPI::checkTransaction($api, $coin);
 
-		if (!empty($user) and empty(json_decode($user)->status))
+		if (!empty($user) and empty($user['status']))
 			return json_encode($user->AddressAll( Code($coin) ));
 		else
-			return $user;
+			return json_encode($user);
 
 			
 	}

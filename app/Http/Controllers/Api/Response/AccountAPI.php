@@ -29,7 +29,7 @@ class AccountAPI extends \Controller {
 			else
 				return json_encode(['status' => 'error', 'message' => 'there was an error creating your account, please try again later']);
 		} else
-			return $user;
+			return json_encode($user);
 	}
 
 
@@ -77,7 +77,7 @@ class AccountAPI extends \Controller {
 			else
 				return json_encode(['status' => 'error', 'message' => 'there was an error creating your account, please try again later']);
 		} else
-			return $user;
+			return json_encode($user);
 	}
 
 
@@ -96,7 +96,7 @@ class AccountAPI extends \Controller {
 			} else
 				return json_encode(['status' => 'error', 'message' => 'your name must be between 3 and 30 characters']);
 		} else
-			return $user;
+			return json_encode($user);
 
 	}
 
@@ -124,7 +124,7 @@ class AccountAPI extends \Controller {
 			} else
 				return json_encode(['status' => 'error', 'message' => 'the email must be valid and have between 10 and 60 characters']);
 		} else
-			return $user;
+			return json_encode($user);
 
 	}
 
@@ -144,7 +144,7 @@ class AccountAPI extends \Controller {
 			} else
 				return json_encode(['status' => 'error', 'message' => 'your password must be between 6 and 50 characters']);
 		} else
-			return $user;
+			return json_encode($user);
 
 	}
 
@@ -164,7 +164,7 @@ class AccountAPI extends \Controller {
 			} else
 				return json_encode(['status' => 'error', 'message' => 'your pin must be between 6 and 50 characters']);
 		} else
-			return $user;
+			return json_encode($user);
 
 	}
 
@@ -184,7 +184,7 @@ class AccountAPI extends \Controller {
 			} else
 				return json_encode(['status' => 'error', 'message' => 'your code must be between 6 and 20 characters']);
 		} else
-			return $user;
+			return json_encode($user);
 
 	}
 

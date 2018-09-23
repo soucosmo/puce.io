@@ -43,9 +43,9 @@ class AltcoinsAPI extends \Controller {
 				'data' => $coin
 			];
 
-			return $coin;
+			return json_encode($coin);
 		} else
-			return InvalidCoin();
+			return json_encode(InvalidCoin());
 
 	}
 }

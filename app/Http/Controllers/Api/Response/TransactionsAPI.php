@@ -31,7 +31,7 @@ class TransactionsAPI extends \Controller {
 			return json_encode($array);
 
 		} else
-			return $user;
+			return json_encode($user);
 	}
 
 

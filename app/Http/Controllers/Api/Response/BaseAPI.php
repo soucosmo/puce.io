@@ -94,17 +94,17 @@ class BaseAPI extends \Controller {
 									return $user;
 									
 								else
-									return json_encode(['status' => 'error', 'message' => 'the informed email '.$email.' is already in use']);
+									return ['status' => 'error', 'message' => 'the informed email '.$email.' is already in use'];
 							} else 
-								return json_encode(['status' => 'error', 'message' => 'the pin entered is invalid, it must be between 6 and 50 characters']);
+								return ['status' => 'error', 'message' => 'the pin entered is invalid, it must be between 6 and 50 characters'];
 
 						} else
-							return json_encode(['status' => 'error', 'message' => 'the password entered is invalid, it must be between 6 and 50 characters']);
+							return ['status' => 'error', 'message' => 'the password entered is invalid, it must be between 6 and 50 characters'];
 
 					} else
-						return json_encode(['status' => 'error', 'message' => 'the email must be between 10 and 120 characters long and must be valid']);
+						return ['status' => 'error', 'message' => 'the email must be between 10 and 120 characters long and must be valid'];
 				} else
-					return json_encode(['status' => 'error', 'message' => 'the email must be between 10 and 120 characters long and must be valid']);
+					return ['status' => 'error', 'message' => 'the email must be between 10 and 120 characters long and must be valid'];
 			
 			}
 

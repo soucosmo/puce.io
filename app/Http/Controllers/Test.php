@@ -33,12 +33,9 @@ class Test extends \Controller {
 		$Puce = new Puce('D12EDDDD7DF0192EEC538DD8140C38468A6F8D52', true);
 
 		print_r(
-			$Puce->account_change_name_test('AdasdasdasdBC')
+			$Puce->altcoin_test('btc', 'http://google.com.br')
 		);
 
-		echo "<br>";
-
-		print_r($Puce->altcoins_test());
 
 	}
 

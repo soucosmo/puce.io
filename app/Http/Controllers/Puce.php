@@ -7,42 +7,7 @@ class Puce extends \Controller {
 	public function __construct($key = '') {
 		$this->base = "https://cosmox.ga/api/{$key}";
 
-		$this->debug = $debug;
 		
-	}
-
-
-	public function altcoin_test($coin = '') {
-		$this->test['altcoin'] = true;
-
-		return $this->altcoin($coin);
-	}
-
-
-	public function altcoin($coin = '') {
-		$this->url = "{$this->base}/altcoin/{$coin}";
-
-		if ( isset($this->test['altcoin']) )
-			return $this->url;
-		
-		return $this->curl();
-	}
-
-
-	public function altcoins_test() {
-		$this->test['altcoins'] = true;
-
-		return $this->altcoins();
-	}
-
-
-	public function altcoins() {
-		$this->url = "{$this->base}/altcoins";
-
-		if ( isset($this->test['altcoins']) )
-			return $this->url;
-		
-		return $this->curl();
 	}
 
 
@@ -165,15 +130,15 @@ class Puce extends \Controller {
 	}
 
 
-	public function address_test($coin = '') {
+	public function address_test($coin = '', $url = '') {
 		$this->test['address'] = true;
 
-		return $this->address($coin);
+		return $this->address($coin, $url);
 	}
 
 
-	public function address($coin = '') {
-		$this->url = "{$this->base}/address/{$coin}";
+	public function address($coin = '', $url) {
+		$this->url = "{$this->base}/address/{$coin}/{$url}";
 
 		if ( isset($this->test['address']) )
 			return $this->url;
@@ -202,7 +167,7 @@ class Puce extends \Controller {
 	public function altcoin_test($coin = '') {
 		$this->test['altcoin'] = true;
 
-		return $this->altcoin($coin);
+		return $this->altcoin($coin, $url);
 	}
 
 

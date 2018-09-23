@@ -22,7 +22,7 @@ class BalanceAPI extends \Controller {
 				]
 			]);
 		} else
-			return $user;
+			return json_encode($user);
 
 	}
 
@@ -33,10 +33,10 @@ class BalanceAPI extends \Controller {
 			if ($user)
 				return json_encode($user->MyBalances());
 			
-			return InvalidAPI();
+			return json_encode(InvalidAPI());
 		}
 
-		return WaitingApiKey();
+		return json_encode(WaitingApiKey());
 
 	}
 
