@@ -151,7 +151,7 @@ class Balance extends Model
 					DB::rollback();
 				}
 
-				return ['status' => 'error', 'message' => 'you can not send it to yourself, please inform another email']
+				return ['status' => 'error', 'message' => 'you can not send it to yourself, please inform another email'];
 			}
 
 			return ['status' => 'error', 'message' => 'the email you entered does not exist, please provide a valid email address'];
