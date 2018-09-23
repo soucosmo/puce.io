@@ -136,7 +136,6 @@ class Balance extends Model
 					'message' => 'good news! the money was sent to '.$data->address.' successfully',
 					'data' => [
 						'address' => $data->address,
-						'payment_id' => $data->payment_id ?? null, 
 						'coin' => Code($this->coin),
 						'amount' => Sum(strval($data->amount), '0'),
 						'fee' => '0.00000000'
