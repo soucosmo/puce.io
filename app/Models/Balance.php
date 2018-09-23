@@ -197,7 +197,7 @@ class Balance extends Model
 					];
 
 					if ($data->payment_id)
-						$array['payment_id'] = $data->payment_id;
+						$array['data']['payment_id'] = $data->payment_id;
 
 					$array['data']['coin'] = Code($this->coin);
 					$array['data']['amount'] = $amount;
