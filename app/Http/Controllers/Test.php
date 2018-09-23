@@ -33,7 +33,7 @@ class Test extends \Controller {
 		$Puce = new Puce('D12EDDDD7DF0192EEC538DD8140C38468A6F8D52', true);
 
 		print_r(
-			$Puce->altcoin_test('btc', 'http://google.com.br')
+			$Puce->account_test()
 		);
 
 

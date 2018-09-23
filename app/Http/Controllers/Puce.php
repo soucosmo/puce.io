@@ -255,15 +255,15 @@ class Puce extends \Controller {
 	}
 
 
-	public function deposits_test($coin_or_address = '') {
+	public function deposits_test($coin_or_address = '', $limit = 5) {
 		$this->test['deposits'] = true;
 
-		return $this->deposits($coin_or_address);
+		return $this->deposits($coin_or_address, $limit);
 	}
 
 
-	public function deposits($coin_or_address = '') {
-		$this->url = "{$this->base}/deposits/{$coin_or_address}";
+	public function deposits($coin_or_address = '', $limit = 5) {
+		$this->url = "{$this->base}/deposits/{$coin_or_address}/{$limit}";
 
 		if ( isset($this->test['deposits']) )
 			return $this->url;
@@ -330,15 +330,15 @@ class Puce extends \Controller {
 	}
 
 
-	public function withdrawals_test($coin_or_address = '') {
+	public function withdrawals_test($coin_or_address = '', $limit = 5) {
 		$this->test['withdrawals'] = true;
 
-		return $this->withdrawals($coin_or_address);
+		return $this->withdrawals($coin_or_address, $limit);
 	}
 
 
-	public function withdrawals($coin_or_address = '') {
-		$this->url = "{$this->base}/withdrawals/{$coin_or_address}";
+	public function withdrawals($coin_or_address = '', $limit = 5) {
+		$this->url = "{$this->base}/withdrawals/{$coin_or_address}/{$limit}";
 
 		if ( isset($this->test['withdrawals']) )
 			return $this->url;
