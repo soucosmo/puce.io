@@ -17,7 +17,7 @@ class WithdrawalAPI extends \Controller {
 
 				if ( filter_var($address, FILTER_VALIDATE_EMAIL) ) {
 						
-					return json_encode($user->balance()->firstOrCreate(['coin' => Code($coin)])->transferMail($data));
+					return $user->balance()->firstOrCreate(['coin' => Code($coin)])->transferMail($data);
 					
 					
 				}
@@ -36,9 +36,7 @@ class WithdrawalAPI extends \Controller {
 		$data = (object) ['amount' => $amount, 'address' => strtolower($address), 'payment_id' => $paymentID, 'url' => $url];
 
 		if (!empty($user) and empty(json_decode($user)->status)) {
-			return json_encode(
-				$user->balance()->firstOrCreate(['coin' => Code($coin)])->withdrawal($data)
-			);
+			return 	$user->balance()->firstOrCreate(['coin' => Code($coin)])->withdrawal($data);
 
 		} else
 			return $user;
