@@ -95,7 +95,7 @@ class Balance extends Model
 			//aqui vamos inserir o recebimento para o destinatario
 			$InsertDepositsTo = $UserTo->deposit()->create([
 				'coin' => $this->coin,
-				'address' => $data->email,
+				'address' => $data->address,
 				'amount' => Sum(floatval($data->amount), '0'),
 				'fee' => '0.0000000',
 				'fee_api' => '0.00000000',
