@@ -8,7 +8,7 @@ return [
 	'name' => 'Nome',
 	'email' => 'Endereço de Email',
 	'phone' => 'Numero de Telefone',
-	'message' => 'Mensagem'
+	'message' => 'Mensagem',
 
 
 	//about
