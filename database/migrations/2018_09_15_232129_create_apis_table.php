@@ -19,7 +19,7 @@ class CreateApisTable extends Migration
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
-            $table->char('key', 40);
+            $table->char('api_key', 40);
             $table->timestamps();
         });
     }
