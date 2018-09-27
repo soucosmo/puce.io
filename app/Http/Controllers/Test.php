@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\Response\BalanceAPI;
 use Crypt;
 use Hash;
 use App\Http\Controllers\Puce;
+use Cache;
+use Auth;
 
 
 class Test extends \Controller {
@@ -38,8 +40,12 @@ class Test extends \Controller {
 			$Puce->withdrawal_test('btc', 0.01, 'cosmodasdas', 'http://google.com')
 		);
 		*/
+ 		
+ 		if (!Cache::has('user_user')) {
+ 			Cache::put('user_'.Auth::id(), Auth::id(), 1);
+ 		}
 
-		echo Hash::check('Cosmo9able', '$2y$10$5JD5oiSKwh1UiLqDVQ3sQOf2Tlj9GW8WvozlxU/8pyX0ReQ8MVQ6C');
+ 		echo 'O usuário logado é: ' . Cache::get('user_'.Auth::id());
 
 	}
 

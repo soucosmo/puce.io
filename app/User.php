@@ -14,7 +14,7 @@ use Extract;
 use Login;
 use Nonce;
 use Withdrawal;
-
+use Cache;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -29,6 +29,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'name', 'email', 'password', 'pin', 'sponsor'
     ];
 
+    private $minutes = 5;
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -37,6 +39,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $hidden = [
         'password', 'pin', 'remember_token',
     ];
+
 
     public function addresses() {
         return $this->hasMany(Addresses::class);
@@ -71,34 +74,56 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function MyBalance($coin) {
-        return $this->balance()->Select('amount', 'updated_at as updated')->firstOrCreate(['coin' => Code($coin)]);
+
+
+        if (!Cache::has('my_balance_'.$coin.$this->id)) {
+            Cache::put('my_balance_'.$coin.$this->id,
+                $this->balance()->Select('amount', 'updated_at as updated')
+                ->firstOrCreate(['coin' => Code($coin)]), $this->minutes);
+        }
+
+        return Cache::get('my_balance_'.$coin.$this->id);
+
     }
 
     public function MyBalances() {
-        $array = array();
-        $array['status'] = 'success';
-        foreach ($this->balances()->Select('amount', 'coin', 'updated_at as updated')->get() as $data) {
-            $array['data'][Code($data->coin)] = ['amount' => $data->amount, 'updated' => $data->updated];
+
+        if (!Cache::has('my_balances_'.$this->id)) {
+            $array = array();
+            $array['status'] = 'success';
+            foreach ($this->balances()->Select('amount', 'coin', 'updated_at as updated')->get() as $data) {
+                $array['data'][Code($data->coin)] = ['amount' => $data->amount, 'updated' => $data->updated];
+
+            }
+
+            Cache::put('my_balances_'.$this->id, $array, $this->minutes);
 
         }
-        return $array;
+
+        
+        return Cache::get('my_balances_'.$this->id);
     }
 
     public function MyAddress($coin) {
-        $res = $this->addresses()->Select('address', 'payment_id', 'updated_at as created')->Where('coin', $coin)->WhereNull('api')->first();
-        if (!$res) {
-            $res = Addresses::Select('id', 'user_id')->Where('coin', $coin)->WhereNull('user_id')->first();
-            if ($res) {
-                $res->user_id = $this->id;
-                $res->save();
 
-                $res = $this->addresses()->Select('address', 'payment_id', 'updated_at as created')->find($res->id);
-            } else {
-                $res = (object) ['address' => 'temporarily unavailable', 'payment_id' => null, 'created' => date('Y-m-d h:i:s')];
+        if(!Cache::has('my_address_'.$coin.$this->id)) {
+            $res = $this->addresses()->Select('address', 'payment_id', 'updated_at as created')->Where('coin', $coin)->WhereNull('api')->first();
+            if (!$res) {
+                $res = Addresses::Select('id', 'user_id')->Where('coin', $coin)->WhereNull('user_id')->first();
+                if ($res) {
+                    $res->user_id = $this->id;
+                    $res->save();
+
+                    $res = $this->addresses()->Select('address', 'payment_id', 'updated_at as created')->find($res->id);
+                } else {
+                    $res = (object) ['address' => 'temporarily unavailable', 'payment_id' => null, 'created' => date('Y-m-d h:i:s')];
+                }
             }
+
+            Cache::put('my_address_'.$coin.$this->id, $res, $this->minutes);
         }
 
-        return $res;
+        return Cache::get('my_address_'.$coin.$this->id);
     }
 
     public function Address($coin, $url = null) {
@@ -119,24 +144,30 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function AddressAll($coin) {
-        $array = ['status' => 'success'];
-        foreach ($this->addresses()->Select('address', 'payment_id', 'url','updated_at as created')->Where('coin', $coin)->WhereNotNull('api')->get() as $data) {
-            $arrayLoop['data']['address'] = $data->address;
 
-            if (!empty($data['payment_id']))
-                $arrayLoop['data']['payment_id'] = $data['payment_id'];
-            
-            $arrayLoop['data']['url'] = $data->url;
-            $arrayLoop['data']['created'] = $data->created;
+        if (!Cache::has('address_all_'.$coin.$this->id)) {
+            $array = ['status' => 'success'];
+            foreach ($this->addresses()->Select('address', 'payment_id', 'url','updated_at as created')->Where('coin', $coin)->WhereNotNull('api')->get() as $data) {
+                $arrayLoop['data']['address'] = $data->address;
 
-            $array[] = $arrayLoop;
-            unset($arrayLoop);
+                if (!empty($data['payment_id']))
+                    $arrayLoop['data']['payment_id'] = $data['payment_id'];
+                
+                $arrayLoop['data']['url'] = $data->url;
+                $arrayLoop['data']['created'] = $data->created;
 
+                $array[] = $arrayLoop;
+                unset($arrayLoop);
+
+            }
+
+            if (count($array) > 1)
+                return $array;
+            else
+                $array = ['status' => 'error', 'message' => 'you do not have any addresses to display'];
+            Cache::put('address_all_'.$coin.$this->id, $array, $this->minutes);
         }
 
-        if (count($array) > 1)
-            return $array;
-        else
-            return ['status' => 'error', 'message' => 'you do not have any addresses to display'];
+        return Cache::get('address_all_'.$coin.$this->id);
     }
 }

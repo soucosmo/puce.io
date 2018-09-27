@@ -63,7 +63,7 @@ class AddressAPI extends \Controller {
 	}
 
 	public function all($api = '', $pin_key = '', $coin = '') {
-		$user = BaseAPI::checkTransaction($api, $coin);
+		$user = BaseAPI::checkTransaction($api, $pin_key, $coin);
 
 		if (!empty($user) and empty($user['status']))
 			return Response::Json($user->AddressAll( Code($coin) ));

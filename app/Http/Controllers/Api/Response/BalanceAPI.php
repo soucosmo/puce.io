@@ -10,7 +10,7 @@ class BalanceAPI extends \Controller {
 	public function from($api = '', $pin_key = '', $coin = '') {
 		$user = BaseAPI::checkTransaction($api, $pin_key, $coin);
 
-		if (!empty($user) and empty(json_decode($user)->status)) {
+		if (!empty($user) and empty($user['status']) ) {
 			$res = $user->MyBalance($coin);
 
 			return Response::Json([
@@ -28,7 +28,7 @@ class BalanceAPI extends \Controller {
 
 	public function all($api = '', $pin_key = '') {
 		if ($api) {
-			$user = Api::User($api_key, $pin);
+			$user = Api::User($api, $pin_key);
 
 			if ($user)
 				return Response::Json($user->MyBalances());
