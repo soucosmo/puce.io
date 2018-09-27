@@ -5,8 +5,8 @@ ob_start('ob_gzhandler');
 
 use Altcoins;
 use Response;
-use Base
 use User;
+
 
 class AltcoinsAPI extends \Controller {
 
