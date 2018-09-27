@@ -26,6 +26,7 @@ class CreateDepositsTable extends Migration
             $table->string('amount', 22);
             $table->string('fee', 12)->default('0.00000000');
             $table->string('fee_api', 12)->default('0.00000000');
+            $table->addColumn('tinyInteger', 'returns', ['length' => 2])->default(0);
             $table->enum('status', ['pending', 'canceled', 'complete'])->default('pending');
 
             $table->string('module', 4);

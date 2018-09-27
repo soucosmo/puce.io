@@ -28,6 +28,7 @@ class CreateWithdrawalsTable extends Migration
             $table->string('fee', 12)->default('0.00000000');
             $table->string('fee_api', 12)->default('0.00000000');
             $table->string('url', 80)->nullable()->default(null);
+            $table->addColumn('tinyInteger', 'returns', ['length' => 2])->default(0);
             $table->enum('status', ['pending', 'canceled', 'complete'])->default('pending');
             $table->string('module', 4);
 
