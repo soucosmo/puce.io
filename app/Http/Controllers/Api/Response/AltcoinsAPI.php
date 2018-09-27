@@ -70,7 +70,8 @@ class AltcoinsAPI extends \Controller {
 					Cache::put('altcoin_'.$coin, $coinx, $this->minutes);
 				} else
 					Cache::put('altcoin_'.$coin, InvalidCoin(), $this->minutes);
-
+			}
+			
 			return Response::Json(Cache::get('altcoin_'.$coin));
 		}
 
