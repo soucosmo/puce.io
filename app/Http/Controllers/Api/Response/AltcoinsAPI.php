@@ -59,7 +59,7 @@ class AltcoinsAPI extends \Controller {
 
 				$coinx = Altcoin($coin);
 				
-				if ($coinx and !empty($coin['id'])) {
+				if ($coinx and !empty($coinx['id'])) {
 
 					unset($coinx['id'], $coinx['module'], $coinx['fees']['withdrawal_api'], $coinx['fees']['deposit_api'], $coinx['rpc']);
 					$coinx = [
