@@ -11,7 +11,7 @@ use Hash;
 
 class Api extends Model
 {
-    protected $fillable = ['user_id', 'api_key'];
+    protected $fillable = ['user_id', 'api_key', 'code'];
 
 
     public static function User($api, $pin, $fields = ['id']) {

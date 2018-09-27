@@ -10,7 +10,7 @@ use Response;
 
 
 class AccountAPI extends \Controller {
-	public function create($api = null, $pin_key, $name = null, $email = null, $password = null, $pin = null, $code = null) {
+	public function create($api = '', $pin_key = '', $name = '', $email = '', $password = '', $pin = '') {
 		$email = strtolower($email);
 
 		$user = BaseAPI::checkAccount($api, $pin_key, $name, $email, $password, $pin);
@@ -21,7 +21,6 @@ class AccountAPI extends \Controller {
 				'email' => $email,
 				'password' => Hash::make($password),
 				'pin' => Hash::make($pin),
-				'code' => $code ? Crypt::encryptString($code) : null,
 				'sponsor' => $user->id
 			]);
 
@@ -35,13 +34,13 @@ class AccountAPI extends \Controller {
 
 
 
-	public function change($api = '', $pin_key = '', $pin_key = '', $name = '', $email = '', $password = '', $pin = '', $code = '', $fields = ['id', 'pin']) {
-		
+	public function change($api = '', $pin_key = '', $name = '', $email = '', $password = '', $pin = '', $fields = ['id']) {
+
 		if ($name) 
 			$fields[] = 'name';
 
 		if ($email) 
-			$fields [] = 'email';
+			$fields[] = 'email';
 
 		if ($password)
 			$fields[] = 'password'; 
@@ -49,8 +48,6 @@ class AccountAPI extends \Controller {
 		if ($pin)
 			$fields[] = 'pin';
 
-		if ($code)
-			$fields[] = 'code';
 
 		if (in_array('name', $fields))
 			$array['name'] = mb_convert_case($name, MB_CASE_TITLE);
@@ -63,9 +60,6 @@ class AccountAPI extends \Controller {
 
 		if (in_array('pin', $fields))
 			$array['pin'] = Hash::make($pin);
-
-		if (in_array('code', $fields))
-			$array['code'] = Crypt::encryptString($code);
 
 	
 		$user = BaseAPI::checkAccount($api, $pin_key, $name, $email, $password, $pin, $fields);
@@ -169,25 +163,6 @@ class AccountAPI extends \Controller {
 
 	}
 
-
-	public function changeCode($api = '', $pin_key = '', $code = '', $fields = ['id', 'pin', 'code']) {
-
-		$user = BaseAPI::check($api, $pin_key, $fields);
-
-		if (!empty($user->id)) {
-
-			if ($code and strlen($code) >= 6 and strlen($code) <= 20) {
-				$user->code = Crypt::encryptString($code);
-				if ($user->save())
-					return Response::Json(['status' => 'success', 'message' => 'your code has been changed successfully.']);
-				else
-					return Response::Json(['status' => 'error', 'message' => 'an error occurred while trying to change your code']);
-			} else
-				return Response::Json(['status' => 'error', 'message' => 'your code must be between 6 and 20 characters']);
-		} else
-			return Response::Json($user);
-
-	}
 
 
 }

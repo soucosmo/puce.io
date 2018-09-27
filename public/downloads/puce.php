@@ -111,23 +111,6 @@ class Puce extends \Controller {
 	}
 
 
-	public function account_change_code_test($code = '') {
-		$this->test['account_change_code'] = true;
-
-		return $this->account_change_code($code);
-	}
-
-
-	public function account_change_code($code = '') {
-		$this->url = "{$this->base}/account/change/code/{$code}";
-
-		if ( isset($this->test['account_change_code']) )
-			return $this->url;
-		
-		return $this->curl();
-	}
-
-
 	public function address_test($coin = '', $url = '') {
 		$this->test['address'] = true;
 

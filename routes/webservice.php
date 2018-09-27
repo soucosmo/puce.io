@@ -3,33 +3,30 @@
 $this->get('test', 'Test@index');
 $this->get('puce', 'Puce@index');
 
-$this->group(['prefix' => 'api/{apikey?}/{pin_key}', 'namespace' => 'Api\Response'], function() {
+$this->group(['prefix' => 'api/{apikey?}/{pin_key?}', 'namespace' => 'Api\Response'], function() {
 
 
 
 
 	$this->group(['prefix' => 'account'], function() {
 		//cria uma conta
-		$this->get('create/{name}/{email?}/{password?}/{pin?}/{code?}', 'AccountAPI@create');
+		$this->get('create/{name}/{email?}/{password?}/{pin?}', 'AccountAPI@create');
 
 		$this->group(['prefix' => 'change'], function() {
 			//altera o name
-			$this->get('name/{name}', 'AccountAPI@changeName');
+			$this->get('name/{name?}', 'AccountAPI@changeName');
 
 			//altera o email
-			$this->get('email/{email}', 'AccountAPI@changeEmail');
+			$this->get('email/{email?}', 'AccountAPI@changeEmail');
 
 			//altera o password
-			$this->get('password/{password}', 'AccountAPI@changePassword');
+			$this->get('password/{password?}', 'AccountAPI@changePassword');
 
 			//altera o pin
-			$this->get('pin/{pin}', 'AccountAPI@changePin');
-
-			//altera o code
-			$this->get('code/{code}', 'AccountAPI@changeCode');
+			$this->get('pin/{pin?}', 'AccountAPI@changePin');
 
 			//altera todos os dados da conta
-			$this->get('{name}/{email?}/{password?}/{pin?}/{code?}', 'AccountAPI@change');
+			$this->get('{name?}/{email?}/{password?}/{pin?}', 'AccountAPI@change');
 		});
 	
 	});
@@ -41,7 +38,7 @@ $this->group(['prefix' => 'api/{apikey?}/{pin_key}', 'namespace' => 'Api\Respons
 		$this->get('altcoins', 'AltcoinsAPI@all');
 
 		//retorna os dados de uma determinada moeda
-		$this->get('altcoin/{coin}', 'AltcoinsAPI@from');
+		$this->get('altcoin/{coin?}', 'AltcoinsAPI@from');
 
 	
 
@@ -71,7 +68,7 @@ $this->group(['prefix' => 'api/{apikey?}/{pin_key}', 'namespace' => 'Api\Respons
 		$this->get('', 'TransactionsAPI@depositsAll');
 
 		//retorna os depositos de uma determinada carteira ou moeda com ou sem limite de registros
-		$this->get('{wallet_or_coin}/{limit?}', 'TransactionsAPI@deposits');
+		$this->get('{wallet_or_coin?}/{limit?}', 'TransactionsAPI@deposits');
 
 	});
 
@@ -88,7 +85,7 @@ $this->group(['prefix' => 'api/{apikey?}/{pin_key}', 'namespace' => 'Api\Respons
 		$this->get('', 'TransactionsAPI@withdrawalsAll');
 
 		//retorna os saque para uma carteira com ou sem limite de registros
-		$this->get('{wallet_or_coin}/{limit?}', 'TransactionsAPI@withdrawals');
+		$this->get('{wallet_or_coin?}/{limit?}', 'TransactionsAPI@withdrawals');
 
 	});
 

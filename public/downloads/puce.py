@@ -99,21 +99,6 @@ class Puce:
         return self._curl()
 
 
-    def account_change_code_test(self, code = ''):
-        self._test = {'account_change_code': True}
-
-        return self.account_change_code(code)
-
-
-    def account_change_code(self, code = ''):
-        self._url = '{}/account/change/code/{}'.format(self._base, code)
-
-        if 'account_change_code' in self._test:
-            return self._url
-
-        return self._curl()
-
-
     def address_test(self, coin = '', url = ''):
         self._test = {'address': True}
 

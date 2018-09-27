@@ -76,7 +76,7 @@ class BaseAPI extends \Controller {
 
 
 
-	public static function checkAccount($api = '', $name = '', $email = '', $password = '', $pin = '', $fields = ['id', 'pin']) {
+	public static function checkAccount($api = '', $pin_key = '',$name = '', $email = '', $password = '', $pin = '', $fields = ['id', 'pin']) {
 		if ($api) {
 			$user = Api::User($api, $pin_key, $fields);
 

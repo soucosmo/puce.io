@@ -4,6 +4,7 @@ ob_start('ob_gzhandler');
 
 
 use Altcoins;
+use Api;
 use Response;
 use User;
 
@@ -48,7 +49,7 @@ class AltcoinsAPI extends \Controller {
 			
 			if ($coin and !empty($coin['id'])) {
 
-				unset($coin['id'], $coin['module'], $coin['fees']['api_withdrawal']);
+				unset($coin['id'], $coin['module'], $coin['fees']['withdrawal_api'], $coin['fees']['deposit_api'], $coin['rpc']);
 				$coin = [
 					'status' => 'success',
 					'data' => $coin

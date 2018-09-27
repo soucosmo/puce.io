@@ -111,23 +111,6 @@ function Puce(key = '', pin = '') {
 	}
 
 
-	this.account_change_code_test = function(code = '') {
-		this._test_account_change_code = true;
-
-		return this.account_change_code(code);
-	}
-
-
-	this.account_change_code = function(code = '') {
-		this._url = this._base+'/account/change/code/'+pin
-
-		if ( this._test_account_change_code ) {
-			return this._url;
-		}
-
-		return this._curl();
-	}
-
 
 	this.address_test = function(coin = '', url = '') {
 		this._test_address = true;
