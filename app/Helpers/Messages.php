@@ -1,6 +1,6 @@
 <?php
 function InvalidAPI() {
-	return ['status' => 'error', 'message' => 'invalid api key'];
+	return ['status' => 'error', 'message' => 'the entered key or pin is invalid, please try again.'];
 }
 
 function CoinPending() {

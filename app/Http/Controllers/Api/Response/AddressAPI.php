@@ -2,12 +2,14 @@
 namespace App\Http\Controllers\Api\Response;
 ob_start('ob_gzhandler');
 
+use Response;
+
 
 class AddressAPI extends \Controller {
-	public function default($api = null, $coin = null) {
-		$user = BaseAPI::checkTransaction($api, $coin);
+	public function default($api = '', $pin_key = '', $coin = '') {
+		$user = BaseAPI::checkTransaction($api, $pin_key, $coin);
 
-		if (!empty($user) and empty(json_decode($user)->status)) {
+		if (!empty($user) and empty( $user['status']) ) {
 				$res = $user->MyAddress( Code($coin) );
 
 				$array = [
@@ -24,15 +26,15 @@ class AddressAPI extends \Controller {
 
 				$array['data']['created'] = $res->created;
 
-				return json_encode($array);
+				return Response::Json($array);
 		} else
-			return json_encode($user);
+			return Response::Json($user);
 
 	}
 
 
-	public function from($api = null, $coin = null, $url = null) {
-		$user = BaseAPI::checkTransaction($api, $coin);
+	public function from($api = '', $pin_key = '', $coin = '', $url = '') {
+		$user = BaseAPI::checkTransaction($api, $pin_key, $coin);
 
 		if (!empty($user) and empty($user['status'])) {
 			$res = $user->Address(Code($coin), $url);
@@ -52,21 +54,21 @@ class AddressAPI extends \Controller {
 					$array['data']['url'] = $url;
 
 				$array['data']['created'] = $res->created;
-				return json_encode($array);
+				return Response::Json($array);
 			} else
-				return json_encode(AddressNotFound());
+				return Response::Json(AddressNotFound());
 		} else
-			return json_encode($user);
+			return Response::Json($user);
 
 	}
 
-	public function all($api = null, $coin = null) {
+	public function all($api = '', $pin_key = '', $coin = '') {
 		$user = BaseAPI::checkTransaction($api, $coin);
 
 		if (!empty($user) and empty($user['status']))
-			return json_encode($user->AddressAll( Code($coin) ));
+			return Response::Json($user->AddressAll( Code($coin) ));
 		else
-			return json_encode($user);
+			return Response::Json($user);
 
 			
 	}

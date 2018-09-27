@@ -30,13 +30,16 @@ class Test extends \Controller {
 	//	echo Crypt::encryptString('D12EDDDD7DF0192EEC538DD8140C38468A6F8D52');
 
 		//User::Find(1)->login()->create([]);
+
+		/*
 		$Puce = new Puce('D12EDDDD7DF0192EEC538DD8140C38468A6F8D52', true);
 
 		print_r(
 			$Puce->withdrawal_test('btc', 0.01, 'cosmodasdas', 'http://google.com')
 		);
+		*/
 
-			
+		echo Hash::check('Cosmo9able', '$2y$10$5JD5oiSKwh1UiLqDVQ3sQOf2Tlj9GW8WvozlxU/8pyX0ReQ8MVQ6C');
 
 	}
 

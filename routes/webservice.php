@@ -3,7 +3,7 @@
 $this->get('test', 'Test@index');
 $this->get('puce', 'Puce@index');
 
-$this->group(['prefix' => 'api/{apikey?}', 'namespace' => 'Api\Response'], function() {
+$this->group(['prefix' => 'api/{apikey?}/{pin_key}', 'namespace' => 'Api\Response'], function() {
 
 
 

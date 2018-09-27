@@ -2,22 +2,32 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Model;
-use Crypt;
 use User;
+use DB;
+use Hash;
+
 
 class Api extends Model
 {
-    protected $fillable = ['user_id', 'key'];
+    protected $fillable = ['user_id', 'api_key'];
 
 
-    public static function User($api, $fields = ['id']) {
-		foreach (Api::Select('user_id', 'key')->get() as $data) {
-			if ($api === Crypt::decryptString($data['key']))
+    public static function User($api, $pin, $fields = ['id']) {
 
-				return User::Select($fields)->Find($data['user_id']);	
-			
-		}
+    	$fields[] = 'pin';
+
+    	$res = Api::Select('user_id')->Where('api_key', sha1($api))->first();
+
+    	if ($res) {
+    		$user = User::Select($fields)->Find($res->user_id);
+
+
+    		if (Hash::check($pin, $user->pin))
+    			return $user;
+    	}
+
 
 	}
 

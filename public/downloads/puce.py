@@ -5,8 +5,8 @@ class Puce:
     _url = ''
     _test = []
 
-    def __init__(self, key = ''):
-        self._base = 'https://cosmox.ga/api/{}'.format(key)
+    def __init__(self, key = '', pin = ''):
+        self._base = 'https://cosmox.ga/api/{}/{}'.format(key, pin)
 
 
     def account_create_test(self, name='', email='', password='', pin='', code=''):

@@ -3,8 +3,8 @@
 
 class Puce extends \Controller {
 	private $base, $url, $test;
-	public function __construct($key = '') {
-		$this->base = "https://puce.io/api/{$key}";
+	public function __construct($key = '', $pin = '') {
+		$this->base = "https://puce.io/api/{$key}/{$pin}";
 
 	}
 

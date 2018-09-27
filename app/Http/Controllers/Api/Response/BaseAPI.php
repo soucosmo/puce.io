@@ -8,9 +8,9 @@ use User;
 
 class BaseAPI extends \Controller {
 
-	public static function check($api = null, $fields = ['id']) {
+	public static function check($api = '', $pin_key = '', $fields = ['id', 'pin']) {
 		if ($api) {
-			$user = Api::User($api, $fields);
+			$user = Api::User($api, $pin_key, $fields);
 
 			if ($user)	
 				return $user;					
@@ -23,9 +23,9 @@ class BaseAPI extends \Controller {
 
 
 
-	public static function checkTransaction($api = null, $coin = null) {
+	public static function checkTransaction($api = '', $pin_key = '', $coin = '') {
 		if ($api) {
-			$user = Api::User($api);
+			$user = Api::User($api, $pin_key);
 
 			if ($user) {
 				if ($coin){
@@ -46,9 +46,9 @@ class BaseAPI extends \Controller {
 
 
 
-	public static function checkWithdrawal($api = null, $coin = null, $amount = null, $address) {
+	public static function checkWithdrawal($api = '', $pin_key = '', $coin = '', $amount = '', $address = '') {
 		if ($api) {
-			$user = Api::User($api);
+			$user = Api::User($api, $pin_key);
 
 			if ($user) {
 				if ($coin){
@@ -76,9 +76,9 @@ class BaseAPI extends \Controller {
 
 
 
-	public static function checkAccount($api, $name, $email, $password, $pin, $fields = ['id']) {
+	public static function checkAccount($api = '', $name = '', $email = '', $password = '', $pin = '', $fields = ['id', 'pin']) {
 		if ($api) {
-			$user = Api::User($api, $fields);
+			$user = Api::User($api, $pin_key, $fields);
 
 			if ($user) {
 

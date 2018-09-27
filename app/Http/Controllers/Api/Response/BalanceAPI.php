@@ -4,16 +4,16 @@ ob_start('ob_gzhandler');
 
 
 use Api;
-
+use Response;
 
 class BalanceAPI extends \Controller {
-	public function from($api = null, $coin = null) {
-		$user = BaseAPI::checkTransaction($api, $coin);
+	public function from($api = '', $pin_key = '', $coin = '') {
+		$user = BaseAPI::checkTransaction($api, $pin_key, $coin);
 
 		if (!empty($user) and empty(json_decode($user)->status)) {
 			$res = $user->MyBalance($coin);
 
-			return json_encode([
+			return Response::Json([
 				'status' => 'success',
 				'data' => [
 					'coin' => $coin,
@@ -22,21 +22,21 @@ class BalanceAPI extends \Controller {
 				]
 			]);
 		} else
-			return json_encode($user);
+			return Response::Json($user);
 
 	}
 
-	public function all($api = null) {
+	public function all($api = '', $pin_key = '') {
 		if ($api) {
-			$user = Api::User($api);
+			$user = Api::User($api_key, $pin);
 
 			if ($user)
-				return json_encode($user->MyBalances());
+				return Response::Json($user->MyBalances());
 			
-			return json_encode(InvalidAPI());
+			return Response::Json(InvalidAPI());
 		}
 
-		return json_encode(WaitingApiKey());
+		return Response::Json(WaitingApiKey());
 
 	}
 

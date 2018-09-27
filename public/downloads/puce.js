@@ -1,6 +1,6 @@
-function Puce(key = '') {
+function Puce(key = '', pin = '') {
 	var _base, _url;
-	this._base = 'https://puce.io/api/'+key;
+	this._base = 'https://puce.io/api/'+key+'/'+pin;
 
 
 	this.account_create_test = function(name = '', email = '', password = '', pin = '', code = '') {

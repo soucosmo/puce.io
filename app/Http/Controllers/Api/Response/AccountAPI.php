@@ -6,13 +6,14 @@ ob_start('ob_gzhandler');
 use User;
 use Hash;
 use Crypt;
+use Response;
 
 
 class AccountAPI extends \Controller {
-	public function create($api = null, $name = null, $email = null, $password = null, $pin = null, $code = null) {
+	public function create($api = null, $pin_key, $name = null, $email = null, $password = null, $pin = null, $code = null) {
 		$email = strtolower($email);
 
-		$user = BaseAPI::checkAccount($api, $name, $email, $password, $pin);
+		$user = BaseAPI::checkAccount($api, $pin_key, $name, $email, $password, $pin);
 		
 		if (!empty($user->id)) {
 			$res = User::create([
@@ -25,16 +26,16 @@ class AccountAPI extends \Controller {
 			]);
 
 			if ($res)
-				return json_encode(['status' => 'success', 'message' => 'account '.$email.' created successfully!']);
+				return Response::Json(['status' => 'success', 'message' => 'account '.$email.' created successfully!']);
 			else
-				return json_encode(['status' => 'error', 'message' => 'there was an error creating your account, please try again later']);
+				return Response::Json(['status' => 'error', 'message' => 'there was an error creating your account, please try again later']);
 		} else
-			return json_encode($user);
+			return Response::Json($user);
 	}
 
 
 
-	public function change($api = null, $name = null, $email = null, $password = null, $pin = null, $code = null, $fields = ['id']) {
+	public function change($api = '', $pin_key = '', $pin_key = '', $name = '', $email = '', $password = '', $pin = '', $code = '', $fields = ['id', 'pin']) {
 		
 		if ($name) 
 			$fields[] = 'name';
@@ -67,44 +68,44 @@ class AccountAPI extends \Controller {
 			$array['code'] = Crypt::encryptString($code);
 
 	
-		$user = BaseAPI::checkAccount($api, $name, $email, $password, $pin, $fields);
+		$user = BaseAPI::checkAccount($api, $pin_key, $name, $email, $password, $pin, $fields);
 
 		if (!empty($user->id)) {
 			$res = $user->update($array);
 
 			if ($res)
-				return json_encode(['status' => 'success', 'message' => 'account '.$user->email.' was updated successfully!']);
+				return Response::Json(['status' => 'success', 'message' => 'account '.$user->email.' was updated successfully!']);
 			else
-				return json_encode(['status' => 'error', 'message' => 'there was an error creating your account, please try again later']);
+				return Response::Json(['status' => 'error', 'message' => 'there was an error creating your account, please try again later']);
 		} else
-			return json_encode($user);
+			return Response::Json($user);
 	}
 
 
-	public function changeName($api = null, $name, $fields = ['id', 'name']) {
+	public function changeName($api = '', $pin_key = '', $name = '', $fields = ['id', 'name', 'pin']) {
 
-		$user = BaseAPI::check($api, $fields);
+		$user = BaseAPI::check($api, $pin_key, $fields);
 
 		if (!empty($user->id)) {
 
 			if ($name and strlen($name) >= 3 and strlen($name) <= 30) {
 				$user->name = mb_convert_case($name, MB_CASE_TITLE);
 				if ($user->save())
-					return json_encode(['status' => 'success', 'message' => 'your name has been changed successfully.']);
+					return Response::Json(['status' => 'success', 'message' => 'your name has been changed successfully.']);
 				else
-					return json_encode(['status' => 'error', 'message' => 'an error occurred while trying to change your name']);
+					return Response::Json(['status' => 'error', 'message' => 'an error occurred while trying to change your name']);
 			} else
-				return json_encode(['status' => 'error', 'message' => 'your name must be between 3 and 30 characters']);
+				return Response::Json(['status' => 'error', 'message' => 'your name must be between 3 and 30 characters']);
 		} else
-			return json_encode($user);
+			return Response::Json($user);
 
 	}
 
 
-	public function changeEmail($api = null, $email, $fields = ['id', 'password']) {
+	public function changeEmail($api = '', $email = '', $fields = ['id', 'password', 'pin']) {
 		$email = strtolower($email);
 
-		$user = BaseAPI::check($api, $fields);
+		$user = BaseAPI::check($api, $pin_key, $fields);
 
 		if (!empty($user->id)) {
 
@@ -115,76 +116,76 @@ class AccountAPI extends \Controller {
 					$user->email = $email;
 
 					if ($user->save())
-						return json_encode(['status' => 'success', 'message' => 'your email has been changed successfully']);
+						return Response::Json(['status' => 'success', 'message' => 'your email has been changed successfully']);
 					else
-						return json_encode(['status' => 'error', 'message' => 'an error occurred while trying to change your email']);
+						return Response::Json(['status' => 'error', 'message' => 'an error occurred while trying to change your email']);
 
 				} else
-					return json_encode(['status' => 'error', 'message' => 'the informed email is already in use']);
+					return Response::Json(['status' => 'error', 'message' => 'the informed email is already in use']);
 			} else
-				return json_encode(['status' => 'error', 'message' => 'the email must be valid and have between 10 and 60 characters']);
+				return Response::Json(['status' => 'error', 'message' => 'the email must be valid and have between 10 and 60 characters']);
 		} else
-			return json_encode($user);
+			return Response::Json($user);
 
 	}
 
 
-	public function changePassword($api = null, $password, $fields = ['id', 'password']) {
+	public function changePassword($api = '', $pin_key = '', $password = '', $fields = ['id', 'password', 'pin']) {
 
-		$user = BaseAPI::check($api, $fields);
+		$user = BaseAPI::check($api, $pin_key, $fields);
 
 		if (!empty($user->id)) {
 
 			if ($password and strlen($password) >= 6 and strlen($password) <= 50) {
 				$user->password = Hash::make($password);
 				if ($user->save())
-					return json_encode(['status' => 'success', 'message' => 'your password has been changed successfully.']);
+					return Response::Json(['status' => 'success', 'message' => 'your password has been changed successfully.']);
 				else
-					return json_encode(['status' => 'error', 'message' => 'an error occurred while trying to change your password']);
+					return Response::Json(['status' => 'error', 'message' => 'an error occurred while trying to change your password']);
 			} else
-				return json_encode(['status' => 'error', 'message' => 'your password must be between 6 and 50 characters']);
+				return Response::Json(['status' => 'error', 'message' => 'your password must be between 6 and 50 characters']);
 		} else
-			return json_encode($user);
+			return Response::Json($user);
 
 	}
 
 
-	public function changePin($api = null, $pin, $fields = ['id', 'pin']) {
+	public function changePin($api = '', $pin_key = '', $pin = '', $fields = ['id', 'pin']) {
 
-		$user = BaseAPI::check($api, $fields);
+		$user = BaseAPI::check($api, $pin_key, $fields);
 
 		if (!empty($user->id)) {
 
 			if ($pin and strlen($pin) >= 6 and strlen($pin) <= 50) {
 				$user->pin = Hash::make($pin);
 				if ($user->save())
-					return json_encode(['status' => 'success', 'message' => 'your pin has been changed successfully.']);
+					return Response::Json(['status' => 'success', 'message' => 'your pin has been changed successfully.']);
 				else
-					return json_encode(['status' => 'error', 'message' => 'an error occurred while trying to change your pin']);
+					return Response::Json(['status' => 'error', 'message' => 'an error occurred while trying to change your pin']);
 			} else
-				return json_encode(['status' => 'error', 'message' => 'your pin must be between 6 and 50 characters']);
+				return Response::Json(['status' => 'error', 'message' => 'your pin must be between 6 and 50 characters']);
 		} else
-			return json_encode($user);
+			return Response::Json($user);
 
 	}
 
 
-	public function changeCode($api = null, $code, $fields = ['id', 'code']) {
+	public function changeCode($api = '', $pin_key = '', $code = '', $fields = ['id', 'pin', 'code']) {
 
-		$user = BaseAPI::check($api, $fields);
+		$user = BaseAPI::check($api, $pin_key, $fields);
 
 		if (!empty($user->id)) {
 
 			if ($code and strlen($code) >= 6 and strlen($code) <= 20) {
 				$user->code = Crypt::encryptString($code);
 				if ($user->save())
-					return json_encode(['status' => 'success', 'message' => 'your code has been changed successfully.']);
+					return Response::Json(['status' => 'success', 'message' => 'your code has been changed successfully.']);
 				else
-					return json_encode(['status' => 'error', 'message' => 'an error occurred while trying to change your code']);
+					return Response::Json(['status' => 'error', 'message' => 'an error occurred while trying to change your code']);
 			} else
-				return json_encode(['status' => 'error', 'message' => 'your code must be between 6 and 20 characters']);
+				return Response::Json(['status' => 'error', 'message' => 'your code must be between 6 and 20 characters']);
 		} else
-			return json_encode($user);
+			return Response::Json($user);
 
 	}
 
