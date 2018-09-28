@@ -2,7 +2,7 @@
 
 return [
 	'background_title' => 'Tecnologia e Segurança',
-	'background_description' => 'Tenha todo o poder de blockchain na sua aplicação com apenas algunas cliques',
+	'background_description' => 'Tenha todo o poder de blockchain na sua aplicação com apenas alguns cliques',
 	'about_us' => 'UM POUCO SOBRE NÓS',
 	'about' => 'Sobre',
 	'contact' => 'Contate-nos',
@@ -18,7 +18,7 @@ return [
 	//about
 	'about_title' => 'Sobre',
 	'about_left' => 'Nosso foco é fornecer um ambiênte seguro e de fácil uso para você fazer e receber seus pagamentos, de forma rápida, simples e o melhor de tudo, muito fácil, tudo sem burocracia',
-	'about_right' => 'Nosso diferencial é fornecer uma grande variedade de moedas, uma api de uso simples, integração com diversas linguagens de programações, você pode usar em sites, jogos, aplicativos e etc.',
+	'about_right' => 'Nosso diferencial é fornecer uma grande variedade de moedas, uma api de uso simples, integração com diversas linguagens de programação, você pode usar em sites, jogos, aplicativos e etc.',
 
 
 	//apresentação da api
