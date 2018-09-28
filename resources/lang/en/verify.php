@@ -7,4 +7,5 @@ return [
 	'string3' => 'Email Verification',
 	'string4' => 'If you did not receive the email',
 	'string5' => 'click here to request another',
+	'string6' => 'A fresh verification link has been sent to your email address.',
 ];

@@ -16,12 +16,12 @@
             <hr class="star-dark mb-5">
             <div class="row">
                 <div class="col-lg-8 mx-auto">
-                    <h5 class="text-center"><strong>If you did not receive the email&nbsp;</strong>
-                        <a href="{{ route('verification.resend') }}"><strong>click here to request another</strong></a>
+                    <h5 class="text-center"><strong>{{ __('verify.string4') }}&nbsp;</strong>
+                        <a href="{{ route('verification.resend') }}"><strong>{{ __('verify.string5') }}</strong></a>
                     </h5>
                     @if (session('resent'))
                         <div class="alert alert-success" role="alert">
-                            {{ __('A fresh verification link has been sent to your email address.') }}
+                            {{ __('verify.string6') }}
                         </div>
                     @endif
                 </div>
