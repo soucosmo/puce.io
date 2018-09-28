@@ -17,7 +17,31 @@ class SettingsController extends Controller
 	private $minutes = 120;
 
     public function index() {
-    	return view('settings.index');
+
+        if ( !Cache::has('altcoins') ) {
+            $coins = [];
+            foreach (Altcoins() as $data) {
+
+                $coins[$data['coin']] = [
+                    'coin' => $data['coin'],
+                    'name' => $data['name'],
+                    'site' => $data['site'],
+                    'fees' => [
+                        'deposit' => floatval($data['fees']['deposit']),
+                        'withdrawal' => floatval($data['fees']['withdrawal']),
+                    ]
+
+                ]; 
+            }
+
+            Cache::put('altcoins', $coins, $this->minutes);
+
+        }
+
+    	return view('settings.index', [
+            'title' => __('settings.title'),
+            'altcoins' => Cache::get('altcoins')
+        ]);
     }
 
 

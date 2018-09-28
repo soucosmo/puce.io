@@ -22,6 +22,8 @@ class CreateUsersTable extends Migration
                   
             $table->unsignedInteger('sponsor')->nullable();
             $table->foreign('sponsor')->references('id')->on('users');
+
+            $table->string('secret')->nullable();
             
             $table->rememberToken();
             $table->timestamps();
