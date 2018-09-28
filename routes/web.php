@@ -25,6 +25,8 @@ $this->get('verificado', function() {
 $this->get('test', 'Test@index');
 $this->get('puce', 'Puce@index');
 
+include_once 'custom/dashboard.php';
+
 include_once 'custom/documentation.php';
 
 include_once 'custom/guest.php';
