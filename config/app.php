@@ -210,6 +210,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Controller' => App\Http\Controllers\Controller::class,
+        'GoogleAuthenticator' => App\Http\Controllers\Auth\GoogleAuthenticator::class,
 
 
         //models

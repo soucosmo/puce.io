@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-include_once 'webservice.php';
+
 
 $this->get('/', 'HomeController@index')->name('home');
 
@@ -21,26 +21,14 @@ $this->get('verificado', function() {
 	return 'Olá, sua conta foi verificada com sucesso!';
 });
 
-Route::get('/home', 'HomeController@index')->name('home');
 
+$this->get('test', 'Test@index');
+$this->get('puce', 'Puce@index');
 
-$this->get('key', function() {
-	\Auth::User()->api()->firstOrCreate(['key' => 'eyJpdiI6InVVUXV0alwvU2dpcVhXcFwvdkFnSVAwdz09IiwidmFsdWUiOiJUaGVwME0rdG40QlZxOUgydnd6VEVJd0x0UUp3ZHJwTUlTTlJjMjNaYkhNWnl0UU1PNGRLOTdHUHNwS0I5T2dcLyIsIm1hYyI6IjU5YzI0N2YwZTYyNjQ2NjliYTY4Nzg2ZDVlMTJhNzVkNjU3OTA2OTM1ODljMTQ4NjUxYmIxOTc2Yzg5YzgzZWQifQ==']);
+include_once 'custom/documentation.php';
 
-})->middleware('auth');
+include_once 'custom/guest.php';
 
+include_once 'custom/settings.php';
 
-$this->group(['prefix' => 'download'], function() {
-	$this->get('js', function() {
-		return Response::download('downloads/puce.js');
-	});
-
-	$this->get('php', function() {
-		return Response::download('downloads/puce.php');
-	});
-
-	$this->get('python', function() {
-		return Response::download('downloads/puce.py');
-	});
-
-});
+include_once 'custom/webservice.php';

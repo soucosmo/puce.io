@@ -1,6 +1,9 @@
 <?php
 
 return [
+	'background_title' => 'Tecnologia e Segurança',
+	'background_description' => 'Tenha todo o poder de blockchain na sua aplicação com apenas algunas cliques',
+	'about_us' => 'UM POUCO SOBRE NÓS',
 	'about' => 'Sobre',
 	'contact' => 'Contate-nos',
 
@@ -9,6 +12,7 @@ return [
 	'email' => 'Endereço de Email',
 	'phone' => 'Numero de Telefone',
 	'message' => 'Mensagem',
+	'send' => 'Enviar',
 
 
 	//about
@@ -19,6 +23,9 @@ return [
 
 	//apresentação da api
 	'api_title' => 'ALGUMAS LINHAS DE CÓDIGO',
+	'api_key' => '{sua chave}/{seu pin}',
+	'api_guide' => '#criando endereço BTC',
+	'api_diversity' => 'Recursos Diversos',
 	'account_creation' => 'Criação De Conta',
 	'account_change' => 'Alteração De Conta',
 	'balance_transfers' => 'Transferências De Saldo',

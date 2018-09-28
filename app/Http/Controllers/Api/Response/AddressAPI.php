@@ -12,6 +12,7 @@ class AddressAPI extends \Controller {
 		if (!empty($user) and empty( $user['status']) ) {
 				$res = $user->MyAddress( Code($coin) );
 
+
 				$array = [
 					'status' => 'success',
 					'data' => [

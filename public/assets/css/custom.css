@@ -1,0 +1,47 @@
+.input-address {
+  background-color: transparent;
+  border: 0px;
+  font-size: 18px;
+  outline: none;
+  cursor: pointer;
+}
+
+.input:focus {
+  border: 0px;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.title-address {
+  position: absolute;
+  top: -10px;
+  background-color: rgb(248, 249, 250);
+  width: 85px;
+}
+
+.td-addresses {
+  font-size: 14px;
+}
+
+.w-40 {
+  width: 40%;
+}
+
+.w-35 {
+  width: 35%;
+}
+
+.w-30 {
+  width: 30%;
+}
+
+.w-15 {
+  width: 15%;
+}
+
+.w-10 {
+  width: 10%;
+}
+

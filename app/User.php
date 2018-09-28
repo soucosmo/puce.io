@@ -29,7 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name', 'email', 'password', 'pin', 'sponsor'
     ];
 
-    private $minutes = 5;
+    private $minutes = 120;
 
     /**
      * The attributes that should be hidden for arrays.
@@ -71,6 +71,16 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function balances() {
         return $this->hasMany(Balance::class);
+    }
+
+    public function MyApi() {
+        if (!Cache::has('api_key_'.Auth::id())) {
+            $res = $this->apis()->first();
+            if ($res)
+                Cache::put('api_key_'.Auth::id(), ['api_key' => $res->api_key, 'code' => Crypt::decryptString($res->code)], $this->minutes);
+        }
+
+        return Cache::get('api_key_'.Auth::id());
     }
 
     public function MyBalance($coin) {
