@@ -29,7 +29,7 @@ return [
 	'account_creation' => 'Criação De Conta',
 	'account_change' => 'Alteração De Conta',
 	'balance_transfers' => 'Transferências De Saldo',
-	'creating_addresses' => 'Creating Addresses',
+	'creating_addresses' => 'Criação De Endereços',
 	'button' => 'Ver Documentação',
 	'quick_notifications' => 'Notificações Rápidas',
 	'transaction_query' => 'Consulta De Transações',
