@@ -247,8 +247,6 @@
                 <div class="col-md-4 mb-5 mb-lg-0">
                     <h4 class="text-uppercase mb-4">{{ __('footer.title_services') }}</h4>
                     <ul class="list-unstyled">
-                        <li></li>
-                        <li></li>
                         <li><a href="{{ Route('affiliate.program') }}" class="text-light">{{ __('footer.affiliate_program') }}</a></li>
                         <li><a href="{{ Route('prices_and_rates') }}" class="text-light">{{ __('footer.prices_and_rates') }}</a></li>
                         <li><a href="{{ Route('documentation') }}" class="text-light">{{ __('menu.documentation') }}</a></li>
@@ -276,9 +274,9 @@
                     <div class="container text-center">
                         <div class="row">
                             <div class="col-lg-8 mx-auto">
-                                <h2 class="text-uppercase text-secondary mb-0">envios internos</h2>
-                                <hr class="star-dark mb-5"><img class="img-fluid mb-5" src="assets/img/transfer.svg">
-                                <p class="mb-0">Envie e receba pagamentos para outros usuários Puce.io sem taxas, as transferências são instantâneas e totalmente transparentes, você pode enviar e receber qualquer valor, não existe um limite mínimo.</p>
+                                <h2 class="text-uppercase text-secondary mb-0">{{ __('home.modal_1_title') }}</h2>
+                                <hr class="star-dark mb-5"><img class="img-fluid mb-5" src="{{ asset('assets/img/transfer.svg') }}">
+                                <p class="mb-0">{{ __('home.modal_1_desc') }}</p>
                             </div>
                         </div>
                     </div>
@@ -295,9 +293,9 @@
                     <div class="container text-center">
                         <div class="row">
                             <div class="col-lg-8 mx-auto">
-                                <h2 class="text-uppercase text-secondary mb-0">baixe nosso aplicativo</h2>
-                                <hr class="star-dark mb-5"><img class="img-fluid mb-5" src="assets/img/mobile.svg">
-                                <p class="mb-0">Todos os nossos serviços também estão disponíveis no nosso aplicativo para Android e iOS, o seu dinheiro sempre vai estar na palma da mão, e o melhor, com atualizações frequentes.</p>
+                                <h2 class="text-uppercase text-secondary mb-0">{{ __('home.modal_2_title') }}</h2>
+                                <hr class="star-dark mb-5"><img class="img-fluid mb-5" src="{{ asset('assets/img/mobile.svg') }}">
+                                <p class="mb-0">{{ __('home.modal_2_desc') }}</p>
                             </div>
                         </div>
                     </div>
@@ -314,9 +312,9 @@
                     <div class="container text-center">
                         <div class="row">
                             <div class="col-lg-8 mx-auto">
-                                <h2 class="text-uppercase text-secondary mb-0">infinidade de moedas</h2>
-                                <hr class="star-dark mb-5"><img class="img-fluid mb-5" src="assets/img/altcoins.svg">
-                                <p class="mb-0">Nosso foco é trazer diariamente novas moedas, para uso em geral, seja você um usuário de carteira ou um desenvolvedor, faremos o possível para suprir suas nocessidades em ambos os perfis.</p>
+                                <h2 class="text-uppercase text-secondary mb-0">{{ __('home.modal_3_title') }}</h2>
+                                <hr class="star-dark mb-5"><img class="img-fluid mb-5" src="{{ asset('assets/img/altcoins.svg') }}">
+                                <p class="mb-0">{{ __('home.modal_3_desc') }}</p>
                             </div>
                         </div>
                     </div>
@@ -333,9 +331,9 @@
                     <div class="container text-center">
                         <div class="row">
                             <div class="col-lg-8 mx-auto">
-                                <h2 class="text-uppercase text-secondary mb-0">Aplicações em jogos</h2>
-                                <hr class="star-dark mb-5"><img class="img-fluid mb-5" src="assets/img/portfolio/game.png">
-                                <p class="mb-0">Receba pagamentos e depositos nos seus jogos ou aplicativos, crei e altere contas para seus usuários, gere endereços de depositos, processe pedidos de saques, consulte saldos, e muito mais.</p>
+                                <h2 class="text-uppercase text-secondary mb-0">{{ __('home.modal_4_title') }}</h2>
+                                <hr class="star-dark mb-5"><img class="img-fluid mb-5" src="{{ asset('assets/img/portfolio/game.png') }}">
+                                <p class="mb-0">{{ __('home.modal_4_desc') }}</p>
                             </div>
                         </div>
                     </div>
@@ -352,10 +350,9 @@
                     <div class="container text-center">
                         <div class="row">
                             <div class="col-lg-8 mx-auto">
-                                <h2 class="text-uppercase text-secondary mb-0">Cofre frio</h2>
-                                <hr class="star-dark mb-5"><img class="img-fluid mb-5" src="assets/img/portfolio/safe.png">
-                                <p class="mb-0">A maior parte de nossas moedas ficam armazenadas em um local protegido e sem conexão com a internet para garantir a segurança, periodicamente trocamos nossa criptografia para tornar o sistema inviolável, evitando qualquer
-                                    atividade não autorizada.</p>
+                                <h2 class="text-uppercase text-secondary mb-0">{{ __('home.modal_5_title') }}</h2>
+                                <hr class="star-dark mb-5"><img class="img-fluid mb-5" src="{{ asset('assets/img/portfolio/safe.png') }}">
+                                <p class="mb-0">{{ __('home.modal_5_desc') }}</p>
                             </div>
                         </div>
                     </div>
@@ -372,9 +369,9 @@
                     <div class="container text-center">
                         <div class="row">
                             <div class="col-lg-8 mx-auto">
-                                <h2 class="text-uppercase text-secondary mb-0">programa de afiliados</h2>
+                                <h2 class="text-uppercase text-secondary mb-0">{{ __('home.modal_6_title') }}</h2>
                                 <hr class="star-dark mb-5"><img class="img-fluid mb-5" src="assets/img/affiliate.svg">
-                                <p class="mb-0">Você pode lucrar convidando os seus amigos usando o seu link de convite, você pode convidar quantos amigos quiser, &nbsp;você e seus amigos vão adorar, é tudo de bom, divirta-se!</p>
+                                <p class="mb-0">{{ __('home.modal_6_desc') }}</p>
                             </div>
                         </div>
                     </div>
