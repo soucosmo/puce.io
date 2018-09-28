@@ -2,7 +2,10 @@
 
 return [
 	'home' => 'Inicio',
+	'dashboard' => 'Painel',
 	'documentation' => 'Documentação',
 	'login' => 'Entrar',
-	'register' => 'Registro'
+	'register' => 'Registro',
+	'settings' => 'Ajustes',
+	
 ];

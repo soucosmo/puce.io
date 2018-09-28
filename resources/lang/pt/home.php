@@ -45,7 +45,7 @@ return [
 	'modal_2_desc' => 'Todos os nossos serviços também estão disponíveis no nosso aplicativo para Android e iOS, o seu dinheiro sempre vai estar na palma da mão, e o melhor, com atualizações frequentes.',
 
 	'modal_3_title' => 'infinidade de moedas',
-	'modal_3_desc' => 'Nosso foco é trazer diariamente novas moedas, para uso em geral, seja você um usuário de carteira ou um desenvolvedor, faremos o possível para suprir suas nocessidades em ambos os perfis.',
+	'modal_3_desc' => 'Nosso foco é trazer diariamente novas moedas, para uso em geral, seja você um usuário de carteira ou um desenvolvedor, faremos o possível para suprir suas necessidades em ambos os perfis.',
 
 	'modal_4_title' => 'Aplicações em jogos',
 	'modal_4_desc' => 'Receba pagamentos e depositos nos seus jogos ou aplicativos, crei e altere contas para seus usuários, gere endereços de depositos, processe pedidos de saques, consulte saldos e muito mais.',
