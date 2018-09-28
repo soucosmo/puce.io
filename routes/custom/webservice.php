@@ -1,6 +1,6 @@
 <?php
 
-$this->group(['prefix' => 'api/{apikey?}/{pin_key?}', 'namespace' => 'Api\Response'], function() {
+$this->group(['middleware' => ['api'], 'prefix' => 'api/{apikey?}/{pin_key?}', 'namespace' => 'Api\Response'], function() {
 
 
 

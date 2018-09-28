@@ -18,6 +18,7 @@
             <div class="row">
                 <div class="col-lg-8 mx-auto">
                     <form method="post" id="loginForm" class="login" name="sentLogin" novalidate="novalidate">
+                        @csrf
                         <div class="control-group">
                             <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                 <label>{{ __('login.email') }}</label>

@@ -1,6 +1,8 @@
 <?php
 
-$this->group(['middleware' => ['auth']], function() {
+$this->group(['middleware' => 'verified'], function() {
+	$this->get('settings', 'SettingsController@index')->name('settings');
+	
 	$this->post('generate/key', 'SettingsController@GenerateKey');
 
 

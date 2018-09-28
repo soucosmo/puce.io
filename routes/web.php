@@ -17,10 +17,6 @@ $this->get('/', 'HomeController@index')->name('home');
 
 Auth::routes(['verify' => true]);
 
-$this->get('verificado', function() {
-	return 'Olá, sua conta foi verificada com sucesso!';
-});
-
 
 $this->get('test', 'Test@index');
 $this->get('puce', 'Puce@index');

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 class DashboardController extends Controller
 {
     public function index($coin = 'btc') {
-    	return view('dashboard.index');
+    	return view('dashboard.index', [
+    		'title' => __('dashboard.title')
+    	]);
     }
 }
