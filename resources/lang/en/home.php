@@ -1,6 +1,7 @@
 <?php
 
 return [
+	'title' => 'Puce.io | Send and receive multi-currency payments in a simple way',
 	'background_title' => 'Technology And Security',
 	'background_description' => 'Have All The Power Of Blockchain In Your Application With Few Clicks',
 	'about_us' => 'A LITTLE BIT ABOUT US',

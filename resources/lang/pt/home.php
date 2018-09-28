@@ -1,6 +1,7 @@
 <?php
 
 return [
+	'title' => 'Puce.io | Envie e receba pagamentos em várias moedas de forma simples',
 	'background_title' => 'Tecnologia e Segurança',
 	'background_description' => 'Tenha todo o poder de blockchain na sua aplicação com apenas alguns cliques',
 	'about_us' => 'UM POUCO SOBRE NÓS',

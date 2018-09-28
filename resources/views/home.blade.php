@@ -2,7 +2,7 @@
 
 @section('content')
 
-<header class="masthead bg-primary text-white text-center">
+    <header class="masthead bg-primary text-white text-center">
         <div class="container"><img class="img-fluid d-block mx-auto mb-5" src="assets/img/home.svg">
             <h1><strong>{{ __('home.background_title') }}</strong></h1>
             <hr class="star-light">
