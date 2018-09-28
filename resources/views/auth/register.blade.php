@@ -40,6 +40,7 @@
             <div class="row">
                 <div class="col-lg-8 mx-auto">
                     <form method="post" id="registerForm" name="sentRegister" novalidate="novalidate">
+                        @csrf
                         <div class="control-group">
                             <div class="form-group floating-label-form-group controls mb-0 pb-2"><label>Email Address</label><input class="form-control" type="email" name="email" required="" placeholder="Email Address" autofocus="" autocomplete="off" id="email"><small class="form-text text-danger help-block">Mensagem de erro no endereço de email</small></div>
                         </div>

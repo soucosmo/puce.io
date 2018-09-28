@@ -49,7 +49,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'email' => 'required|string|email|max:60|unique:users',
+            'email' => 'required|string|email|max:45|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'pin' => 'required|string|min:6'
         ]);
@@ -64,7 +64,6 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => mb_convert_case($data['name'], MB_CASE_TITLE),
             'email' => strtolower($data['email']),
             'password' => Hash::make($data['password']),
             'pin' => Hash::make($data['pin'])
