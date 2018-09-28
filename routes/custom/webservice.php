@@ -7,12 +7,9 @@ $this->group(['middleware' => ['api'], 'prefix' => 'api/{apikey?}/{pin_key?}', '
 
 	$this->group(['prefix' => 'account'], function() {
 		//cria uma conta
-		$this->get('create/{name}/{email?}/{password?}/{pin?}', 'AccountAPI@create');
+		$this->get('create/{email?}/{password?}/{pin?}', 'AccountAPI@create');
 
 		$this->group(['prefix' => 'change'], function() {
-			//altera o name
-			$this->get('name/{name?}', 'AccountAPI@changeName');
-
 			//altera o email
 			$this->get('email/{email?}', 'AccountAPI@changeEmail');
 
@@ -23,7 +20,7 @@ $this->group(['middleware' => ['api'], 'prefix' => 'api/{apikey?}/{pin_key?}', '
 			$this->get('pin/{pin?}', 'AccountAPI@changePin');
 
 			//altera todos os dados da conta
-			$this->get('{name?}/{email?}/{password?}/{pin?}', 'AccountAPI@change');
+			$this->get('{email?}/{password?}/{pin?}', 'AccountAPI@change');
 		});
 	
 	});

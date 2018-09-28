@@ -10,14 +10,13 @@ use Response;
 
 
 class AccountAPI extends \Controller {
-	public function create($api = '', $pin_key = '', $name = '', $email = '', $password = '', $pin = '') {
+	public function create($api = '', $pin_key = '', $email = '', $password = '', $pin = '') {
 		$email = strtolower($email);
 
-		$user = BaseAPI::checkAccount($api, $pin_key, $name, $email, $password, $pin);
+		$user = BaseAPI::checkAccount($api, $pin_key, $email, $password, $pin);
 		
 		if (!empty($user->id)) {
 			$res = User::create([
-				'name' => mb_convert_case($name, MB_CASE_TITLE),
 				'email' => $email,
 				'password' => Hash::make($password),
 				'pin' => Hash::make($pin),
@@ -34,10 +33,7 @@ class AccountAPI extends \Controller {
 
 
 
-	public function change($api = '', $pin_key = '', $name = '', $email = '', $password = '', $pin = '', $fields = ['id']) {
-
-		if ($name) 
-			$fields[] = 'name';
+	public function change($api = '', $pin_key = '', $email = '', $password = '', $pin = '', $fields = ['id']) {
 
 		if ($email) 
 			$fields[] = 'email';
@@ -49,8 +45,6 @@ class AccountAPI extends \Controller {
 			$fields[] = 'pin';
 
 
-		if (in_array('name', $fields))
-			$array['name'] = mb_convert_case($name, MB_CASE_TITLE);
 
 		if (in_array('email', $fields))
 			$array['email'] = strtolower($email);
@@ -62,7 +56,7 @@ class AccountAPI extends \Controller {
 			$array['pin'] = Hash::make($pin);
 
 	
-		$user = BaseAPI::checkAccount($api, $pin_key, $name, $email, $password, $pin, $fields);
+		$user = BaseAPI::checkAccount($api, $pin_key, $email, $password, $pin, $fields);
 
 		if (!empty($user->id)) {
 			$res = $user->update($array);
@@ -73,26 +67,6 @@ class AccountAPI extends \Controller {
 				return Response::Json(['status' => 'error', 'message' => 'there was an error creating your account, please try again later']);
 		} else
 			return Response::Json($user);
-	}
-
-
-	public function changeName($api = '', $pin_key = '', $name = '', $fields = ['id', 'name', 'pin']) {
-
-		$user = BaseAPI::check($api, $pin_key, $fields);
-
-		if (!empty($user->id)) {
-
-			if ($name and strlen($name) >= 3 and strlen($name) <= 30) {
-				$user->name = mb_convert_case($name, MB_CASE_TITLE);
-				if ($user->save())
-					return Response::Json(['status' => 'success', 'message' => 'your name has been changed successfully.']);
-				else
-					return Response::Json(['status' => 'error', 'message' => 'an error occurred while trying to change your name']);
-			} else
-				return Response::Json(['status' => 'error', 'message' => 'your name must be between 3 and 30 characters']);
-		} else
-			return Response::Json($user);
-
 	}
 
 

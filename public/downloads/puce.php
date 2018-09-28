@@ -9,15 +9,15 @@ class Puce extends \Controller {
 	}
 
 
-	public function account_create_test($name = '', $email = '', $password = '', $pin = '', $code = '') {
+	public function account_create_test($email = '', $password = '', $pin = '') {
 		$this->test['account_create'] = true;
 
-		return $this->account_create($name, $email, $password, $pin, $code);
+		return $this->account_create($name, $password, $pin);
 	}
 
 
-	public function account_create($name = '', $email = '', $password = '', $pin = '', $code = '') {
-		$this->url = "{$this->base}/account/create/{$name}/{$email}/{$password}/{$pin}/{$code}";
+	public function account_create($name = '', $email = '', $password = '', $pin = '') {
+		$this->url = "{$this->base}/account/create/{$email}/{$password}/{$pin}";
 
 		if ( isset($this->test['account_create']) )
 			return $this->url;
@@ -26,34 +26,17 @@ class Puce extends \Controller {
 	}
 
 
-	public function account_change_test($name = '', $email = '', $password = '', $pin = '', $code = '') {
+	public function account_change_test($email = '', $password = '', $pin = '') {
 		$this->test['account_change'] = true;
 
-		return $this->account_change($name, $email, $password, $pin, $code);
+		return $this->account_change($email, $password, $pin, $code);
 	}
 	
 
-	public function account_change($name = '', $email = '', $password = '', $pin = '', $code = '') {
-		$this->url = "{$this->base}/account/change/{$name}/{$email}/{$password}/{$pin}/{$code}";
+	public function account_change($email = '', $password = '', $pin = '') {
+		$this->url = "{$this->base}/account/change/{$email}/{$password}/{$pin}";
 
 		if ( isset($this->test['account_change']) )
-			return $this->url;
-		
-		return $this->curl();
-	}
-
-
-	public function account_change_name_test($name = '') {
-		$this->test['account_change_name'] = true;
-
-		return $this->account_change_name($name);
-	}
-
-
-	public function account_change_name($name = '') {
-		$this->url = "{$this->base}/account/change/name/{$name}";
-
-		if ( isset($this->test['account_change_name']) )
 			return $this->url;
 		
 		return $this->curl();

@@ -3,15 +3,15 @@ function Puce(key = '', pin = '') {
 	this._base = 'https://puce.io/api/'+key+'/'+pin;
 
 
-	this.account_create_test = function(name = '', email = '', password = '', pin = '', code = '') {
+	this.account_create_test = function(email = '', password = '', pin = '') {
 		this._test_account_create = true;
 
-		return this.account_create(name, email, password, pin, code);
+		return this.account_create(email, password, pin);
 	}
 
 
-	this.account_create = function(name = '', email = '', password = '', pin = '', code = '') {
-		this._url = this._base+'/account/create/'+email+'/'+{password}+'/'+pin+'/'+code;
+	this.account_create = function(email = '', password = '', pin = '') {
+		this._url = this._base+'/account/create/'+email+'/'+{password}+'/'+pin;
 
 		if ( this._test_account_create ) {
 			return this._url;
@@ -21,15 +21,15 @@ function Puce(key = '', pin = '') {
 	}
 
 
-	this.account_change_test = function(name = '', email = '', password = '', pin = '', code = '') {
+	this.account_change_test = function(email = '', password = '', pin = '') {
 		this._test_account_change = true;
 
 		return this.account_change(name, email, password, pin, code);
 	}
 
 
-	this.account_change = function(name = '', email = '', password = '', pin = '', code = '') {
-		this._url = this._base+'/account/change/'+email+'/'+{password}+'/'+pin+'/'+code;
+	this.account_change = function(email = '', password = '', pin = '') {
+		this._url = this._base+'/account/change/'+email+'/'+{password}+'/'+pin;
 
 		if ( this._test_account_change ) {
 			return this._url;
@@ -39,22 +39,6 @@ function Puce(key = '', pin = '') {
 	}
 
 
-	this.account_change_name_test = function(name = '') {
-		this._test_account_change_name = true;
-
-		return this.account_change_name(name);
-	}
-
-
-	this.account_change_name = function(name = '') {
-		this._url = this._base+'/account/change/name/'+name
-
-		if ( this._test_account_change_name ) {
-			return this._url;
-		}
-
-		return this._curl();
-	}
 
 
 	this.account_change_email_test = function(email = '') {

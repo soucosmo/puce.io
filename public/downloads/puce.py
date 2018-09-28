@@ -9,14 +9,14 @@ class Puce:
         self._base = 'https://cosmox.ga/api/{}/{}'.format(key, pin)
 
 
-    def account_create_test(self, name='', email='', password='', pin='', code=''):
+    def account_create_test(self, email='', password='', pin=''):
         self._test = {'account_create': True}
 
-        return self.account_create(name, email, password, pin, code)
+        return self.account_create(email, password, pin)
 
 
-    def account_create(self, name = '', email = '', password = '', pin = '', code = ''):
-        self._url = '{}/account/create/{}/{}/{}/{}/{}'.format(self._base, name, email, password, pin, code)
+    def account_create(self, email = '', password = '', pin = ''):
+        self._url = '{}/account/create/{}/{}/{}'.format(self._base, email, password, pin)
 
         if 'account_create' in self._test:
             return self._url
@@ -24,34 +24,20 @@ class Puce:
         return self._curl()
 
 
-    def account_change_test(self, name='', email='', password='', pin='', code=''):
+    def account_change_test(self, email='', password='', pin=''):
         self._test = {'account_change': True}
 
-        return self.account_change(name, email, password, pin, code)
+        return self.account_change(email, password, pin)
 
 
-    def account_change(self, name = '', email = '', password = '', pin = '', code = ''):
-        self._url = '{}/account/change/{}/{}/{}/{}/{}'.format(self._base, name, email, password, pin, code)
+    def account_change(self, email = '', password = '', pin = ''):
+        self._url = '{}/account/change/{}/{}/{}'.format(self._base, email, password, pin)
 
         if 'account_change' in self._test:
             return self._url
 
         return self._curl()
 
-
-    def account_change_name_test(self, name = ''):
-        self._test = {'account_change_name': True}
-
-        return self.account_change_name(name)
-
-
-    def account_change_name(self, name = ''):
-        self._url = '{}/account/change/name/{}'.format(self._base, name)
-
-        if 'account_change_name' in self._test:
-            return self._url
-
-        return self._curl()
 
 
     def account_change_email_test(self, email = ''):
