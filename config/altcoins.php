@@ -201,19 +201,6 @@ return [
 			]
 		],
 
-		$coin = 'zen' => [
-			'id' => 12,
-			'coin' => $coin,
-			'site' => 'https://z.cash',
-			'name' => 'Zcash',
-			'module' => 'cp',// CoinPayments
-			'fees' => [
-				'withdrawal_api' => '0.004',
-				'withdrawal' => '0.001',
-				'deposit' => '0.5',
-				'deposit_api' => '0.5'
-			]
-		],
 
 
 ];
