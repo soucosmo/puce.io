@@ -3,7 +3,7 @@
 return = [
 	'title' => 'Sign Up | Puce.io',
 	'1' => 'Create A New Account',
-	'2' => 'You Are Just Steps Away From A Unique Experience',
+	'2' => 'You are just steps away from a unique experience',
 	'3' => 'Sign Up',
 	'email' => 'Email Address',
 	'email_confirmation' => 'Confirm Your Email',

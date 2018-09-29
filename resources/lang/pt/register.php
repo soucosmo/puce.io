@@ -3,7 +3,7 @@
 return [
 	'title' => 'Registro | Puce.io',
 	'1' => 'Criar Uma Nova Conta',
-	'2' => 'Você Está a Poucos Passos De Uma Experiência Única',
+	'2' => 'Você está a poucos passos de uma experiência única',
 	'3' => 'Registro',
 	'email' => 'Endereço de Email',
 	'email_confirmation' => 'Confirme o Seu Email',

@@ -3,7 +3,7 @@
 return [
 	'title' => 'Entrar | Puce.io',
 	'string1' => 'Entre Na Sua Conta',
-	'string2' => 'Use e Abuse De Tudo Que Temos A Lhe Oferecer',
+	'string2' => 'Use e abuse de tudo que temos a lhe oferecer',
 	'string3' => 'Entrar',
 	'email' => 'Endereço de Email',
 	'password' => 'Senha',

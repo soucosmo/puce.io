@@ -3,7 +3,7 @@
 return [
 	'title' => 'Verificação De Email',
 	'string1' => 'Confirme Seu Email',
-	'string2' => 'Antes De Prosseguir, Verifique Seu E-mail e Clique No Link De Verificação',
+	'string2' => 'Antes de prosseguir, verifique seu email e clique no link de verificação',
 	'string3' => 'Verificação De Email',
 	'string4' => 'Se você não recebeu o email',
 	'string5' => 'clique aqui pra receber um novo link',
