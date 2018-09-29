@@ -31,7 +31,7 @@
                         <div class="control-group">
                             <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                 <label>{{ __('login.password') }}</label>
-                                <input class="form-control" type="tel" name="password" required="" placeholder="{{ __('login.password') }}" autocomplete="off" id="password">
+                                <input class="form-control" type="password" name="password" required="" placeholder="{{ __('login.password') }}" autocomplete="off" id="password">
                                 @if ($errors->has('password'))
                                 <small class="form-text text-danger help-block">{{ $errors->first('password') }}</small>
                                 @endif

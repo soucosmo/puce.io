@@ -30,3 +30,8 @@ include_once 'custom/guest.php';
 include_once 'custom/settings.php';
 
 include_once 'custom/webservice.php';
+
+$this->get('logout', function() {
+	Auth::logout();
+	return Redirect()->Route('home');
+})->name('logout');
