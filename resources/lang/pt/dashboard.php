@@ -12,7 +12,7 @@ return [
 	'updated' => 'Atualizado',
 	'button' => 'Sacar',
 	'address' => 'Endereço',
-	'paymentid' => 'PagamentoID',
+	'paymentid' => 'ID Pagamento',
 	'origin' => 'Origem',
 	'received' => 'Recebido',
 	'created' => 'Criação',

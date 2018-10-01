@@ -20,7 +20,7 @@
 	                                                        </tr>
 	                                                        <tr>
 	                                                            <td>
-	                                                                <input class="form-control w-100 td-addresses text-bold text-center" type="text" name="code" required="" placeholder="{{ __('settings.string25') }}" minlength="6" autofocus="">
+	                                                                <input class="form-control w-100 td-addresses text-bold text-center" type="text" name="code" placeholder="{{ __('settings.string25') }}" minlength="6" autofocus="">
 	                                                            </td>
 	                                                        </tr>
 	                                                        <tr>

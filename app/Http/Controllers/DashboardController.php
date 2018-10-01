@@ -4,15 +4,28 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Cache;
-
+use Auth;
 
 class DashboardController extends Controller
 {
-	private $minutes = 120;
+	private $minutes = 1;
 
     public function index($coin = 'btc') {
     	$coin = strtolower($coin);
 
+		$this->getAltcoins($coin);    		
+
+
+    	return view('dashboard.index', [
+    		'title' => __('dashboard.title'),
+    		'coin' => Cache::get('altcoin_'.$coin),
+    		'altcoins' => Cache::get('altcoins'),
+    		'balance' => Auth::User()->MyBalance($coin),
+    		'receive' => Auth::User()->MyAddress($coin)
+    	]);
+    }
+
+    public function getAltcoins($coin) {
     	if ( !Cache::has('altcoin_'.$coin) ) {
     		$coinx = Altcoin($coin);
     		unset($coinx['id'], $coinx['module'], $coinx['fees']['withdrawal_api'], $coinx['fees']['deposit_api'], $coinx['rpc']);
@@ -37,14 +50,6 @@ class DashboardController extends Controller
 			}
 
 			Cache::put('altcoins', $coins, $this->minutes);
-
 		}
-
-
-    	return view('dashboard.index', [
-    		'title' => __('dashboard.title'),
-    		'coin' => Cache::get('altcoin_'.$coin),
-    		'altcoins' => Cache::get('altcoins')
-    	]);
     }
 }

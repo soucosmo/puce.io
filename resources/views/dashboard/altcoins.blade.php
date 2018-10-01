@@ -5,7 +5,7 @@
                             <ul class="nav nav-tabs flex-column">
                                 @forelse ($altcoins as $coins)
                                 <li class="nav-item">
-                                    <a class="nav-link text-light bg-secondary mb-1" href="{{ Route('dashboard', strtoupper(Code($coins['coin']))) }}">{{ $coins['name'] }}</a>
+                                    <a class="nav-link text-light bg-secondary mb-1" href="{{ Route('dashboard', strtoupper($coins['coin'])) }}">{{ $coins['name'] }}</a>
                                 </li>
                                 @empty
                                 <li class="nav-item">

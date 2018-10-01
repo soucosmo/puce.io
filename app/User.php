@@ -29,7 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email', 'password', 'pin', 'sponsor', 'secret'
     ];
 
-    private $minutes = 120;
+    private $minutes = 5;
 
     /**
      * The attributes that should be hidden for arrays.
@@ -89,7 +89,9 @@ class User extends Authenticatable implements MustVerifyEmail
         if (!Cache::has('my_balance_'.$coin.$this->id)) {
             Cache::put('my_balance_'.$coin.$this->id,
                 $this->balance()->Select('amount', 'updated_at as updated')
-                ->firstOrCreate(['coin' => Code($coin)]), $this->minutes);
+                ->firstOrCreate([
+                    'coin' => is_string($coin) ? Code($coin) : $coin
+                ]), $this->minutes);
         }
 
         return Cache::get('my_balance_'.$coin.$this->id);
@@ -117,9 +119,12 @@ class User extends Authenticatable implements MustVerifyEmail
     public function MyAddress($coin) {
 
         if(!Cache::has('my_address_'.$coin.$this->id)) {
-            $res = $this->addresses()->Select('address', 'payment_id', 'updated_at as created')->Where('coin', $coin)->WhereNull('api')->first();
+            $res = $this->addresses()->Select('address', 'payment_id', 'updated_at as created')->Where('coin', Code($coin))->WhereNull('api')->first();
+            
             if (!$res) {
-                $res = Addresses::Select('id', 'user_id')->Where('coin', $coin)->WhereNull('user_id')->first();
+
+                $res = Addresses::Select('id', 'user_id')->Where('coin', 1)->WhereNull('user_id')->first();
+
                 if ($res) {
                     $res->user_id = $this->id;
                     $res->save();
@@ -131,6 +136,7 @@ class User extends Authenticatable implements MustVerifyEmail
             }
 
             Cache::put('my_address_'.$coin.$this->id, $res, $this->minutes);
+            
         }
 
         return Cache::get('my_address_'.$coin.$this->id);
@@ -138,7 +144,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function Address($coin, $url = null) {
 
-        $res = Addresses::Select('id', 'user_id', 'module', 'url')->Where('coin', $coin)->WhereNull('api')->WhereNull('user_id')->first();
+        $res = Addresses::Select('id', 'user_id', 'module', 'url')->Where('coin', is_string($coin) ? Code($coin) : $coin)->WhereNull('api')->WhereNull('user_id')->first();
 
         if ($res) {
             $res->api = 1;
