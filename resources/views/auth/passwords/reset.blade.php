@@ -1,7 +1,6 @@
 @php $title = __('password.title'); @endphp
 @extends('layouts.app')
 
-
 @section('content')
     <header class="masthead bg-primary text-white text-center">
         <div class="container"><img class="img-fluid d-block mx-auto mb-5" src="{{ asset('assets/img/password_reset.svg') }}">

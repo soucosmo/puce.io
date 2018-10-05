@@ -1,6 +1,6 @@
 @php $title = __('password.title'); @endphp
-@extends('layouts.app')
 
+@extends('layouts.app')
 
 @section('content')
     <header class="masthead bg-primary text-white text-center">

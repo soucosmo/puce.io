@@ -73,7 +73,7 @@
                             <a href="{{ Route('home') }}" class="text-light">{{ __('footer.home_page') }}</a>
                         </li>
                         <li>
-                            <a href="{{ Route('password.reset') }}" class="text-light">{{ __('footer.recover_passowrd') }}<br></a>
+                            <a href="{{ Route('password.request') }}" class="text-light">{{ __('footer.recover_passowrd') }}<br></a>
                         </li>
                         <li>
                             <a href="{{ Route('reset.google') }}" class="text-light">{{ __('footer.reset_google') }}</a>
