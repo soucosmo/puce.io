@@ -13,27 +13,29 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+                                                        @forelse ($extract as $data)
                                                         <tr>
-                                                            <td class="td-addresses">Deposit</td>
-                                                            <td class="td-addresses">Deposito recebido por endereço gerado via api, novos detalhes em a</td>
-                                                            <td class="td-addresses text-success">+0.00000010</td>
-                                                            <td class="td-addresses">0.01200008</td>
-                                                            <td class="td-addresses">2018-09-27 22:50</td>
+                                                            <td class="td-addresses">{{ $data->action }}</td>
+                                                            <td class="td-addresses">{{ $data->description }}</td>
+                                                            @if ($data->type)
+                                                            <td class="td-addresses text-success">+{{ $data->amount }}</td>
+                                                            @else
+                                                            <td class="td-addresses text-danger">-{{ $data->amount }}</td>
+                                                            @endif
+                                                            <td class="td-addresses">{{ $data->after }}</td>
+                                                            <td class="td-addresses">{{ $data->created_at }}</td>
                                                         </tr>
+                                                        @empty
+                                                        <th>
+                                                            <td class="td-address">{{ __('dashboard.no_records') }}</td>
+                                                        </th>
+                                                        @endforelse
                                                         
                                                     </tbody>
                                                 </table>
                                             </div>
                                             <nav class="m-1 ml-3">
-                                                <ul class="pagination">
-                                                    <li class="page-item"><a class="page-link" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
-                                                    <li class="page-item"><a class="page-link">1</a></li>
-                                                    <li class="page-item"><a class="page-link">2</a></li>
-                                                    <li class="page-item"><a class="page-link">3</a></li>
-                                                    <li class="page-item"><a class="page-link">4</a></li>
-                                                    <li class="page-item"><a class="page-link">5</a></li>
-                                                    <li class="page-item"><a class="page-link" aria-label="Next"><span aria-hidden="true">»</span></a></li>
-                                                </ul>
+                                                {{ $extract->links() }}
                                             </nav>
                                         </div>
                                     </div>

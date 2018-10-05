@@ -6,14 +6,14 @@
                                         <div class="col">
                                             <div class="row mt-1 mr-3 ml-3 mb-3">
                                                 <div class="col p-2" style="border: 1px solid #888;">
-                                                    <h5 class="text-uppercase text-muted">{{ $balance->amount . ' ' . strtoupper($coin['coin']) }}</h5>
+                                                    <h5 class="text-uppercase text-muted">{{ ($balance->amount ?? '0.00000000'). ' ' . strtoupper($coin['coin']) }}</h5>
                                                     <h6 class="text-muted title-address mb-0">{{ __('dashboard.balance') }}</h6>
                                                 </div>
                                             </div>
                                             <div class="row mt-1 mr-3 ml-3 mb-3">
                                                 <div class="col p-2" style="border: 1px solid #888;">
                                                     <h6 class="text-muted title-address mb-0">{{ __('dashboard.updated') }}</h6>
-                                                    <h5 class="text-uppercase text-muted">{{ $balance->updated }}</h5>
+                                                    <h5 class="text-uppercase text-muted">{{ $balance->updated ?? date('Y-m-d h:i:s') }}</h5>
                                                 </div>
                                             </div>
                                             <div class="row mt-1 mr-3 ml-3 mb-3">

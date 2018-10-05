@@ -89,9 +89,7 @@ class User extends Authenticatable implements MustVerifyEmail
         if (!Cache::has('my_balance_'.$coin.$this->id)) {
             Cache::put('my_balance_'.$coin.$this->id,
                 $this->balance()->Select('amount', 'updated_at as updated')
-                ->firstOrCreate([
-                    'coin' => is_string($coin) ? Code($coin) : $coin
-                ]), $this->minutes);
+                ->firstOrCreate(['coin' => Code($coin)]), $this->minutes);
         }
 
         return Cache::get('my_balance_'.$coin.$this->id);

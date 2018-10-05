@@ -41,11 +41,9 @@ class Test extends \Controller {
 		);
 		*/
  		
- 		if (!Cache::has('user_user')) {
- 			Cache::put('user_'.Auth::id(), Auth::id(), 1);
- 		}
+ 		//$nome = 'Cosmo';
 
- 		echo 'O usuário logado é: ' . Cache::get('user_'.Auth::id());
+ 		dd($nome ?? 'Sem nome');
 
 	}
 

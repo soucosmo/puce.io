@@ -21,7 +21,11 @@ class DashboardController extends Controller
     		'coin' => Cache::get('altcoin_'.$coin),
     		'altcoins' => Cache::get('altcoins'),
     		'balance' => Auth::User()->MyBalance($coin),
-    		'receive' => Auth::User()->MyAddress($coin)
+    		'receive' => Auth::User()->MyAddress($coin),
+ 			'addresses' => Auth::User()->addresses()->Where('coin', Code($coin))->OrderByDesc('id')->paginate(6),
+ 			'extract' => Auth::User()->extract()->Where('coin', Code($coin))->OrderByDesc('id')->paginate(6),
+ 			'deposits' => Auth::User()->deposit()->Where('coin', Code($coin))->OrderByDesc('id')->paginate(6),
+ 			'withdrawals' => Auth::User()->withdrawal()->Where('coin', Code($coin))->OrderByDesc('id')->paginate(6)
     	]);
     }
 

@@ -21,4 +21,5 @@ return [
 	'amount' => 'Valor',
 	'final_balance' => 'Saldo Final',
 	'status' => 'Status',
+	'no_records' => 'nenhum registro encontrado',
 ];

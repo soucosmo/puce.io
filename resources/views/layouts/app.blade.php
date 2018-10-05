@@ -229,7 +229,7 @@
                         <div class="row">
                             <div class="col-lg-8 mx-auto">
                                 <h2 class="text-uppercase text-secondary mb-0">{{ __('home.modal_6_title') }}</h2>
-                                <hr class="star-dark mb-5"><img class="img-fluid mb-5" src="assets/img/affiliate.svg">
+                                <hr class="star-dark mb-5"><img class="img-fluid mb-5" src="{{ asset('assets/img/affiliate.svg') }}">
                                 <p class="mb-0">{{ __('home.modal_6_desc') }}</p>
                             </div>
                         </div>
