@@ -75,9 +75,11 @@
                         <li>
                             <a href="{{ Route('password.request') }}" class="text-light">{{ __('footer.recover_passowrd') }}<br></a>
                         </li>
+                        @if (false)                        
                         <li>
                             <a href="{{ Route('reset.google') }}" class="text-light">{{ __('footer.reset_google') }}</a>
                         </li>
+                        @endif
                         <li>
                             <a href="{{ Route('login') }}" class="text-light">{{ __('menu.login') }}</a>
                         </li>
