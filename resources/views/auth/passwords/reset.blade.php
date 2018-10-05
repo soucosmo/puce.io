@@ -23,7 +23,7 @@
                         <div class="control-group">
                             <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                 <label>Email Address</label>
-                                <input class="form-control" type="email" name="email" required="" placeholder="Email Address" value="{{ $email ?? old('email') }}" autofocus="" autocomplete="off" id="email">
+                                <input class="form-control" type="email" name="email" required placeholder="Email Address" value="{{ $email ?? old('email') }}" autofocus="" autocomplete="off" id="email">
                                 @if ($errors->has('email'))
                                 <small class="form-text text-danger help-block">{{ $errors->first('email') }}</small>
                                 @endif
@@ -32,7 +32,7 @@
                         <div class="control-group">
                             <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                 <label>Password</label>
-                                <input class="form-control" type="tel" name="password" required="" placeholder="Password" autocomplete="off" id="password">
+                                <input class="form-control" type="password" name="password" required placeholder="Password" autocomplete="off" id="password">
                                 @if ($errors->has('password'))
                                 <small class="form-text text-danger help-block">{{ $errors->first('password') }}</small>
                                 @endif
@@ -41,7 +41,7 @@
                         <div class="control-group">
                             <div class="form-group floating-label-form-group controls mb-0 pb-2">
                                 <label>Password Confirmation</label>
-                                <input class="form-control" type="tel" name="password_confirmation" required="" placeholder="Password Confirmation" autocomplete="off" id="password">
+                                <input class="form-control" type="password" name="password_confirmation" required placeholder="Password Confirmation" autocomplete="off" id="password">
                                 <small class="form-text text-danger help-block"></small>
                             </div>
                         </div>
