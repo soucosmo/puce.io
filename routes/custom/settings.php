@@ -1,15 +1,13 @@
 <?php
 
-$this->group(['middleware' => 'verified'], function() {
-	$this->get('settings', 'SettingsController@index')->name('settings');
+$this->group(['middleware' => 'verified', 'prefix' => 'settings'], function() {
+	$this->get('/', 'SettingsController@index')->name('settings');
 	
-	$this->post('generate/key', 'SettingsController@GenerateKey');
-
-
 	$this->group(['prefix' => 'change'], function() {
-		$this->post('password', 'SettingsController@password');
-		$this->post('pin', 'SettingsController@pin');
-		$this->post('profile', 'SettingsController@profile');
+		$this->post('generate/key', 'SettingsController@GenerateKey');
+		$this->post('password', 'SettingsController@password')->name('settings.change.password');
+		$this->post('pin', 'SettingsController@pin')->name('settings.change.pin');
+		$this->post('email', 'SettingsController@email')->name('settings.change.email');
 
 	});
 

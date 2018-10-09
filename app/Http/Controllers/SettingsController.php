@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Settings\GenerateKey;
 use App\Http\Requests\Settings\Google;
-use App\Http\Requests\Settings\password;
-use App\Http\Requests\Settings\pin;
-use App\Http\Requests\Settings\profile;
+use App\Http\Requests\Settings\Password;
+use App\Http\Requests\Settings\Pin;
+use App\Http\Requests\Settings\Profile;
 use Auth;
 use Cache;
 use Crypt;
+use Hash;
+use Response;
+
 
 class SettingsController extends Controller
 {
@@ -82,6 +85,15 @@ class SettingsController extends Controller
 
     public function password(Password $data) {
 
+        if (Hash::check($data->password_current, Auth::User()->password))
+            if ( Auth::User()->Update(['password' => Hash::make($data->password)]) )
+                return Response::Json(['success' => __('settings.password_changed')]);
+            
+        else
+            return Response::Json(['error' => __('settings.current_invalid')]);
+
+        return Response::Json(['error' => __('settings.password_error')]);
+        
     }
 
 
@@ -90,7 +102,7 @@ class SettingsController extends Controller
     }
 
 
-    public function profile(Profile $data) {
+    public function email(Email $data) {
 
     }
 

@@ -4,7 +4,7 @@ namespace App\Http\Requests\Settings;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class Profile extends FormRequest
+class Email extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class Profile extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**

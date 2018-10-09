@@ -13,7 +13,7 @@ class Password extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class Password extends FormRequest
     public function rules()
     {
         return [
-            //
+            'password_current' => 'string|between:6,50|required',
+            'password' => 'confirmed|between:6,50|required'
         ];
     }
 }

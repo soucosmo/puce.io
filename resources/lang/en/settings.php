@@ -39,4 +39,7 @@ return [
 	'string24' => 'Code (optional)',
 	'string25' => 'Code for returns on notifications',
 	'string26' => 'When generating a new key the old ones will stop working',
+	'password_error' => 'There was an error changing your password, please try again later',
+	'current_invalid' => 'The current password is incorrect!',
+	'password_changed' => 'Password changed successfully!',
 ];

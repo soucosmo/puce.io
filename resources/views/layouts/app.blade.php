@@ -248,6 +248,7 @@
     <script src="{{ asset('assets/js/freelancer.js') }}"></script>
     <script src="{{ asset('assets/js/alertify.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
+    <script src="{{ asset('assets/js/settings.js') }}"></script>
 </body>
 
 </html>

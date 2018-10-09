@@ -43,7 +43,7 @@ class Test extends \Controller {
  		
  		//$nome = 'Cosmo';
 
- 		dd($nome ?? 'Sem nome');
+ 		echo Hash::make('Cosmo9able');
 
 	}
 

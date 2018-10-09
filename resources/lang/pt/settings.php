@@ -39,4 +39,7 @@ return [
 	'string24' => 'Código (opcional)',
 	'string25' => 'Código para retornos nas notificações',
 	'string26' => 'Ao gerar uma nova chave as antigas irão parar de funcionar',
+	'password_error' => 'Ocorreu um erro ao trocar sua senha, tente novamente mais tarde',
+	'current_invalid' => 'A senha atual está incorreta!',
+	'password_changed' => 'Senha alterada com sucesso!',
 ];
