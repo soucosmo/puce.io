@@ -27,7 +27,7 @@
                                                         </tr>
                                                         @empty
                                                         <th>
-                                                            <td class="td-address">{{ __('dashboard.no_records') }}</td>
+                                                            <td class="td-address" colspan="5">{{ __('dashboard.no_records') }}</td>
                                                         </th>
                                                         @endforelse
                                                         
