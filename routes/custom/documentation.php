@@ -8,6 +8,6 @@ $this->group(['prefix' => 'download'], function() {
 
 	$this->get('php', 'DocumentationController@php')->name('download.php');
 
-	$this->get('python', 'DocumentationController@python')->name('download.python');
+	$this->get('py', 'DocumentationController@python')->name('download.py');
 
 });

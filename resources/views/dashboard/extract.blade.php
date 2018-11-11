@@ -26,9 +26,9 @@
                                                             <td class="td-addresses">{{ $data->created_at }}</td>
                                                         </tr>
                                                         @empty
-                                                        <th>
-                                                            <td class="td-address" colspan="5">{{ __('dashboard.no_records') }}</td>
-                                                        </th>
+                                                        <tr>
+                                                            <td class="td-address text-center" colspan="5">{{ __('dashboard.no_records') }}</td>
+                                                        </tr>
                                                         @endforelse
                                                         
                                                     </tbody>

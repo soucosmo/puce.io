@@ -3,20 +3,23 @@
 
 class Puce extends \Controller {
 	private $base, $url, $test;
-	public function __construct($key = '', $pin = '') {
+	public function __construct($key = '', $pin = '')
+	{
 		$this->base = "https://puce.io/api/{$key}/{$pin}";
 
 	}
 
 
-	public function account_create_test($email = '', $password = '', $pin = '') {
+	public function account_create_test($email = '', $password = '', $pin = '')
+	{
 		$this->test['account_create'] = true;
 
 		return $this->account_create($name, $password, $pin);
 	}
 
 
-	public function account_create($name = '', $email = '', $password = '', $pin = '') {
+	public function account_create($name = '', $email = '', $password = '', $pin = '')
+	{
 		$this->url = "{$this->base}/account/create/{$email}/{$password}/{$pin}";
 
 		if ( isset($this->test['account_create']) )
@@ -26,14 +29,16 @@ class Puce extends \Controller {
 	}
 
 
-	public function account_change_test($email = '', $password = '', $pin = '') {
+	public function account_change_test($email = '', $password = '', $pin = '')
+	{
 		$this->test['account_change'] = true;
 
 		return $this->account_change($email, $password, $pin, $code);
 	}
 	
 
-	public function account_change($email = '', $password = '', $pin = '') {
+	public function account_change($email = '', $password = '', $pin = '')
+	{
 		$this->url = "{$this->base}/account/change/{$email}/{$password}/{$pin}";
 
 		if ( isset($this->test['account_change']) )
@@ -43,14 +48,16 @@ class Puce extends \Controller {
 	}
 
 
-	public function account_change_email_test($email = '') {
+	public function account_change_email_test($email = '')
+	{
 		$this->test['account_change_email'] = true;
 
 		return $this->account_change_email($email);
 	}
 
 
-	public function account_change_email($email = '') {
+	public function account_change_email($email = '')
+	{
 		$this->url = "{$this->base}/account/change/email/{$email}";
 
 		if ( isset($this->test['account_change_email']) )
@@ -60,14 +67,16 @@ class Puce extends \Controller {
 	}
 
 
-	public function account_change_password_test($password = '') {
+	public function account_change_password_test($password = '')
+	{
 		$this->test['account_change_password'] = true;
 
 		return $this->account_change_password($password);
 	}
 
 
-	public function account_change_password($password = '') {
+	public function account_change_password($password = '')
+	{
 		$this->url = "{$this->base}/account/change/password/{$password}";
 
 		if ( isset($this->test['account_change_password']) )
@@ -77,14 +86,16 @@ class Puce extends \Controller {
 	}
 
 
-	public function account_change_pin_test($pin = '') {
+	public function account_change_pin_test($pin = '')
+	{
 		$this->test['account_change_pin'] = true;
 
 		return $this->account_change_pin($pin);
 	}
 
 
-	public function account_change_pin($pin = '') {
+	public function account_change_pin($pin = '')
+	{
 		$this->url = "{$this->base}/account/change/pin/{$pin}";
 
 		if ( isset($this->test['account_change_pin']) )
@@ -94,14 +105,16 @@ class Puce extends \Controller {
 	}
 
 
-	public function address_test($coin = '', $url = '') {
+	public function address_test($coin = '', $url = '')
+	{
 		$this->test['address'] = true;
 
 		return $this->address($coin, $url);
 	}
 
 
-	public function address($coin = '', $url) {
+	public function address($coin = '', $url)
+	{
 		$this->url = "{$this->base}/address/{$coin}/{$url}";
 
 		if ( isset($this->test['address']) )
@@ -111,14 +124,16 @@ class Puce extends \Controller {
 	}
 
 
-	public function addresses_test($coin = '') {
+	public function addresses_test($coin = '')
+	{
 		$this->test['addresses'] = true;
 
 		return $this->addresses($coin);
 	}
 
 
-	public function addresses($coin = '') {
+	public function addresses($coin = '')
+	{
 		$this->url = "{$this->base}/addresses/{$coin}";
 
 		if ( isset($this->test['addresses']) )
@@ -128,14 +143,16 @@ class Puce extends \Controller {
 	}
 
 
-	public function altcoin_test($coin = '') {
+	public function altcoin_test($coin = '')
+	{
 		$this->test['altcoin'] = true;
 
 		return $this->altcoin($coin, $url);
 	}
 
 
-	public function altcoin($coin = '') {
+	public function altcoin($coin = '')
+	{
 		$this->url = "{$this->base}/altcoin/{$coin}";
 
 		if ( isset($this->test['altcoin']) )
@@ -145,14 +162,16 @@ class Puce extends \Controller {
 	}
 
 
-	public function altcoins_test() {
+	public function altcoins_test()
+	{
 		$this->test['altcoins'] = true;
 
 		return $this->altcoins();
 	}
 
 
-	public function altcoins() {
+	public function altcoins()
+	{
 		$this->url = "{$this->base}/altcoins";
 
 		if ( isset($this->test['altcoins']) )
@@ -162,14 +181,16 @@ class Puce extends \Controller {
 	}
 
 
-	public function balance_test($coin = '') {
+	public function balance_test($coin = '')
+	{
 		$this->test['balance'] = true;
 
 		return $this->balance($coin);
 	}
 
 
-	public function balance($coin = '') {
+	public function balance($coin = '')
+	{
 		$this->url = "{$this->base}/balance/{$coin}";
 
 		if ( isset($this->url['balance']) )
@@ -179,14 +200,16 @@ class Puce extends \Controller {
 	}
 
 
-	public function balances_test() {
+	public function balances_test()
+	{
 		$this->test['balance'] = true;
 
 		return $this->balances();
 	}
 
 
-	public function balances() {
+	public function balances()
+	{
 		$this->url = "{$this->base}/balances";
 
 		if ( isset($this->url['balances']) )
@@ -196,7 +219,8 @@ class Puce extends \Controller {
 	}
 
 
-	private function curl() {
+	private function curl()
+	{
 
 		$ch = curl_init();
 
@@ -219,14 +243,16 @@ class Puce extends \Controller {
 	}
 
 
-	public function deposits_test($coin_or_address = '', $limit = 5) {
+	public function deposits_test($coin_or_address = '', $limit = 5)
+	{
 		$this->test['deposits'] = true;
 
 		return $this->deposits($coin_or_address, $limit);
 	}
 
 
-	public function deposits($coin_or_address = '', $limit = 5) {
+	public function deposits($coin_or_address = '', $limit = 5)
+	{
 		$this->url = "{$this->base}/deposits/{$coin_or_address}/{$limit}";
 
 		if ( isset($this->test['deposits']) )
@@ -236,14 +262,16 @@ class Puce extends \Controller {
 	}
 
 
-	public function my_address_test($coin = '') {
+	public function my_address_test($coin = '')
+	{
 		$this->test['my_address'] = true;
 
 		return $this->my_address($coin);
 	}
 
 
-	public function my_address($coin = '') {
+	public function my_address($coin = '')
+	{
 		$this->url = "{$this->base}myaddress/{$coin}";
 
 		if ( isset($this->test['myaddress']) )
@@ -253,14 +281,16 @@ class Puce extends \Controller {
 	}
 
 
-	public function tx_test($tx = '') {
+	public function tx_test($tx = '')
+	{
 		$this->test['tx'] = true;
 
 		return $this->tx($tx);
 	}
 
 
-	public function tx($tx = '') {
+	public function tx($tx = '')
+	{
 		$this->url = "{$this->base}/tx/{$tx}";
 
 		if ( isset($this->test['tx']) )
@@ -270,7 +300,8 @@ class Puce extends \Controller {
 	}
 
 
-	public function withdrawal_test($coin = '', $amount = '', $address = '', $pay_or_url = '', $url = '') {
+	public function withdrawal_test($coin = '', $amount = '', $address = '', $pay_or_url = '', $url = '')
+	{
 		$this->test['withdrawal'] = true;
 
 		return $this->withdrawal($coin, $amount, $address, $pay_or_url, $url);
@@ -278,7 +309,8 @@ class Puce extends \Controller {
 	}
 
 
-	public function withdrawal($coin = '', $amount = '', $address = '', $pay_or_url = '', $url = '') {
+	public function withdrawal($coin = '', $amount = '', $address = '', $pay_or_url = '', $url = '')
+	{
 
 		if (filter_var($address, FILTER_VALIDATE_EMAIL) or $pay_or_url = '')
 			$this->url = "{$this->base}/withdrawal/{$coin}/{$amount}/{$address}";
@@ -296,14 +328,16 @@ class Puce extends \Controller {
 	}
 
 
-	public function withdrawals_test($coin_or_address = '', $limit = 5) {
+	public function withdrawals_test($coin_or_address = '', $limit = 5)
+	{
 		$this->test['withdrawals'] = true;
 
 		return $this->withdrawals($coin_or_address, $limit);
 	}
 
 
-	public function withdrawals($coin_or_address = '', $limit = 5) {
+	public function withdrawals($coin_or_address = '', $limit = 5)
+	{
 		$this->url = "{$this->base}/withdrawals/{$coin_or_address}/{$limit}";
 
 		if ( isset($this->test['withdrawals']) )
