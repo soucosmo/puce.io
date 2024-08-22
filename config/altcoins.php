@@ -60,20 +60,6 @@ return [
 		],
 
 
-		$coin = 'bshn' => [
-			'id' => 5,
-			'coin' => $coin,
-			'name' => 'Bitnewcoin',
-			'site' => 'https://bitnewcoin.com',
-			'module' => 'cp',// CoinPayments
-			'fees' => [
-				'withdrawal_api' => '0.004',
-				'withdrawal' => '0.001',
-				'deposit' => '0.5',
-				'deposit_api' => '0.5'
-			]
-		],
-
 		$coin = 'vulc' => [
 			'id' => 6,
 			'coin' => $coin,
@@ -200,7 +186,5 @@ return [
 				'deposit_api' => '0.5'
 			]
 		],
-
-
 
 ];

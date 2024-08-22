@@ -41,7 +41,7 @@ class SettingsController extends Controller
 
         }
 
-    	return view('settings.index', [
+        return view('settings.index', [
             'title' => __('settings.title'),
             'altcoins' => Cache::get('altcoins')
         ]);
@@ -49,27 +49,23 @@ class SettingsController extends Controller
 
 
     public function GenerateKey(GenerateKey $data) {
-    	
-    	if (!Cache::has('api_key_'.Auth::id())) {
-    		$key = Auth::User()->apis()->first();
+        if (!Cache::has('api_key_'.Auth::id())) {
+            $key = Auth::User()->apis()->first();
 
-	    	if (!$key) {
-	    		$res = Auth::User()->apis()->create([
-	    			'api_key' => sha1(time().time()),
-	    			'code' => $data ? Crypt::encryptString($data->code) : null
-	    		]);
-	    	} else {
-	    		$res = Auth::User()->apis()->update([
-	    			'api_key' => sha1(time().time()),
-	    			'code' => $data ? Crypt::encryptString($data->code) : null
-	    		]);
-	    	}
+            if (!$key) {
+                $res = Auth::User()->apis()->create([
+                    'api_key' => sha1(time().time()),
+                    'code' => $data ? Crypt::encryptString($data->code) : null
+                ]);
+            } else {
+                $res = Auth::User()->apis()->update([
+                    'api_key' => sha1(time().time()),
+                    'code' => $data ? Crypt::encryptString($data->code) : null
+                ]);
+            }
 
-	    	Cache::put('api_key_'.Auth::id(), strtoupper( sha1($res->api_key) ), $this->minutes);
-
-	    }
-	    
-
+            Cache::put('api_key_'.Auth::id(), strtoupper( sha1($res->api_key) ), $this->minutes);
+        }
     }
 
 
@@ -88,12 +84,10 @@ class SettingsController extends Controller
         if (Hash::check($data->password_current, Auth::User()->password))
             if ( Auth::User()->Update(['password' => Hash::make($data->password)]) )
                 return Response::Json(['success' => __('settings.password_changed')]);
-            
         else
             return Response::Json(['error' => __('settings.current_invalid')]);
 
         return Response::Json(['error' => __('settings.password_error')]);
-        
     }
 
 
@@ -105,6 +99,4 @@ class SettingsController extends Controller
     public function email(Email $data) {
 
     }
-
-
 }
