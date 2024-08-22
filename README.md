@@ -7,13 +7,13 @@
 - **Compatibilidade**: Suporte para moedas derivadas do Bitcoin Core.
 - **Framework**: Construído com Laravel 5.7.
 - **Versão PHP**: Requer PHP 7.2.
-- **Recursos**: Transactions, Cache, Requests, Middlewares, Blade, Curl
+- **Recursos**: `Transactions`, `Cache`, `Requests`, `Middlewares`, `2FA`, `Blade`, `Curl`
 
 ## Requisitos
 
 - PHP 7.2 ou superior
 - Composer
-- Extensões PHP: `openssl`, `pdo`, `mbstring`, `tokenizer`, `xml`, `bcmath`
+- Extensões PHP: `openssl`, `pdo`, `mbstring`, `tokenizer`, `xml`, `bcmath`, `curl`
 - Servidor de banco de dados (MySQL, PostgreSQL, etc.)
 
 ## Instalação
